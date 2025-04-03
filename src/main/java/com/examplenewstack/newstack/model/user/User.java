@@ -2,11 +2,13 @@ package com.examplenewstack.newstack.model.user;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
+
 
 @Entity
 @Table(name = "user")
-public class User {
+public  class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -27,17 +29,20 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    private Date date_register;
+    private LocalDateTime date_register;
+
+
 
     public User() {
     }
 
-    public User(String name, String CPF, String email, String telephone, String password) {
+    public User(String name, String CPF, String email, String telephone, String password, LocalDateTime date_register) {
         this.name = name;
         this.CPF = CPF;
         this.email = email;
         this.telephone = telephone;
         this.password = password;
+        this.date_register = date_register;
     }
 
     public String getName() {
@@ -80,4 +85,11 @@ public class User {
         this.password = password;
     }
 
+    public LocalDateTime getDate_register() {
+        return date_register;
+    }
+
+    public void setDate_register(LocalDateTime date_register) {
+        this.date_register = date_register;
+    }
 }

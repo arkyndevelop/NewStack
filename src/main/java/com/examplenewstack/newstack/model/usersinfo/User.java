@@ -1,17 +1,16 @@
-package com.examplenewstack.newstack.model.user;
+package com.examplenewstack.newstack.model.usersinfo;
 
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-
+import java.util.UUID;
 
 @Entity
 @Table(name = "user")
-public  class User {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private UUID id;
 
     @Column(nullable = false)
     private String name;
@@ -31,20 +30,18 @@ public  class User {
     @Column(nullable = false)
     private LocalDateTime date_register;
 
+    @Deprecated
+    public User() {} // Utilizado apenas em alguns casos
 
-
-    public User() {
-    }
-
-    public User(String name, String CPF, String email, String telephone, String password, LocalDateTime date_register) {
+    public User(String name, String CPF, String email, String telephone, String password) {
         this.name = name;
         this.CPF = CPF;
         this.email = email;
         this.telephone = telephone;
         this.password = password;
-        this.date_register = date_register;
     }
 
+    // Getters e Setters
     public String getName() {
         return name;
     }
@@ -90,6 +87,6 @@ public  class User {
     }
 
     public void setDate_register(LocalDateTime date_register) {
-        this.date_register = date_register;
+        this.date_register = LocalDateTime.now();
     }
 }

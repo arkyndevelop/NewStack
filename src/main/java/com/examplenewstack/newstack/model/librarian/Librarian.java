@@ -1,5 +1,6 @@
 package com.examplenewstack.newstack.model.librarian;
 
+import com.examplenewstack.newstack.model.User;
 import jakarta.persistence.*;
 import org.springframework.objenesis.instantiator.util.UnsafeUtils;
 
@@ -8,33 +9,15 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "librarian")
-public class Librarian {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+public class Librarian extends User {
+    public Librarian() { super(); }
 
-    @Column(nullable = false)
-    private String name;
+    public Librarian(String name, String CPF, String email, String telephone, String password) {
+        super(name, CPF, email, telephone, password);
+    }
 
-    @Column(nullable = false, unique = true)
-    private String email;
-
-    @Column(nullable = false)
-    private String telephone;
-
-    @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
-    private LocalDateTime date_register;
-
-    public Librarian() {}
-
-    public Librarian(String name, String email, String telephone, String password, LocalDateTime date_register) {
-        this.name = name;
-        this.email = email;
-        this.telephone = telephone;
-        this.password = password;
-        this.date_register = date_register;
+    @Override
+    public User toUser() {
+        return super.toUser();
     }
 }

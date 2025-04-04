@@ -2,6 +2,7 @@ package com.examplenewstack.newstack.model.librarie.lore;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -28,7 +29,7 @@ public class Lore {
     private Boolean availability;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date register;
+    private LocalDateTime register;
 
     @Deprecated
     public Lore() {}
@@ -76,8 +77,12 @@ public class Lore {
         return availability;
     }
 
-    public Date getRegister() {
+    public LocalDateTime getRegister() {
         return register;
+    }
+
+    public void setRegister(LocalDateTime register) {
+        this.register = LocalDateTime.now();
     }
 }
 

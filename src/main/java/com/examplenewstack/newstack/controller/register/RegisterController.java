@@ -1,6 +1,7 @@
 package com.examplenewstack.newstack.controller.register;
 
-import com.examplenewstack.newstack.dto.User;
+import com.examplenewstack.newstack.model.dto.usersdto.UserDTO;
+import com.examplenewstack.newstack.model.usersinfo.User;
 import com.examplenewstack.newstack.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -9,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-//import com.examplenewstack.newstack.model.user.User;
 
 @RestController
 @RequestMapping("/crud")
@@ -29,9 +29,8 @@ public class RegisterController {
     }
 
     @PostMapping("/register/new")
-    public ResponseEntity<?> register(@Valid @RequestBody User user, BindingResult result){
+    public ResponseEntity<?> register(@Valid @RequestBody UserDTO userDTO, BindingResult result){
         //verifica erros nos campos
-
         if(result.hasErrors()) {
             // Captura a mensagem de erro do CPF ou demais campos
             String errorMessage = result.getFieldError().getDefaultMessage();
@@ -39,16 +38,11 @@ public class RegisterController {
             return ResponseEntity.badRequest().body(errorMessage);
         }
 
-        com.examplenewstack.newstack.model.user.User user1 = user.toUser();
+        User user = userDTO.toUser();
 
+        // Salva os dados do usuário cadastrado
+        userRepository.save(user);
 
-
-        // Salva os dados do usuario cadastrado
-
-        userRepository.save(user1);
-
-        return  ResponseEntity.ok().build();
-
+        return ResponseEntity.ok().build();
     }
-
 }

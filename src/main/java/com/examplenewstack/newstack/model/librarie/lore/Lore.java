@@ -1,27 +1,26 @@
 package com.examplenewstack.newstack.model.librarie.lore;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
 @Entity
 @Table(name = "lore")
 public class Lore {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-
     @Column(nullable = false)
     private String title;
 
+    @Column(nullable = false)
+    private int isbm;
 
     @Column(nullable = false)
-    private String isbn;
-
-    @Column(nullable = false)
-    private int yearPublication;
+    private int year_publication;
 
     @Column(nullable = false)
     private String category;
@@ -29,23 +28,18 @@ public class Lore {
     @Column(nullable = false)
     private Boolean availability;
 
-    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date register;
+    private LocalDateTime register;
 
     @Deprecated
     public Lore() {}
 
-    public Lore(String title, String isbn, int yearPublication, String category) {
+    public Lore(String title, int isbm, int year_publication, String category) {
         this.title = title;
-        this.isbn = isbn;
-        this.yearPublication = yearPublication;
+        this.isbm = isbm;
+        this.year_publication = year_publication;
         this.category = category;
-        this.availability = true;
-        this.register = new Date();
     }
-
-    // Getters e Setters
 
     public String getTitle() {
         return title;
@@ -55,20 +49,20 @@ public class Lore {
         this.title = title;
     }
 
-    public String getIsbn() {
-        return isbn;
+    public int getIsbm() {
+        return isbm;
     }
 
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
+    public void setIsbm(int isbm) {
+        this.isbm = isbm;
     }
 
-    public int getYearPublication() {
-        return yearPublication;
+    public int getYear_publication() {
+        return year_publication;
     }
 
-    public void setYearPublication(int yearPublication) {
-        this.yearPublication = yearPublication;
+    public void setYear_publication(int year_publication) {
+        this.year_publication = year_publication;
     }
 
     public String getCategory() {
@@ -83,15 +77,13 @@ public class Lore {
         return availability;
     }
 
-    public void setAvailability(Boolean availability) {
-        this.availability = availability;
-    }
-
-    public Date getRegister() {
+    public LocalDateTime getRegister() {
         return register;
     }
 
-    public void setRegister(Date register) {
-        this.register = register;
+    public void setRegister(LocalDateTime register) {
+        this.register = LocalDateTime.now();
     }
 }
+
+

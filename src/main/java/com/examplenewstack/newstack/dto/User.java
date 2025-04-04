@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDateTime;
 
-
+//Classe DTO
 public class User {
     @NotBlank(message = "Nome não pode ficar em branco!")
     private String name;
@@ -17,14 +17,14 @@ public class User {
     @NotNull
     @CPF
     private String cpf;
-    @NotBlank(message = "E-mail invalido")
+    @NotBlank(message = "E-mail não pode estar vazio")
     private String email;
 
     private String telefone;
-
+    @NotBlank(message = "Senha não pode estar vazio")
     @NotBlank
     private String password;
-
+    @NotBlank(message = "Senha não pode estar vazio")
     @NotBlank
     private String confirmPassword;
 

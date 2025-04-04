@@ -43,7 +43,7 @@ public class RegisterController {
 
 
 
-        // Persistencia
+        // Salva os dados do usuario cadastrado
 
         userRepository.save(user1);
 

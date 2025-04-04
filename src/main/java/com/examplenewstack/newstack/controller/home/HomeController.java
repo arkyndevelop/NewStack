@@ -1,6 +1,6 @@
 package com.examplenewstack.newstack.controller.home;
 // Importações necessárias para o funcionamento do Controller
-import com.examplenewstack.newstack.model.user.User;
+import com.examplenewstack.newstack.model.usersinfo.User;
 import com.examplenewstack.newstack.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -12,12 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-// Define que esta classe é um Controller Spring
-@Controller
-// Mapeia todas as rotas deste controller para '/home'
-@RequestMapping("/home")
+@Controller// Define que esta classe é um Controller Spring
+@RequestMapping("/home")// Mapeia todas as rotas deste controller para '/home'
 public class HomeController {
-    // Injeção de dependência do repositório de usuarios
+    // Injeção de dependência do repositório de usuários
     private final UserRepository userRepository;
     // Construtor para injeção de dependência
     public HomeController(UserRepository userRepository) {
@@ -48,7 +46,7 @@ public class HomeController {
             return "redirect:/home/index";
         }else{
             // Adiciona mensagem de erro ao modelo
-            model.addAttribute("error" , "CPF ou Senha invalidos!");
+            model.addAttribute("error" , "CPF e/ou Senha inválidos!");
 
             return "login";
         }

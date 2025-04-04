@@ -1,7 +1,7 @@
 package com.examplenewstack.newstack.controller.register;
 
-import com.examplenewstack.newstack.model.dto.usersdto.UserDTO;
-import com.examplenewstack.newstack.model.usersinfo.User;
+import com.examplenewstack.newstack.model.dto.UserDTO;
+import com.examplenewstack.newstack.model.User;
 import com.examplenewstack.newstack.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;

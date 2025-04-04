@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.dto.usersdto;
+package com.examplenewstack.newstack.model.dto.usersdto;
 
 import com.examplenewstack.newstack.model.usersinfo.User;
 import jakarta.validation.constraints.Email;

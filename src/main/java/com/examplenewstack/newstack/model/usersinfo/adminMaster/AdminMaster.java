@@ -1,21 +1,21 @@
 package com.examplenewstack.newstack.model.usersinfo.adminMaster;
 
+import com.examplenewstack.newstack.model.User;
 import jakarta.persistence.*;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "admin_master")
-public class AdminMaster {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+public class AdminMaster extends User {
+    public AdminMaster() { super(); }
 
-    @Column(nullable = false)
-    private String userName;
-    @Column(nullable = false)
-    private String password;
+    public AdminMaster(String name, String CPF, String email, String telephone, String password) {
+        super(name, CPF, email, telephone, password);
+    }
 
-    private String email;
-
+    @Override
+    public User toUser() {
+        return super.toUser();
+    }
 }

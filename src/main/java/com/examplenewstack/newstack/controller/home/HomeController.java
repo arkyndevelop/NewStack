@@ -1,6 +1,6 @@
 package com.examplenewstack.newstack.controller.home;
 // Importações necessárias para o funcionamento do Controller
-import com.examplenewstack.newstack.model.usersinfo.User;
+import com.examplenewstack.newstack.model.User;
 import com.examplenewstack.newstack.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

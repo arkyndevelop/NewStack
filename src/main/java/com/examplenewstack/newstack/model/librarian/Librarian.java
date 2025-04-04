@@ -28,5 +28,13 @@ public class Librarian {
     @Column(nullable = false)
     private LocalDateTime date_register;
 
-    
+    public Librarian() {}
+
+    public Librarian(String name, String email, String telephone, String password, LocalDateTime date_register) {
+        this.name = name;
+        this.email = email;
+        this.telephone = telephone;
+        this.password = password;
+        this.date_register = date_register;
+    }
 }

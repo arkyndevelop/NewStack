@@ -1,5 +1,6 @@
 package com.examplenewstack.newstack.model.usersinfo.address;
 
+import com.examplenewstack.newstack.model.usersinfo.client.Client;
 import jakarta.persistence.*;
 
 import java.util.UUID;
@@ -33,6 +34,9 @@ public class Address {
 
     @Column(nullable = false)
     private String country;
+
+    @OneToOne(mappedBy = "address")
+    private Client client;
 
     public Address() {}
 

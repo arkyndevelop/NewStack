@@ -15,7 +15,7 @@ public class Client extends User {
         super(name, CPF, email, telephone, password);
     }
 
-
+    // Relação de Um para um com classe Endereço
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false, unique = true )
     private Address address;

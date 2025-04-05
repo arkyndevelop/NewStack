@@ -10,6 +10,7 @@ public class LibrarianDTO extends UserDTO {
         super(name, cpf, email, telephone, password, confirmPassword);
     }
 
+    // Metodo responsável por adicionar valores aos atributos de uma classe
     @Override
     public User toUser() {
         return super.toUser();

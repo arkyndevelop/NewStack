@@ -35,6 +35,7 @@ public class Address {
     @Column(nullable = false)
     private String country;
 
+    // Relacionamento com Cliente
     @OneToOne(mappedBy = "address")
     private Client client;
 

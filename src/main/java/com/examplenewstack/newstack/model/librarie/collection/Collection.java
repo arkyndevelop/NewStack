@@ -1,58 +1,44 @@
 package com.examplenewstack.newstack.model.librarie.collection;
 
-
 import jakarta.persistence.*;
-
 import java.util.UUID;
 
 @Entity
 @Table(name = "collection")
-
 public class Collection {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @Column(nullable = false)
-    private int total_quantity;
+    private int totalQuantity;
 
     @Column(nullable = false)
-    private int total_available;
+    private int totalAvailable;
 
     @Column(nullable = false)
     private String location;
 
-    //Builders
     public Collection() {}
 
-    public Collection(int total_quantity, int total_available, String location) {
-        this.total_quantity = total_quantity;
-        this.total_available = total_available;
+    public Collection(int totalQuantity, int totalAvailable, String location) {
+        this.totalQuantity = totalQuantity;
+        this.totalAvailable = totalAvailable;
         this.location = location;
     }
 
-    //Getters and Setters
-    public int getTotal_quantity() {
-        return total_quantity;
-    }
+    public UUID getId() { return id; }
 
-    public void setTotal_quantity(int total_quantity) {
-        this.total_quantity = total_quantity;
-    }
+    public int getTotalQuantity() { return totalQuantity; }
 
-    public int getTotal_available() {
-        return total_available;
-    }
+    public void setTotalQuantity(int totalQuantity) { this.totalQuantity = totalQuantity; }
 
-    public void setTotal_available(int total_available) {
-        this.total_available = total_available;
-    }
+    public int getTotalAvailable() { return totalAvailable; }
 
-    public String getLocation() {
-        return location;
-    }
+    public void setTotalAvailable(int totalAvailable) { this.totalAvailable = totalAvailable; }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
+    public String getLocation() { return location; }
+
+    public void setLocation(String location) { this.location = location; }
 }

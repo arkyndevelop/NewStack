@@ -5,8 +5,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
         name: document.querySelector('.name').value,
         cpf: document.querySelector('.cpf').value,
         email: document.querySelector('.email').value,
-        celular: document.querySelector('.celular').value,
-        nickname: document.querySelector('.nickname').value,
+        telephone: document.querySelector('.telephone').value,
         password: document.querySelector('.password').value,
         confirmPassword: document.querySelector('.confirmPassword').value
     };

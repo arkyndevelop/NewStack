@@ -3,13 +3,14 @@ package com.examplenewstack.newstack.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @MappedSuperclass
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -26,8 +27,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private LocalDateTime date_register;
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime dateRegister;
 
     public User() {} // Utilizado apenas em alguns casos
 
@@ -37,6 +38,14 @@ public class User {
         this.email = email;
         this.telephone = telephone;
         this.password = password;
+    }
+
+    // Data é definida no momento da confirmação do cadastro
+    @PrePersist
+    private void onCreate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        String formattedNow = LocalDateTime.now().format(formatter);
+        this.dateRegister = LocalDateTime.parse(formattedNow, formatter);
     }
 
     // Getters e Setters
@@ -80,12 +89,8 @@ public class User {
         this.password = password;
     }
 
-    public LocalDateTime getDate_register() {
-        return date_register;
-    }
-
-    public void setDate_register(LocalDateTime date_register) {
-        this.date_register = LocalDateTime.now();
+    public LocalDateTime getDateRegister() {
+        return dateRegister;
     }
 
     public User toUser(){

@@ -1,6 +1,6 @@
 package com.examplenewstack.newstack.controller.register;
 
-import com.examplenewstack.newstack.model.dto.clientdto.ClienteDTO;
+import com.examplenewstack.newstack.model.dto.clientdto.ClientDTO;
 import com.examplenewstack.newstack.model.usersinfo.client.Client;
 import com.examplenewstack.newstack.repository.ClientRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,7 +30,7 @@ public class RegisterController {
     }
 
     @PostMapping("/register/new")
-    public ResponseEntity<?> register(@Valid @RequestBody ClienteDTO clientDTO, BindingResult result){
+    public ResponseEntity<?> register(@Valid @RequestBody ClientDTO clientDTO, BindingResult result){
         //verifica erros nos campos
         if(result.hasErrors()) {
             // Captura a mensagem de erro do CPF ou demais campos
@@ -39,7 +39,7 @@ public class RegisterController {
             return ResponseEntity.badRequest().body(errorMessage);
         }
 
-        Client client = (Client) clientDTO.toUser();
+        Client client = clientDTO.toUser();
 
         // Salva os dados do usuário cadastrado
         clientRepository.save(client);

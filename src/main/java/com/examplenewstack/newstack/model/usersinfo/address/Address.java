@@ -36,7 +36,8 @@ public class Address {
     private String country;
 
     // Relacionamento com Cliente
-    @OneToOne(mappedBy = "address")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "client_id", referencedColumnName = "id", nullable = false, unique = true )
     private Client client;
 
     public Address() {}

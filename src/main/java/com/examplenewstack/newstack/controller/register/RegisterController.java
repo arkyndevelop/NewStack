@@ -1,8 +1,8 @@
 package com.examplenewstack.newstack.controller.register;
 
-import com.examplenewstack.newstack.model.dto.UserDTO;
-import com.examplenewstack.newstack.model.User;
-import com.examplenewstack.newstack.repository.UserRepository;
+import com.examplenewstack.newstack.model.dto.clientdto.ClienteDTO;
+import com.examplenewstack.newstack.model.usersinfo.client.Client;
+import com.examplenewstack.newstack.repository.ClientRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +14,12 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 @RequestMapping("/crud")
 public class RegisterController {
-    private final UserRepository userRepository;
 
-
-    public RegisterController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    // Injeção de dependência do repositório de usuários
+    private final ClientRepository clientRepository;
+    // Construtor para injeção de dependência
+    public RegisterController(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
     }
 
     @GetMapping("/register")
@@ -29,7 +30,7 @@ public class RegisterController {
     }
 
     @PostMapping("/register/new")
-    public ResponseEntity<?> register(@Valid @RequestBody UserDTO userDTO, BindingResult result){
+    public ResponseEntity<?> register(@Valid @RequestBody ClienteDTO clientDTO, BindingResult result){
         //verifica erros nos campos
         if(result.hasErrors()) {
             // Captura a mensagem de erro do CPF ou demais campos
@@ -38,10 +39,10 @@ public class RegisterController {
             return ResponseEntity.badRequest().body(errorMessage);
         }
 
-        User user = userDTO.toUser();
+        Client client = (Client) clientDTO.toUser();
 
         // Salva os dados do usuário cadastrado
-        userRepository.save(user);
+        clientRepository.save(client);
 
         return ResponseEntity.ok().build();
     }

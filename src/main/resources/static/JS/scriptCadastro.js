@@ -1,13 +1,13 @@
-document.getElementById('registerForm').addEventListener('submit', async function(e) {
+document.getElementById('registerEmployeeForm').addEventListener('submit', async function(e) {
     e.preventDefault(); // Impede o envio tradicional do formulário
 
     const userData = {
-        name: document.querySelector('.name').value,
-        cpf: document.querySelector('.cpf').value,
-        email: document.querySelector('.email').value,
-        telephone: document.querySelector('.telephone').value,
-        password: document.querySelector('.password').value,
-        confirmPassword: document.querySelector('.confirmPassword').value
+        name: document.getElementById('name').value,
+        cpf: document.getElementById('cpf').value,
+        email: document.getElementById('email').value,
+        telephone: document.getElementById('telephone').value,
+        password: document.getElementById('password').value,
+        confirmPassword: document.getElementById('confirmPassword').value
     };
 
     try {

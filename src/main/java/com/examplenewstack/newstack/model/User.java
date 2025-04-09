@@ -40,6 +40,10 @@ public class User {
         this.password = password;
     }
 
+    public User(LocalDateTime dateRegister) {
+        this.dateRegister = dateRegister;
+    }
+
     // Data é definida no momento da confirmação do cadastro
     @PrePersist
     private void onCreate() {

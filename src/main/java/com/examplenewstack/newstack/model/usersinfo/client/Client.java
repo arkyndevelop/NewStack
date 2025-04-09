@@ -4,12 +4,17 @@ import com.examplenewstack.newstack.model.User;
 import com.examplenewstack.newstack.model.usersinfo.address.Address;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "client")
 public class Client extends User {
     public Client() { super(); }
+
+    public Client(LocalDateTime dateRegister) {
+        super(dateRegister);
+    }
 
     public Client(String name, String CPF, String email, String telephone, String password) {
         super(name, CPF, email, telephone, password);
@@ -23,4 +28,7 @@ public class Client extends User {
     public User toUser() {
         return super.toUser();
     }
+
+
+
 }

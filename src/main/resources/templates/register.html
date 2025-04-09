@@ -1,30 +1,73 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html data-bs-theme="dark" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/CSS/cadastro.css">
     <script src="/JS/scriptCadastro.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <title>Cadastro</title>
 
 </head>
-
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" >
+    <a class="navbar-brand" href="#">
+        <img th:src="@{/img/newstack.jpg}" alt="Logo NewStack" height="35" class="d-inline-block align-top">NewStack
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Alterna navegação">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home </a>
+            <li class="nav-item">
+                <a class="nav-link " href="#">Sobre</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 <body>
 <div class="box">
     <h1>Cadastro</h1>
     <div>
-        <form id="registerForm" th:action="@{/crud/register/new}" method="POST" class="borda">
-            <input type="text" class="name" name="name" placeholder="Nome">
-            <input type="text" class="cpf" name="cpf" placeholder="CPF">
-            <input type="email" class="email" name="email" placeholder="E-mail">
-            <input type="tel" class="telephone" name="telephone" placeholder="Celular">
-            <input type="password" class="password" name="password" placeholder="Senha">
-            <input type="password" class="confirmPassword" name="confirmPassword" placeholder="Confirmar Senha">
-            <button type="submit">Cadastrar</button>
-            <button type="button" onclick="window.location.href = '/home/login';">Login</button>
+
+        <form id="registerEmployeeForm" th:action="@{/crud/register/new}" method="POST" class="borda">
+            <div class="mb-1 ">
+                <label for="name">Nome Completo</label>
+                <input type="text" class="form-label" id="name" name="name" placeholder="Nome Completo" required>
+            </div>
+            <div class="mb-1 py-2">
+                <label for="cpf">CPF</label>
+                <input type="text" class="form-label" id="cpf" name="cpf" placeholder="CPF" required>
+            </div>
+            <div class="mb-1 py-2">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-label" id="email" placeholder="example@example.com">
+            </div>
+            <div class="mb-1 py-2">
+                <label for="telephone" class="form-label">Telefone</label>
+                <input type="Tel" class="form-label" id="telephone" placeholder="(dd) xxxx-xxxx">
+            </div>
+            <div class="mb-1 py-2">
+                <label for="password" class="form-label">Senha</label>
+                <input type="password" class="form-label" id="password" placeholder="Senha">
+            </div>
+            <div class="mb-1 py-2">
+                <label for="confirmPassword" class="form-label">Confirm password</label>
+                <input type="password" class="form-label" id="confirmPassword" placeholder="Confirme a Senha">
+            </div>
+
+    <div class="d-flex gap-4 py-3">
+        <button class="btn btn-primary w-100 " type="submit" >Cadastrar</button>
+        <button class="btn btn-primary w-100 " type="button" onclick="window.location.href = '/home/login';">Login</button>
+    </div>
         </form>
     </div>
 </div>
+<footer class="py-3">
+     New Stack Bibiloteca
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
 
 </html>

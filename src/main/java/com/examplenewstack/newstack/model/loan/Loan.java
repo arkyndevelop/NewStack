@@ -1,47 +1,47 @@
 package com.examplenewstack.newstack.model.loan;
 
-
+import com.examplenewstack.newstack.model.employee.Employee;
+import com.examplenewstack.newstack.model.librarie.lore.Lore;
+import com.examplenewstack.newstack.model.usersinfo.client.Client;
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "loan")
 public class Loan {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private Long id;
 
-
-    @Column(name = "loan_date", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime loanDate;
 
-
-    @Column(name = "expected_return_date", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime expectedReturnDate;
 
-
-    @Column(name = "return_date")
-    private LocalDateTime returnDate;
-
+    @Column(nullable = true)
+    private LocalDateTime actualReturnDate;
 
     @Column(nullable = false)
     private String status;
 
-    @Deprecated
-    public Loan() {}
+    @ManyToOne
+    @JoinColumn(name = "client_id", nullable = false)
+    private Client client;
 
-    public Loan(LocalDateTime loanDate, LocalDateTime expectedReturnDate, LocalDateTime returnDate, String status) {
-        this.loanDate = loanDate;
-        this.expectedReturnDate = expectedReturnDate;
-        this.returnDate = returnDate;
-        this.status = status;
-    }
+    @ManyToOne
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
 
-    // Getters e Setters
+    @ManyToOne
+    @JoinColumn(name = "lore_id", nullable = false)
+    private Lore lore;
 
-    public UUID getId() {
+    // Getters and Setters
+
+    public Long getId() {
         return id;
     }
 
@@ -61,12 +61,12 @@ public class Loan {
         this.expectedReturnDate = expectedReturnDate;
     }
 
-    public LocalDateTime getReturnDate() {
-        return returnDate;
+    public LocalDateTime getActualReturnDate() {
+        return actualReturnDate;
     }
 
-    public void setReturnDate(LocalDateTime returnDate) {
-        this.returnDate = returnDate;
+    public void setActualReturnDate(LocalDateTime actualReturnDate) {
+        this.actualReturnDate = actualReturnDate;
     }
 
     public String getStatus() {
@@ -75,5 +75,29 @@ public class Loan {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Lore getLore() {
+        return lore;
+    }
+
+    public void setLore(Lore lore) {
+        this.lore = lore;
     }
 }

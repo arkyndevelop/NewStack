@@ -1,44 +1,64 @@
 package com.examplenewstack.newstack.model.librarie.collection;
 
+
+import com.examplenewstack.newstack.model.librarie.lore.Lore;
 import jakarta.persistence.*;
+
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name = "collection")
-public class Collection {
 
+public class Collection {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private Long id;
 
     @Column(nullable = false)
-    private int totalQuantity;
+    private int total_quantity;
 
     @Column(nullable = false)
-    private int totalAvailable;
+    private int total_available;
 
     @Column(nullable = false)
     private String location;
 
+    // Relacionamento com Lore
+    @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL)
+    private List<Lore> lores;
+
+    //Builders
     public Collection() {}
 
-    public Collection(int totalQuantity, int totalAvailable, String location) {
-        this.totalQuantity = totalQuantity;
-        this.totalAvailable = totalAvailable;
+    public Collection(int total_quantity, int total_available, String location) {
+        this.total_quantity = total_quantity;
+        this.total_available = total_available;
         this.location = location;
     }
 
-    public UUID getId() { return id; }
+    //Getters and Setters
+    public int getTotal_quantity() {
+        return total_quantity;
+    }
 
-    public int getTotalQuantity() { return totalQuantity; }
+    public void setTotal_quantity(int total_quantity) {
+        this.total_quantity = total_quantity;
+    }
 
-    public void setTotalQuantity(int totalQuantity) { this.totalQuantity = totalQuantity; }
+    public int getTotal_available() {
+        return total_available;
+    }
 
-    public int getTotalAvailable() { return totalAvailable; }
+    public void setTotal_available(int total_available) {
+        this.total_available = total_available;
+    }
 
-    public void setTotalAvailable(int totalAvailable) { this.totalAvailable = totalAvailable; }
+    public String getLocation() {
+        return location;
+    }
 
-    public String getLocation() { return location; }
-
-    public void setLocation(String location) { this.location = location; }
+    public void setLocation(String location) {
+        this.location = location;
+    }
 }

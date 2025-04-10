@@ -1,9 +1,13 @@
 package com.examplenewstack.newstack.model.librarie.lore;
 
+import com.examplenewstack.newstack.model.librarie.book.Book;
+import com.examplenewstack.newstack.model.librarie.collection.Collection;
+import com.examplenewstack.newstack.model.loan.Loan;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -11,7 +15,7 @@ import java.util.UUID;
 public class Lore {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private Long id;
 
     @Column(nullable = false)
     private String title;
@@ -30,6 +34,19 @@ public class Lore {
 
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime register;
+
+    // Relacionamento com Collection
+    @ManyToOne
+    @JoinColumn(name = "collection_id", nullable = false)
+    private Collection collection;
+
+    //Relacionamento 1:1 book
+    @OneToOne
+    @JoinColumn(name = "book_id")
+    private Book book;
+
+    @OneToMany(mappedBy = "lore")
+    private List<Loan> loans;
 
     @Deprecated
     public Lore() {}

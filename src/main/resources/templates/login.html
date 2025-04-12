@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" >
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/home">
             <img th:src="@{/img/newstack.jpg}" alt="Logo NewStack" height="35" class="d-inline-block align-top">NewStack
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Alterna navegação">
@@ -17,7 +17,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home </a>
+                    <a class="nav-link" href="/home">Home </a>
                 <li class="nav-item">
                     <a class="nav-link " href="#">Sobre</a>
                 </li>
@@ -29,7 +29,7 @@
 
 
 <main class="container flex-grow-1 d-flex align-items-center justify-content-center py-5 mt-5">
-    <form th:action="@{/home/login}" method="post">
+    <form th:action="@{/v1/home}" method="GET">
         <img th:src="@{/img/newstack.jpg}"
              class="mb-4"
              height="240"
@@ -50,7 +50,7 @@
     </div>
         <div class="d-flex gap-2">
             <button class="btn btn-primary w-100 py-2" type="submit" >Login</button>
-            <button class="btn btn-primary w-100 py-2" type="button" onclick="window.location.href = '/crud/register';">Cadastro</button>
+            <button class="btn btn-primary w-100 py-2" type="button" onclick="window.location.href = '/register';">Cadastro</button>
         </div>
     <p class="text-body-secondary mt-5 mb-3">NewStack Biblioteca</p>
     </form>

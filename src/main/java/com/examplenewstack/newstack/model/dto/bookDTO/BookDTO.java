@@ -1,55 +1,45 @@
-package com.examplenewstack.newstack.model.librarie.book;
+package com.examplenewstack.newstack.model.dto.bookDTO;
 
-import jakarta.persistence.*;
+import com.examplenewstack.newstack.model.librarie.book.Book;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
-
-
-@Entity
-@Table(name = "book")
-public class Book {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @Column(nullable = false)
+public class BookDTO {
+    @NotBlank(message = "O titulo não pode ser vazio!")
+    @Size(min = 3, max = 40)
     private String title;
 
-    @Column(nullable = false)
+    @NotBlank(message = "A categoria não pode ser vazia!")
     private String category;
 
-    @Column(nullable = false)
+    @NotBlank(message = "O ano não pode ser vazio!")
     private String year_publication;
 
-    @Column(nullable = false)
-    private Boolean disponibility;
+    //Sera feita a incremetação
+    @NotNull(message = "A disponibilizade não pode ser vazia!")
+    private boolean disponibility;
 
-    @Column(nullable = false)
+    @NotBlank(message = "A a quantidade de livros não pode ser vazia!")
     private int total_quantity;
 
-    @Column(nullable = false)
+    @NotBlank(message = "A quantidade de livros disponivel não pode ser vazia!")
     private int disponibility_quantity;
 
-    @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime date_register;
 
-    @Deprecated
-    public Book() {}
+    public BookDTO() {
+    }
 
-    public Book(String title, String category, String year_publication, Boolean disponibility, int total_quantity, int disponibility_quantity, LocalDateTime date_register) {
+
+    public BookDTO(String title, String category, String year_publication, boolean disponibility, int total_quantity, int disponibility_quantity) {
         this.title = title;
         this.category = category;
         this.year_publication = year_publication;
         this.disponibility = disponibility;
         this.total_quantity = total_quantity;
         this.disponibility_quantity = disponibility_quantity;
-        this.date_register = date_register;
     }
 
-    // Getters e Setters
 
     public String getTitle() {
         return title;
@@ -75,11 +65,11 @@ public class Book {
         this.year_publication = year_publication;
     }
 
-    public Boolean getDisponibility() {
+    public boolean isDisponibility() {
         return disponibility;
     }
 
-    public void setDisponibility(Boolean disponibility) {
+    public void setDisponibility(boolean disponibility) {
         this.disponibility = disponibility;
     }
 
@@ -99,7 +89,16 @@ public class Book {
         this.disponibility_quantity = disponibility_quantity;
     }
 
-    public LocalDateTime getDate_register() {
-        return date_register;
+
+    public Book toBook(){
+        Book book = new Book();
+        book.setTitle(this.getTitle());
+        book.setCategory(getCategory());
+        book.setYear_publication(getYear_publication());
+        book.setDisponibility(isDisponibility());
+        book.setTotal_quantity(getTotal_quantity());
+        book.setDisponibility_quantity(getDisponibility_quantity());
+
+        return book;
     }
 }

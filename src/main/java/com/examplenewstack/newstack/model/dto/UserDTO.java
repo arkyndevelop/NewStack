@@ -1,6 +1,6 @@
 package com.examplenewstack.newstack.model.dto;
 
-import com.examplenewstack.newstack.model.User;
+import  com.examplenewstack.newstack.model.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

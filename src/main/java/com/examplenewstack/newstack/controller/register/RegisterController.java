@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
-@RequestMapping("/crud")
+@RequestMapping("")
 public class RegisterController {
 
     // Injeção de dependência do repositório de usuários

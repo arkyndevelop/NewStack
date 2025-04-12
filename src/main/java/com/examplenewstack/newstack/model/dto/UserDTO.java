@@ -14,7 +14,7 @@ public class UserDTO {
     private String name;
     @NotBlank(message = "CPF não pode estar vazio!")
     @CPF(message = "CPF inválido!")
-    private String cpf;
+    private String CPF;
     @NotBlank(message = "E-mail não pode estar vazio!")
     @Email(message = "E-mail inválido!")
     @Size(min = 10, max = 64)
@@ -30,9 +30,9 @@ public class UserDTO {
 
     public UserDTO() {}
 
-    public UserDTO(String name, String cpf, String email, String telephone, String password, String confirmPassword) {
+    public UserDTO(String name, String CPF, String email, String telephone, String password, String confirmPassword) {
         this.name = name;
-        this.cpf = cpf;
+        this.CPF = CPF;
         this.email = email;
         this.telephone = telephone;
         this.password = password;
@@ -48,12 +48,12 @@ public class UserDTO {
         this.name = name;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getCPF() {
+        return CPF;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setCpf(String CPF) {
+        this.CPF = CPF;
     }
 
     public String getEmail() {
@@ -92,8 +92,9 @@ public class UserDTO {
     // Após coletar é passado para a devida Entidade (User)
     public User toUser(){
         User user = new User();
+
         user.setName(this.name);
-        user.setCPF(this.cpf);
+        user.setCPF(this.CPF);
         user.setEmail(this.email);
         user.setTelephone(this.telephone);
         user.setPassword(this.password);

@@ -1,8 +1,10 @@
 package com.examplenewstack.newstack.model.librarie.collection;
 
 
+import com.examplenewstack.newstack.model.librarie.lore.Lore;
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -11,7 +13,7 @@ import java.util.UUID;
 public class Collection {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private Long id;
 
     @Column(nullable = false)
     private int total_quantity;
@@ -21,6 +23,10 @@ public class Collection {
 
     @Column(nullable = false)
     private String location;
+
+    // Relacionamento com Lore
+    @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL)
+    private List<Lore> lores;
 
     //Builders
     public Collection() {}

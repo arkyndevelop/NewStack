@@ -3,14 +3,13 @@ package com.examplenewstack.newstack.model.usersinfo.address;
 import com.examplenewstack.newstack.model.usersinfo.client.Client;
 import jakarta.persistence.*;
 
-import java.util.UUID;
 
 @Entity
 @Table(name = "address")
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private Long id;
 
     @Column(nullable = false)
     private String number_house;
@@ -35,9 +34,9 @@ public class Address {
     @Column(nullable = false)
     private String country;
 
-    // Relacionamento com Cliente
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "client_id", referencedColumnName = "id", nullable = false, unique = true )
+    // Relacionamento 1:1 com Client
+    // Este lado é o inverso da relação (não possui @JoinColumn)
+    @OneToOne(mappedBy = "address")
     private Client client;
 
     public Address() {}

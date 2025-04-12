@@ -1,6 +1,5 @@
 package com.examplenewstack.newstack.model.dto.clientdto;
 
-import com.examplenewstack.newstack.model.User;
 import com.examplenewstack.newstack.model.dto.UserDTO;
 import com.examplenewstack.newstack.model.usersinfo.client.Client;
 
@@ -11,12 +10,13 @@ public class ClientDTO extends UserDTO {
         super(name, cpf, email, telephone, password, confirmPassword);
     }
 
+    // Metodo responsável por adicionar valores aos atributos de uma classe
     @Override
     public Client toUser() {
         Client client = new Client();
         // Setar os campos da superclasse
         client.setName(this.getName());
-        client.setCPF(this.getCpf());
+        client.setCPF(this.getCPF());
         client.setEmail(this.getEmail());
         client.setTelephone(this.getTelephone());
         client.setPassword(this.getPassword());

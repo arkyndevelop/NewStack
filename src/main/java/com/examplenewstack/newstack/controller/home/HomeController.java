@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller// Define que esta classe é um Controller Spring
-@RequestMapping("/home")// Mapeia todas as rotas deste controller para '/home'
+@RequestMapping("")// Mapeia todas as rotas deste controller para '/home'
 public class HomeController {
 
     // Injeção de dependência do repositório de usuários
@@ -25,7 +25,7 @@ public class HomeController {
     }
 
     // Manipula requisições GET para '/home/login'
-    @GetMapping("/login")
+    @GetMapping("/home")
     public ModelAndView loginScreen(HttpServletRequest request , Model model){
         // Cria e retorna uma view chamada 'login'
         ModelAndView modelAndView = new ModelAndView("login");
@@ -46,7 +46,7 @@ public class HomeController {
             // Armazena o usuário na sessão com chave "LoginFeito"
             session.setAttribute("LoginFeito", client);
             // Redireciona para a página inicial
-            return "redirect:/home/index";
+            return "redirect:/v1/home";
         }else{
             // Adiciona mensagem de erro ao modelo
             model.addAttribute("error" , "CPF e/ou Senha inválidos!");

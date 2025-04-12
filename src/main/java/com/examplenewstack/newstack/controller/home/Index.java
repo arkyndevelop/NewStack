@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller // Define que esta classe é um Controller Spring
-@RequestMapping("/home")// Mapeia todas as rotas deste controller para '/home'
+@RequestMapping("/v1")// Mapeia todas as rotas deste controller para '/home'
 public class Index {
 
-    @GetMapping("/index")// Manipula requisições GET para '/home/index'
+    @GetMapping("/home")// Manipula requisições GET para '/home/index'
     public ModelAndView indexScreen(HttpSession session) {
-        if (session.getAttribute("LoginFeito") == null) {
-            return new ModelAndView("redirect:/home/login");
-        }
+//        if (session.getAttribute("LoginFeito") == null) {
+//            return new ModelAndView("redirect:/home");
+//        } Verificar retorno
         return new ModelAndView("index");
     }
 }

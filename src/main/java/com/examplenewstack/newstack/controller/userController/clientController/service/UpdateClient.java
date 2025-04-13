@@ -1,20 +1,20 @@
-package com.examplenewstack.newstack.controller.update;
+package com.examplenewstack.newstack.controller.userController.clientController.service;
 
 
 import com.examplenewstack.newstack.model.usersinfo.client.Client;
 import com.examplenewstack.newstack.repository.ClientRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class UpdateServices {
+public class UpdateClient {
 
+    private final ClientRepository clientRepository;
 
-    @Autowired
-    private ClientRepository clientRepository;
-
+    public UpdateClient(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
+    }
 
     public void updateClient(String cpf, Client clientUpdate){
         Optional<Client> clienteOptional = Optional.ofNullable(clientRepository.findByCPF(cpf));
@@ -42,10 +42,7 @@ public class UpdateServices {
             throw new RuntimeException("Cliente não encontrado pelo CPF " + cpf);
         }
     }
-
-
-
-    }
+}
 
 
 

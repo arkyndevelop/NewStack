@@ -14,7 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-@RestController
+@Controller
+@RequestMapping("/v1")
 public class CreateBook {
     // Injeção de dependência do repositório de livros
     private final BookRepository bookRepository;
@@ -25,23 +26,20 @@ public class CreateBook {
 
     @GetMapping("/book")
     public ModelAndView registerScreenBook(HttpServletRequest request, Model model){
-        ModelAndView modelAndView = new ModelAndView("registerBook");
-        return modelAndView;
+        return new ModelAndView("admMaster");
     }
 
-    @PostMapping("/registerBook/new")
-    public ResponseEntity<?> registerBook(@Valid @RequestBody com.examplenewstack.newstack.model.dto.bookDTO.BookDTO bookDTO, BindingResult result){
+    @PostMapping("/add")
+    public ResponseEntity<?> registerBook(@Valid @RequestBody BookDTO bookDTO, BindingResult result){
         //verifica erros
         if(result.hasErrors()){
             // Captura a mensagem de erro
             String errorMessage = result.getFieldError().getDefaultMessage();
 
             return ResponseEntity.badRequest().body((errorMessage));
-
         }
 
         Book book = bookDTO.toBook();
-
         bookRepository.save(book);
 
         return ResponseEntity.ok().build();

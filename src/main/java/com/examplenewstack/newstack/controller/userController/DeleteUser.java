@@ -1,18 +1,17 @@
-package com.examplenewstack.newstack.controller.delete;
+package com.examplenewstack.newstack.controller.userController;
 
 
 import com.examplenewstack.newstack.repository.ClientRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
-public class delete {
+public class DeleteUser {
 
     private final ClientRepository clientRepository;
 
-    public delete(ClientRepository clientRepository) {
+    public DeleteUser(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 

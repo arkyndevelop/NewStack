@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.controller.register;
+package com.examplenewstack.newstack.controller.userController.clientController;
 
 import com.examplenewstack.newstack.model.dto.clientdto.ClientDTO;
 import com.examplenewstack.newstack.model.usersinfo.client.Client;
@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
-@RequestMapping("")
-public class RegisterController {
+@RequestMapping("/client")
+public class RegisterClientController {
 
     // Injeção de dependência do repositório de usuários
     private final ClientRepository clientRepository;
     // Construtor para injeção de dependência
-    public RegisterController(ClientRepository clientRepository) {
+    public RegisterClientController(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
@@ -29,7 +29,7 @@ public class RegisterController {
         return modelAndView;
     }
 
-    @PostMapping("/register/new")
+    @PostMapping("/auth")
     public ResponseEntity<?> register(@Valid @RequestBody ClientDTO clientDTO, BindingResult result){
         //verifica erros nos campos
         if(result.hasErrors()) {

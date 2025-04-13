@@ -31,7 +31,7 @@
     <h1>Cadastro</h1>
     <div>
 
-        <form id="registerEmployeeForm" th:action="@{/register/new}" method="POST" class="borda">
+        <form id="registerEmployeeForm" th:action="@{/client/register}" method="POST" class="borda">
             <div class="mb-1 ">
                 <label for="name">Nome Completo</label>
                 <input type="text" class="form-label" id="name" name="name" placeholder="Nome Completo" required>
@@ -59,7 +59,7 @@
 
     <div class="d-flex gap-4 py-3">
         <button class="btn btn-primary w-100 " type="submit" >Cadastrar</button>
-        <button class="btn btn-primary w-100 " type="button" onclick="window.location.href = '/home';">Login</button>
+        <button class="btn btn-primary w-100 " type="button" onclick="window.location.href = '/login';">Login</button>
     </div>
         </form>
     </div>

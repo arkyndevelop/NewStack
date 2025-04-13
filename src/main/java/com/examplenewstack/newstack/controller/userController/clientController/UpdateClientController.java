@@ -1,7 +1,7 @@
-package com.examplenewstack.newstack.controller.update;
+package com.examplenewstack.newstack.controller.userController.clientController;
 
+import com.examplenewstack.newstack.controller.userController.clientController.service.UpdateClient;
 import com.examplenewstack.newstack.model.usersinfo.client.Client;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/clientes")
-public class ClientController {
+public class UpdateClientController {
 
-    @Autowired
-    private UpdateServices updateServices;
+    private final UpdateClient updateServices;
+
+    public UpdateClientController(UpdateClient updateServices) {
+        this.updateServices = updateServices;
+    }
 
     @PostMapping("/update/{cpf}")
     public String updateClient(@PathVariable String cpf, @ModelAttribute Client client) {

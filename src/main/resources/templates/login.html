@@ -29,7 +29,7 @@
 
 
 <main class="container flex-grow-1 d-flex align-items-center justify-content-center py-5 mt-5">
-    <form th:action="@{/v1/home}" method="GET">
+    <form th:action="@{/v1/auth}" method="POST">
         <img th:src="@{/img/newstack.jpg}"
              class="mb-4"
              height="240"
@@ -50,7 +50,7 @@
     </div>
         <div class="d-flex gap-2">
             <button class="btn btn-primary w-100 py-2" type="submit" >Login</button>
-            <button class="btn btn-primary w-100 py-2" type="button" onclick="window.location.href = '/register';">Cadastro</button>
+            <button class="btn btn-primary w-100 py-2" type="button" onclick="window.location.href = '/client/register';">Cadastro</button>
         </div>
     <p class="text-body-secondary mt-5 mb-3">NewStack Biblioteca</p>
     </form>

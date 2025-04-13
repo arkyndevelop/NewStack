@@ -2,8 +2,11 @@ package com.examplenewstack.newstack.model;
 
 import jakarta.persistence.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.UUID;
 
 @MappedSuperclass
@@ -28,7 +31,8 @@ public class User {
     private String password;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime dateRegister;
+    private Instant dateRegister = Instant.now();
+
 
     public User() {} // Utilizado apenas em alguns casos
 
@@ -40,19 +44,23 @@ public class User {
         this.password = password;
     }
 
-    public User(LocalDateTime dateRegister) {
+    public User(Instant dateRegister) {
         this.dateRegister = dateRegister;
     }
+
 
     // Data é definida no momento da confirmação do cadastro
     @PrePersist
     private void onCreate() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        String formattedNow = LocalDateTime.now().format(formatter);
-        this.dateRegister = LocalDateTime.parse(formattedNow, formatter);
+
     }
 
     // Getters e Setters
+
+    public Long getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
@@ -93,12 +101,20 @@ public class User {
         this.password = password;
     }
 
-    public LocalDateTime getDateRegister() {
+    public Instant getDateRegister() {
         return dateRegister;
+    }
+
+    // Adicione um novo getter para a data formatada
+    public String getFormattedDateRegister() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                .withZone(ZoneId.systemDefault());
+        return formatter.format(dateRegister);
     }
 
     public User toUser(){
         User user = new User();
+
         user.setName(this.name);
         user.setCPF(this.CPF);
         user.setEmail(this.email);

@@ -5,6 +5,7 @@ import com.examplenewstack.newstack.model.loan.Loan;
 import com.examplenewstack.newstack.model.usersinfo.address.Address;
 import jakarta.persistence.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +24,7 @@ public class Client extends User {
 
     public Client() { super(); }
 
-    public Client(LocalDateTime dateRegister) {
+    public Client(Instant dateRegister) {
         super(dateRegister);
     }
 

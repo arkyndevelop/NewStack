@@ -3,10 +3,8 @@ package com.examplenewstack.newstack.controller.userController.clientController;
 import com.examplenewstack.newstack.model.dto.clientdto.ClientDTO;
 import com.examplenewstack.newstack.model.usersinfo.client.Client;
 import com.examplenewstack.newstack.repository.ClientRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,7 +21,7 @@ public class RegisterClientController {
     }
 
     @GetMapping("/register")
-    public ModelAndView registerScreen(HttpServletRequest request, Model model){
+    public ModelAndView registerScreen(){
         ModelAndView modelAndView = new ModelAndView("register");
 
         return modelAndView;
@@ -40,7 +38,6 @@ public class RegisterClientController {
         }
 
         Client client = clientDTO.toUser();
-
         // Salva os dados do usuário cadastrado
         clientRepository.save(client);
 

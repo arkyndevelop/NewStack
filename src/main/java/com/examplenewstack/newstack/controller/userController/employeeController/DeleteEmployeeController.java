@@ -15,7 +15,6 @@ public class DeleteEmployeeController {
     public DeleteEmployeeController(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
-
     @DeleteMapping("/deleteEmployee{CPF}")
     @Transactional
     public String deleteByCPF(@PathVariable String CPF) {

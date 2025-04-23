@@ -1,6 +1,7 @@
 package com.examplenewstack.newstack.controller.userController.employeeController;
 
 import com.examplenewstack.newstack.model.employee.Employee;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/v1")
 public class UpdateEmployeeController {
 
+
     private final UpdateEmployeeController updateEmployeeController;
 
-    public UpdateEmployeeController(UpdateEmployeeController updateEmployeeController) {
+
+
+    public UpdateEmployeeController(@Lazy  UpdateEmployeeController updateEmployeeController) {
         this.updateEmployeeController = updateEmployeeController;
     }
 

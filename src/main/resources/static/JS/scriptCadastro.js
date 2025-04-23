@@ -11,7 +11,7 @@ document.getElementById('registerEmployeeForm').addEventListener('submit', async
     };
 
     try {
-        const response = await fetch('/crud/register/new', {
+        const response = await fetch('/client/auth', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(userData)
@@ -28,7 +28,7 @@ document.getElementById('registerEmployeeForm').addEventListener('submit', async
         }
 
         alert('Cadastro realizado com sucesso!');
-        window.location.href = '/home/login'; // Redireciona após o sucesso
+        window.location.href = '/v1/login'; // Redireciona após o sucesso
     } catch (error) {
         alert(error.message);
     }

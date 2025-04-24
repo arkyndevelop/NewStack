@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Map;
+
 @Controller
 @RequestMapping("/employee")
 public class RegisterEmployeeController {
@@ -29,7 +31,7 @@ public class RegisterEmployeeController {
         return modelAndView;
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody EmployeeDTO employeeDTO, BindingResult result){
         //verifica erros nos campos
         if(result.hasErrors()) {
@@ -43,6 +45,6 @@ public class RegisterEmployeeController {
         // Salva os dados do usuário cadastrado
         employeeRepository.save(employee);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(Map.of("message", "Funcionário cadastrado com sucesso"));
     }
 }

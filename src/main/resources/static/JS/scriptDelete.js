@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const cpf = this.getAttribute('data-cpf');
 
-            if (confirm('Gorila, tem certeza que quer excluir?')) {
+            if (confirm('Tem certeza que quer excluir?')) {
                 document.getElementById(`form-delete-${cpf}`).submit();
             }
         });

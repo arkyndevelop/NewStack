@@ -16,7 +16,7 @@ public class DeleteUser {
     }
 
 
-    @DeleteMapping("/delete/{CPF}")
+    @PostMapping("/delete/{CPF}")
     @Transactional
     public RedirectView deleteByCPF(@PathVariable String CPF) {
         clientRepository.deleteByCPF(CPF);

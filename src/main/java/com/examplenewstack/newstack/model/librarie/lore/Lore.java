@@ -1,5 +1,6 @@
 package com.examplenewstack.newstack.model.librarie.lore;
 
+import com.examplenewstack.newstack.model.employee.Employee;
 import com.examplenewstack.newstack.model.librarie.book.Book;
 import com.examplenewstack.newstack.model.librarie.collection.Collection;
 import com.examplenewstack.newstack.model.loan.Loan;
@@ -35,6 +36,12 @@ public class Lore {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime register;
 
+
+    //Relacionamento com Employee
+    @ManyToOne
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
+
     // Relacionamento com Collection
     @ManyToOne
     @JoinColumn(name = "collection_id", nullable = false)
@@ -45,6 +52,7 @@ public class Lore {
     @JoinColumn(name = "book_id")
     private Book book;
 
+    //Relacionamento com Loan
     @OneToMany(mappedBy = "lore")
     private List<Loan> loans;
 

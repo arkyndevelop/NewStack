@@ -1,18 +1,19 @@
-/* Configurações globais para todos os elementos */
+/* Configurações globais */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Estilo para a imagem do logo */
-.logo {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(rgb(255, 255, 255), rgb(0, 0, 0));
+    min-height: 100vh;
+    width: 100%;
+     /* Adiciona padding ao body para espaçamento nas bordas */
 }
 
-/* Estilo para a barra de navegação */
+/* Estilos da barra de navegação (mantenha como está, se estiver satisfeito) */
 .corNav .navbar-dark {
     background-color: rgb(2, 1, 1) !important;
 }
@@ -27,79 +28,38 @@
     border: none;
 }
 
-/* Estilo para o link de logout */
 .loginOut {
     color: rgb(255, 255, 255);
     text-decoration: none;
     font-size: 25px;
 }
-/* Estilo para o link de logout ao passar o mouse */
+
 .loginOut:hover {
     color: rgb(233, 0, 0);
-    
 }
 
-/* Estilo para o corpo da página */
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(rgb(255, 255, 255), rgb(0, 0, 0));
-    min-height: 100vh;
-    width: 100%;
-}
-
-/* Estilo para os links da barra de navegação */
 .navbar-dark .navbar-nav .nav-link {
     color: rgb(254, 254, 254);
 }
 
-/* Estilo para os links da barra de navegação ao passar o mouse */
 .navbar-dark .navbar-nav .nav-link:hover,
 .navbar-dark .navbar-nav .btn-dark:hover {
     color: rgb(233, 0, 0);
 }
 
-/* Estilo para os itens do menu dropdown ao passar o mouse */
 .dropdown-item:hover {
     background-color: rgb(130, 130, 130);
     border: 1px solid rgb(0, 0, 0);
 }
 
-/* Estilo para os itens do menu dropdown */
 .dropdown-menu .dropdown-item {
     color: rgb(0, 0, 0);
-
 }
 
-/* Estilo para os itens do menu dropdown ao clicar */
 .dropdown-menu .dropdown-item:active {
     color: red;
 }
 
-
-/* Estilo para o centro do formulário */
-.formCenter {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 20px;
-}
-
-/* Estilo para o formulário */
-.formCenter form {
-    gap: 10px;
-    width: 80%;
-    max-width: 400px;
-    padding: 20px;
-    border: 2px solid rgb(0, 0, 0);
-    border-radius: 30px;
-    background-color: rgb(137, 139, 139);
-}
-
-/* Media query para telas menores (ex: celulares) */
-
-
-/* Novas regras para garantir que os itens fiquem na mesma linha */
 .navbar-nav {
     display: flex;
     flex-direction: row;
@@ -107,39 +67,93 @@ body {
 }
 
 .nav-item {
-    margin-right: 10px; /* Espaço entre os itens (opcional) */
+    margin-right: 10px;
 }
 
-/* Novas regras para colocar os campos Titulo e Autor lado a lado */
-.form-row {
+/* Estilos do formulário */
+.formCenter {
     display: flex;
-    justify-content: space-between; /* Espaço igual entre os campos */
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px; /* Mantém o padding */
 }
 
-.form-row .mb-1 {
-    width: 45%; /* Ajuste a largura conforme necessário */
+.formCenter form {
+    display: grid; /* Usando grid para o layout */
+    grid-template-columns: 1fr; /* Inicialmente uma coluna */
+    gap: 20px; /* Aumenta o espaçamento entre os itens do grid */
+    width: 90%;
+    max-width: 900px;
+    padding: 40px; /* Aumenta o padding interno do formulário */
+    border: 2px solid rgb(0, 0, 0);
+    border-radius: 30px;
+    background-color: rgb(137, 139, 139);
+    margin-top: 30px; /* Aumenta a margem superior */
 }
 
-.form-control {
-    font-size: 0.9rem;
+@media (min-width: 768px) {
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px; /* Aumenta o espaçamento entre os campos na mesma linha */
+    }
+
+    .form-row .mb-1 {
+        width: 100%;
+    }
+
+    .formCenter form {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "titulo autor"
+            "categoria categoria"
+            "dataPublicacao quantidade"
+            "disponibilidade ."
+            "botao botao";
+        gap: 20px; /* Aumenta o espaçamento entre as áreas do grid */
+    }
 }
 
 .form-label {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: rgb(5, 4, 4);
+    display: block;
+    margin-bottom: 8px; /* Aumenta a margem inferior da label */
 }
+
+.form-control {
+    font-size: 1rem;
+    padding: 12px; /* Aumenta o padding interno do input */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.form-select {
+    font-size: 1rem;
+    padding: 12px; /* Aumenta o padding do select */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
 .botaoCentralizado {
     display: flex;
-    justify-content: center;
-    padding-top: 10px;
+    justify-content: flex-end;
+    padding-top: 30px; /* Aumenta o espaçamento acima do botão */
 }
 
 .btn-primary {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: rgb(5, 5, 5);
     background-color: rgba(255, 255, 255, 0.359);
     border-color: rgb(2, 1, 1);
+    padding: 15px 30px; /* Aumenta o padding do botão */
+    border-radius: 8px;
+    cursor: pointer;
+    margin-left: auto; /* Empurra o botão para a direita na sua área */
 }
 
 .btn-primary:hover {
@@ -148,29 +162,27 @@ body {
     border-color: rgb(0, 0, 0);
 }
 
-/* Estilo para o alerta de erro */
+/* Estilos do alerta de erro (mantenha como está, se estiver satisfeito) */
 .alerta {
-    position: fixed; /* Usamos 'fixed' para centralizar na viewport */
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #bbbbbb; /* Cor de fundo vermelha clara */
+    background-color: #bbbbbb;
     border: 1px solid #000000;
     color: #ca0619;
     padding: 20px;
     border-radius: 20px;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000; /* Garante que o alerta fique acima de outros elementos */
+    z-index: 1000;
 }
 
 .alerta button {
-    
     padding: 8px 15px;
     background-color: rgb(157, 157, 157);
     color: rgb(0, 0, 0);
     border: none;
     border-radius: 2px;
     cursor: pointer;
-    
 }

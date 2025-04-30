@@ -1,61 +1,144 @@
 *{
     margin: 0;
     padding: 0;
+    box-sizing: border-box; /* Garante que padding e border não aumentem o tamanho do elemento */
 }
 
-h1{
-    margin: 40px 0 40px 0;
-    color: rgb(2, 2, 2);
-    padding-top: 50px;
-    padding-right: 80px;
-}
-
-
-.borda {
-    border: 2px solid ;
-    border-radius: 30px;
-    padding: 20px;
-
-
-}
-
-.registerEmployeeForm{
-    justify-items: center;
-}
-.box {
-
-    gap: 20px;
+body {
+    font-family: sans-serif; /* Uma fonte padrão para melhor leitura */
+    background-color: #121212; /* Um fundo escuro para combinar com o tema dark do Bootstrap */
+    color: #f8f9fa; /* Cor do texto padrão clara */
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    min-height: 100vh; /* Garante que o body ocupe pelo menos a altura total da tela */
+}
+
+nav.navbar {
+    padding: 1rem 2rem; /* Mais espaçamento interno na navbar */
+}
+
+nav.navbar-brand {
+    font-size: 1.5rem; /* Aumenta o tamanho da fonte da marca */
+    font-weight: bold;
+}
+
+nav.navbar-nav .nav-link {
+    margin-left: 1rem; /* Espaçamento entre os links da navbar */
+    font-size: 1rem;
+}
+
+.box {
+    gap: 40px; /* Aumenta o espaçamento entre o título e o formulário */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centraliza verticalmente o conteúdo */
     align-items: center;
-}
-.box form{
-    gap: 20px;
-    width: 80%;
-    max-width: 400px;
-    padding: 20px;
-
-}
-input{
-    width: 250px;
-    height: 30px;
-    border-radius: 5px;
-    padding: 0 15px 0 15px;
-   background-color: lightyellow;
-    border-color: white;
-    color: black;
+    padding: 40px 20px; /* Adiciona mais padding ao redor do formulário */
+    flex-grow: 1; /* Permite que a .box cresça para ocupar o espaço restante */
 }
 
-button{
-    width: 150px;
-    height: 45px;
-    border-radius: 30px;
-}
-button:hover {
-    background-color: #006edc;
+.box h1 {
+    margin-bottom: 2rem; /* Mais espaço abaixo do título */
+    color: #f8f9fa; /* Garante que o título seja branco */
+    font-size: 2.5rem; /* Tamanho maior para o título */
+    text-align: center; /* Centraliza o título */
 }
 
-.navbar{
-  
+.box form {
+    width: 90%; /* Ocupa mais largura em telas menores */
+    max-width: 600px; /* Largura máxima para telas maiores */
+    padding: 30px; /* Mais espaçamento interno no formulário */
+    border: 1px solid #444; /* Borda sutil para o formulário */
+    border-radius: 15px; /* Bordas mais arredondadas */
+    background-color: #212529; /* Fundo mais escuro para o formulário */
+}
+
+.box form .mb-1 {
+    margin-bottom: 1.75rem; /* Mais espaço entre os campos do formulário */
+}
+
+.box form .form-label {
+    display: block; /* Faz a label ocupar a linha inteira */
+    margin-bottom: 0.75rem; /* Espaço entre a label e o input */
+    font-weight: bold; /* Deixa o texto da label em negrito */
+    color: #ced4da; /* Cor da label mais clara */
+}
+
+.box form input.form-label { /* Evita aplicar display: block no input */
+    display: inline-block;
+}
+
+.box form input[type="text"],
+.box form input[type="email"],
+.box form input[type="tel"],
+.box form input[type="password"] {
+    width: 100%; /* Ocupa toda a largura do container pai */
+    padding: 0.75rem 1rem; /* Padding interno maior */
+    margin-bottom: 0.5rem; /* Pequena margem abaixo do input */
+    border: 1px solid #6c757d; /* Borda sutil nos inputs */
+    border-radius: 8px; /* Bordas arredondadas nos inputs */
+    background-color: #343a40; /* Fundo mais escuro para os inputs */
+    color: #f8f9fa; /* Cor do texto dentro dos inputs */
+    font-size: 0.9rem;
+}
+
+.box form input::placeholder {
+    color: #adb5bd; /* Cor do placeholder mais clara */
+}
+
+.box form .d-flex {
+    gap: 1rem; /* Espaçamento entre os botões */
+    margin-top: 1.5rem; /* Espaço acima dos botões */
+}
+
+.box form button {
+    width: 100%; /* Ocupa toda a largura disponível */
+    padding: 0.8rem 1.5rem; /* Padding interno nos botões */
+    border: none;
+    border-radius: 10px; /* Bordas arredondadas nos botões */
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Transição suave no hover */
+}
+
+.box form button.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.box form button.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+footer {
+    background-color: #343a40; /* Fundo escuro para o footer */
+    color: #f8f9fa; /* Texto claro no footer */
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 2rem; /* Espaço acima do footer */
+}
+
+/* Estilos para telas menores */
+@media (max-width: 576px) {
+    .box h1 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .box form {
+        padding: 20px;
+    }
+
+    .box form .mb-1 {
+        margin-bottom: 1.5rem;
+    }
+
+    .box form .d-flex {
+        flex-direction: column; /* Empilha os botões em telas menores */
+        gap: 0.75rem;
+    }
+
+    .box form button {
+        font-size: 1rem;
+    }
 }

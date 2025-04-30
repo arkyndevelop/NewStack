@@ -1,15 +1,40 @@
+document.addEventListener('DOMContentLoaded', function() {
+    const quantidadeInput = document.getElementById('quantExemplares');
+
+    quantidadeInput.addEventListener('input', function() {
+        if (this.value < 0) {
+            this.value = 0;
+        }
+    });
+
+    quantidadeInput.addEventListener('wheel', function(event) {
+        // Impede a rolagem padrão que mudaria o valor
+        event.preventDefault();
+
+        const currentValue = parseInt(this.value) || 0;
+        const delta = Math.sign(event.deltaY); // +1 para rolagem para baixo, -1 para cima
+
+        if (delta < 0) { // Rolando para cima (aumentar)
+            this.value = currentValue + 1;
+        } else if (delta > 0 && currentValue > 0) { // Rolando para baixo (diminuir) e valor maior que 0
+            this.value = currentValue - 1;
+        }
+    });
+});
+
 document.getElementById('RegisterLivro_Form').addEventListener('submit', async function(e) {
     e.preventDefault(); // Impede o envio padrão do formulário.
 
     // Coleta os dados do formulário a partir dos campos de entrada.
     const disponibilidadeValue = document.getElementById('disponibilidade').value;
+    const dataCadastroAtual = new Date().toISOString(); // Obtém a data e hora atuais no formato ISO 8601
     const bookData = {
         titulo: document.getElementById('titulo').value,
         autor: document.getElementById('autor').value,
         categoria: document.getElementById('categoria').value,
         dataPublicacao: document.getElementById('dataPublicacao').value,
         quantExemplares: document.getElementById('quantExemplares').value,
-        dataCadastro: document.getElementById('dataCadastro').value,
+        dataCadastro: dataCadastroAtual, // Adiciona a data de cadastro
         /*imgLivro: document.getElementById('imgLivro').value,*/
         disponibilidade: disponibilidadeValue === 'Sim', // Converte 'sim' para true e qualquer outra coisa para false
     };
@@ -48,7 +73,6 @@ function limpaFormular() {
     document.getElementById('categoria').value = '';
     document.getElementById('dataPublicacao').value = '';
     document.getElementById('quantExemplares').value = '';
-    document.getElementById('dataCadastro').value = '';
     document.getElementById('disponibilidade').value = 'Sim';
 }
 

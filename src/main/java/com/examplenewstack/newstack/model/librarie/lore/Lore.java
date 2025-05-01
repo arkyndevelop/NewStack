@@ -18,16 +18,16 @@ public class Lore {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 255)
     private String title;
 
-    @Column(nullable = false)
-    private int isbm;
+    @Column(nullable = false,length = 20)
+    private String isbn;
 
     @Column(nullable = false)
     private int year_publication;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 25)
     private String category;
 
     @Column(nullable = false)
@@ -59,9 +59,9 @@ public class Lore {
     @Deprecated
     public Lore() {}
 
-    public Lore(String title, int isbm, int year_publication, String category) {
+    public Lore(String title, String isbn, int year_publication, String category) {
         this.title = title;
-        this.isbm = isbm;
+        this.isbn = isbn;
         this.year_publication = year_publication;
         this.category = category;
     }
@@ -74,12 +74,12 @@ public class Lore {
         this.title = title;
     }
 
-    public int getIsbm() {
-        return isbm;
+    public String getIsbn() {
+        return isbn;
     }
 
-    public void setIsbm(int isbm) {
-        this.isbm = isbm;
+    public void setIsbn(String isbm) {
+        this.isbn = isbm;
     }
 
     public int getYear_publication() {
@@ -110,5 +110,3 @@ public class Lore {
         this.register = LocalDateTime.now();
     }
 }
-
-

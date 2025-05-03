@@ -15,23 +15,24 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 60)
     private String name;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false,unique = true,length = 18)
     private String CPF;
 
     @Column(nullable = false,unique = true)
     private String email;
 
-    @Column(nullable = true)
+    @Column(nullable = true,length = 18)
     private String telephone;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 85)
     private String password;
 
     @Column(nullable = false, updatable = false)
     private Instant dateRegister = Instant.now();
+
 
 
     public User() {} // Utilizado apenas em alguns casos

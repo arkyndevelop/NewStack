@@ -14,24 +14,24 @@ public class Address {
     @Column(nullable = false)
     private String number_house;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 180)
     private String street;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 10)
     private String cep;
 
     private String complement;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 110)
     private String neighborhood;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 220)
     private String city;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 75)
     private String state;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 64)
     private String country;
 
     // Relacionamento 1:1 com Client

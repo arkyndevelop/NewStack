@@ -1,11 +1,7 @@
 package com.examplenewstack.newstack.model.librarie.book;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
-import java.util.UUID;
-
-
 
 @Entity
 @Table(name = "book")
@@ -14,10 +10,10 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 255)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 100)
     private String category;
 
     @Column(nullable = false)

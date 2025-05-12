@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.controller.userController.employeeController.service;
+package com.examplenewstack.newstack.controller.user.employeeController.service;
 
 import com.examplenewstack.newstack.entity.employee.Employee;
 import com.examplenewstack.newstack.entity.usersinfo.client.Client;

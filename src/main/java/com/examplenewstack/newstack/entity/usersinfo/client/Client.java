@@ -1,14 +1,12 @@
-package com.examplenewstack.newstack.model.usersinfo.client;
+package com.examplenewstack.newstack.entity.usersinfo.client;
 
-import com.examplenewstack.newstack.model.User;
-import com.examplenewstack.newstack.model.loan.Loan;
-import com.examplenewstack.newstack.model.usersinfo.address.Address;
+import com.examplenewstack.newstack.entity.User;
+import com.examplenewstack.newstack.entity.loan.Loan;
+import com.examplenewstack.newstack.entity.usersinfo.address.Address;
 import jakarta.persistence.*;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "client")

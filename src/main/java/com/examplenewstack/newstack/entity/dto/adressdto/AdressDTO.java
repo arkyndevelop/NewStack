@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.model.dto.adressdto;
+package com.examplenewstack.newstack.entity.dto.adressdto;
 
 public class AdressDTO {
 }

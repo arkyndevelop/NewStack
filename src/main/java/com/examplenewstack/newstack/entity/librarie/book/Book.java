@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.model.librarie.book;
+package com.examplenewstack.newstack.entity.librarie.book;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;

@@ -1,13 +1,10 @@
-package com.examplenewstack.newstack.model;
+package com.examplenewstack.newstack.entity;
 
 import jakarta.persistence.*;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.UUID;
 
 @MappedSuperclass
 public class User {

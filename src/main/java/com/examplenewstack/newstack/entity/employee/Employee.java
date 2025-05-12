@@ -1,9 +1,10 @@
-package com.examplenewstack.newstack.model.employee;
+package com.examplenewstack.newstack.entity.employee;
 
-import com.examplenewstack.newstack.model.User;
-import com.examplenewstack.newstack.model.enums.TypeEmployee;
-import com.examplenewstack.newstack.model.librarie.lore.Lore;
-import com.examplenewstack.newstack.model.loan.Loan;
+import com.examplenewstack.newstack.entity.User;
+import com.examplenewstack.newstack.entity.enums.TypeEmployee;
+import com.examplenewstack.newstack.entity.librarie.lore.Lore;
+import com.examplenewstack.newstack.entity.loan.Loan;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.List;

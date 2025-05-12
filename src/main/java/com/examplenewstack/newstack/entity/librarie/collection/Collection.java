@@ -1,11 +1,10 @@
-package com.examplenewstack.newstack.model.librarie.collection;
+package com.examplenewstack.newstack.entity.librarie.collection;
 
 
-import com.examplenewstack.newstack.model.librarie.lore.Lore;
+import com.examplenewstack.newstack.entity.librarie.lore.Lore;
 import jakarta.persistence.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "collection")

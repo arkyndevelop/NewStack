@@ -1,15 +1,13 @@
-package com.examplenewstack.newstack.model.librarie.lore;
+package com.examplenewstack.newstack.entity.librarie.lore;
 
-import com.examplenewstack.newstack.model.employee.Employee;
-import com.examplenewstack.newstack.model.librarie.book.Book;
-import com.examplenewstack.newstack.model.librarie.collection.Collection;
-import com.examplenewstack.newstack.model.loan.Loan;
+import com.examplenewstack.newstack.entity.employee.Employee;
+import com.examplenewstack.newstack.entity.librarie.book.Book;
+import com.examplenewstack.newstack.entity.librarie.collection.Collection;
+import com.examplenewstack.newstack.entity.loan.Loan;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "lore")

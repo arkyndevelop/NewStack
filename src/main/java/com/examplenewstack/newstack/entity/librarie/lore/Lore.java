@@ -5,12 +5,23 @@ import com.examplenewstack.newstack.entity.librarie.book.Book;
 import com.examplenewstack.newstack.entity.librarie.collection.Collection;
 import com.examplenewstack.newstack.entity.loan.Loan;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "lore")
+
+//Getters and Setters, Constructor and NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class Lore {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -54,57 +65,5 @@ public class Lore {
     @OneToMany(mappedBy = "lore")
     private List<Loan> loans;
 
-    @Deprecated
-    public Lore() {}
 
-    public Lore(String title, String isbn, int year_publication, String category) {
-        this.title = title;
-        this.isbn = isbn;
-        this.year_publication = year_publication;
-        this.category = category;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbm) {
-        this.isbn = isbm;
-    }
-
-    public int getYear_publication() {
-        return year_publication;
-    }
-
-    public void setYear_publication(int year_publication) {
-        this.year_publication = year_publication;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public Boolean getAvailability() {
-        return availability;
-    }
-
-    public LocalDateTime getRegister() {
-        return register;
-    }
-
-    public void setRegister(LocalDateTime register) {
-        this.register = LocalDateTime.now();
-    }
 }

@@ -1,9 +1,7 @@
 package com.examplenewstack.newstack.controller.bookController;
 
-
-
-import com.examplenewstack.newstack.model.dto.bookDTO.BookDTO;
-import com.examplenewstack.newstack.model.librarie.book.Book;
+import com.examplenewstack.newstack.entity.dto.bookdto.BookDTO;
+import com.examplenewstack.newstack.entity.librarie.book.Book;
 import com.examplenewstack.newstack.repository.BookRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;

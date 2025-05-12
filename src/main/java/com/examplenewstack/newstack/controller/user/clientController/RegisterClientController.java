@@ -1,7 +1,7 @@
 package com.examplenewstack.newstack.controller.userController.clientController;
 
-import com.examplenewstack.newstack.model.dto.clientdto.ClientDTO;
-import com.examplenewstack.newstack.model.usersinfo.client.Client;
+import com.examplenewstack.newstack.entity.dto.clientdto.ClientDTO;
+import com.examplenewstack.newstack.entity.usersinfo.client.Client;
 import com.examplenewstack.newstack.repository.ClientRepository;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

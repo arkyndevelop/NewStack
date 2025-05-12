@@ -1,8 +1,7 @@
 package com.examplenewstack.newstack.controller.userController.employeeController.service;
 
-import com.examplenewstack.newstack.model.employee.Employee;
-import com.examplenewstack.newstack.model.usersinfo.client.Client;
-import com.examplenewstack.newstack.repository.ClientRepository;
+import com.examplenewstack.newstack.entity.employee.Employee;
+import com.examplenewstack.newstack.entity.usersinfo.client.Client;
 import com.examplenewstack.newstack.repository.EmployeeRepository;
 
 import java.util.Optional;

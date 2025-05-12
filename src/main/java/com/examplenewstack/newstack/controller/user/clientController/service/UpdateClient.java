@@ -1,7 +1,7 @@
 package com.examplenewstack.newstack.controller.userController.clientController.service;
 
 
-import com.examplenewstack.newstack.model.usersinfo.client.Client;
+import com.examplenewstack.newstack.entity.usersinfo.client.Client;
 import com.examplenewstack.newstack.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 

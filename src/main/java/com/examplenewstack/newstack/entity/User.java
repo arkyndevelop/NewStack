@@ -1,6 +1,7 @@
 package com.examplenewstack.newstack.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.Instant;
 import java.time.ZoneId;

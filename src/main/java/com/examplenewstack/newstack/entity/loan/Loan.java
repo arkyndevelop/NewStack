@@ -4,11 +4,22 @@ import com.examplenewstack.newstack.entity.employee.Employee;
 import com.examplenewstack.newstack.entity.librarie.lore.Lore;
 import com.examplenewstack.newstack.entity.usersinfo.client.Client;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "loan")
+
+//Getters and Setters, Constructor and NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,7 +36,7 @@ public class Loan {
 
     @Column(nullable = false)
     private String status;
-    
+
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
@@ -39,66 +50,4 @@ public class Loan {
     @ManyToOne
     @JoinColumn(name = "lore_id", nullable = false)
     private Lore lore;
-
-    // Getters and Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public LocalDateTime getLoanDate() {
-        return loanDate;
-    }
-
-    public void setLoanDate(LocalDateTime loanDate) {
-        this.loanDate = loanDate;
-    }
-
-    public LocalDateTime getExpectedReturnDate() {
-        return expectedReturnDate;
-    }
-
-    public void setExpectedReturnDate(LocalDateTime expectedReturnDate) {
-        this.expectedReturnDate = expectedReturnDate;
-    }
-
-    public LocalDateTime getActualReturnDate() {
-        return actualReturnDate;
-    }
-
-    public void setActualReturnDate(LocalDateTime actualReturnDate) {
-        this.actualReturnDate = actualReturnDate;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public Lore getLore() {
-        return lore;
-    }
-
-    public void setLore(Lore lore) {
-        this.lore = lore;
-    }
 }

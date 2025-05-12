@@ -1,6 +1,6 @@
-package com.examplenewstack.newstack.model.usersinfo.address;
+package com.examplenewstack.newstack.entity.usersinfo.address;
 
-import com.examplenewstack.newstack.model.usersinfo.client.Client;
+import com.examplenewstack.newstack.entity.usersinfo.client.Client;
 import jakarta.persistence.*;
 
 

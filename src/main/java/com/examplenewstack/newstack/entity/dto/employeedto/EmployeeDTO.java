@@ -1,8 +1,8 @@
-package com.examplenewstack.newstack.model.dto.employeedto;
+package com.examplenewstack.newstack.entity.dto.employeedto;
 
-import com.examplenewstack.newstack.model.dto.UserDTO;
-import com.examplenewstack.newstack.model.employee.Employee;
-import com.examplenewstack.newstack.model.enums.TypeEmployee;
+import com.examplenewstack.newstack.entity.dto.UserDTO;
+import com.examplenewstack.newstack.entity.employee.Employee;
+import com.examplenewstack.newstack.entity.enums.TypeEmployee;
 
 public class EmployeeDTO extends UserDTO {
     private TypeEmployee typeEmployee;

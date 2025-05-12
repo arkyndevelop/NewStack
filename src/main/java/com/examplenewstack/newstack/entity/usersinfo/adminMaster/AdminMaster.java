@@ -1,9 +1,7 @@
-package com.examplenewstack.newstack.model.usersinfo.adminMaster;
+package com.examplenewstack.newstack.entity.usersinfo.adminMaster;
 
-import com.examplenewstack.newstack.model.User;
+import com.examplenewstack.newstack.entity.User;
 import jakarta.persistence.*;
-
-import java.util.UUID;
 
 @Entity
 @Table(name = "admin_master")

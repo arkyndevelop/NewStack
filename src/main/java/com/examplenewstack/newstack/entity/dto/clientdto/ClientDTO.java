@@ -1,7 +1,7 @@
-package com.examplenewstack.newstack.model.dto.clientdto;
+package com.examplenewstack.newstack.entity.dto.clientdto;
 
-import com.examplenewstack.newstack.model.dto.UserDTO;
-import com.examplenewstack.newstack.model.usersinfo.client.Client;
+import com.examplenewstack.newstack.entity.dto.UserDTO;
+import com.examplenewstack.newstack.entity.usersinfo.client.Client;
 
 public class ClientDTO extends UserDTO {
     public ClientDTO() { super();}

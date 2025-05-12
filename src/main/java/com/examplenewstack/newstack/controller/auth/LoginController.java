@@ -1,20 +1,18 @@
 package com.examplenewstack.newstack.controller.auth;
 
-// Importações necessárias para o funcionamento do Controller
-import com.examplenewstack.newstack.model.usersinfo.adminMaster.AdminMaster;
-import com.examplenewstack.newstack.model.usersinfo.client.Client;
+import com.examplenewstack.newstack.entity.usersinfo.adminMaster.AdminMaster;
+import com.examplenewstack.newstack.entity.usersinfo.client.Client;
 import com.examplenewstack.newstack.repository.AdminRepository;
 import com.examplenewstack.newstack.repository.ClientRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.hibernate.metamodel.internal.AbstractDynamicMapInstantiator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller// Define que esta classe é um Controller Spring
-@RequestMapping("/v1")// Mapeia todas as rotas deste controller para '/home'
+@Controller
+@RequestMapping("/v1")
 public class LoginController {
 
     // Injeção de dependência do repositório de usuários
@@ -33,6 +31,7 @@ public class LoginController {
         ModelAndView modelAndView = new ModelAndView("login");
         return modelAndView;
     }
+
     // Manipula requisições POST para '/home/login'
     @PostMapping("/auth")
     public String login(
@@ -53,6 +52,7 @@ public class LoginController {
             session.setAttribute("tipoUsuario", client);
             session.setAttribute("usuarioID", client.getId());
             // Redireciona para a página inicial
+            // Alterar o redirecionamento o mais rápido possível para uma home apenas de clientes
             return "redirect:/v1/home";
         }
         else if(adminMaster != null){

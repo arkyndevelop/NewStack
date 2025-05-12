@@ -1,6 +1,6 @@
 package com.examplenewstack.newstack.repository;
 
-import com.examplenewstack.newstack.model.employee.Employee;
+import com.examplenewstack.newstack.entity.employee.Employee;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

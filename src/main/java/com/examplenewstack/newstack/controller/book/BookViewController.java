@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.controller.bookController;
+package com.examplenewstack.newstack.controller.book;
 
 import com.examplenewstack.newstack.entity.dto.bookdto.BookDTO;
 import com.examplenewstack.newstack.entity.librarie.book.Book;
@@ -13,35 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/v1")
-public class CreateBook {
-    // Injeção de dependência do repositório de livros
-    private final BookRepository bookRepository;
-    // Construtor para injeção de dependência
-    public CreateBook(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
-    }
+@RequestMapping("/books")
+public class BookViewController {
 
-    @GetMapping("/book")
-    public ModelAndView registerScreenBook(HttpServletRequest request, Model model){
+    @GetMapping("/register")
+    public ModelAndView registerScreenBook(){
         return new ModelAndView("admMaster");
-    }
-
-    @PostMapping("/add")
-    public ResponseEntity<?> registerBook(@Valid @RequestBody BookDTO bookDTO, BindingResult result){
-        //verifica erros
-        if(result.hasErrors()){
-            // Captura a mensagem de erro
-            String errorMessage = result.getFieldError().getDefaultMessage();
-
-            return ResponseEntity.badRequest().body((errorMessage));
-        }
-
-        Book book = bookDTO.toBook();
-        bookRepository.save(book);
-
-        return ResponseEntity.ok().build();
-
-
     }
 }

@@ -1,6 +1,6 @@
 package com.examplenewstack.newstack.controller.userController.clientController;
 
-import com.examplenewstack.newstack.model.usersinfo.client.Client;
+import com.examplenewstack.newstack.entity.usersinfo.client.Client;
 import com.examplenewstack.newstack.repository.ClientRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

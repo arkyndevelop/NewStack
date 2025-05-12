@@ -1,6 +1,6 @@
 package com.examplenewstack.newstack.controller.userController.employeeController;
 
-import com.examplenewstack.newstack.model.employee.Employee;
+import com.examplenewstack.newstack.entity.employee.Employee;
 import com.examplenewstack.newstack.repository.EmployeeRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

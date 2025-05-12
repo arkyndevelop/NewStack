@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.model.dto.bookDTO;
+package com.examplenewstack.newstack.model.dto.bookdto;
 
 import com.examplenewstack.newstack.model.librarie.book.Book;
 import jakarta.validation.constraints.NotBlank;

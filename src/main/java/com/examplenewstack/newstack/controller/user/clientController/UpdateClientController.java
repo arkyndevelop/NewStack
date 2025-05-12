@@ -1,7 +1,7 @@
 package com.examplenewstack.newstack.controller.userController.clientController;
 
 import com.examplenewstack.newstack.controller.userController.clientController.service.UpdateClient;
-import com.examplenewstack.newstack.model.usersinfo.client.Client;
+import com.examplenewstack.newstack.entity.usersinfo.client.Client;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,7 +1,7 @@
 package com.examplenewstack.newstack.controller.userController.employeeController;
 
-import com.examplenewstack.newstack.model.dto.employeedto.EmployeeDTO;
-import com.examplenewstack.newstack.model.employee.Employee;
+import com.examplenewstack.newstack.entity.dto.employeedto.EmployeeDTO;
+import com.examplenewstack.newstack.entity.employee.Employee;
 import com.examplenewstack.newstack.repository.EmployeeRepository;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

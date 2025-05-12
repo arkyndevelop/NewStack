@@ -1,6 +1,6 @@
 package com.examplenewstack.newstack.controller.userController.employeeController;
 
-import com.examplenewstack.newstack.model.employee.Employee;
+import com.examplenewstack.newstack.entity.employee.Employee;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;

@@ -1,6 +1,6 @@
-package com.examplenewstack.newstack.controller.userController.clientController;
+package com.examplenewstack.newstack.controller.user.clientController;
 
-import com.examplenewstack.newstack.controller.userController.clientController.service.UpdateClient;
+import com.examplenewstack.newstack.controller.user.clientController.service.UpdateClient;
 import com.examplenewstack.newstack.entity.usersinfo.client.Client;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;

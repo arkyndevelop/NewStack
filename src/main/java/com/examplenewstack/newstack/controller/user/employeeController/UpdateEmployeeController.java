@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.controller.userController.employeeController;
+package com.examplenewstack.newstack.controller.user.employeeController;
 
 import com.examplenewstack.newstack.entity.employee.Employee;
 import org.springframework.context.annotation.Lazy;

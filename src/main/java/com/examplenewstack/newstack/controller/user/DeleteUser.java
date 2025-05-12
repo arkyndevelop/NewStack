@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.controller.userController;
+package com.examplenewstack.newstack.controller.user;
 
 
 import com.examplenewstack.newstack.repository.ClientRepository;

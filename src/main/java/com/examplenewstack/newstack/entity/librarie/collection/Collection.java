@@ -3,11 +3,21 @@ package com.examplenewstack.newstack.entity.librarie.collection;
 
 import com.examplenewstack.newstack.entity.librarie.lore.Lore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
 @Table(name = "collection")
+
+//Getters and Setters, Constructor and NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 
 public class Collection {
     @Id
@@ -27,37 +37,5 @@ public class Collection {
     @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL)
     private List<Lore> lores;
 
-    //Builders
-    public Collection() {}
 
-    public Collection(int total_quantity, int total_available, String location) {
-        this.total_quantity = total_quantity;
-        this.total_available = total_available;
-        this.location = location;
-    }
-
-    //Getters and Setters
-    public int getTotal_quantity() {
-        return total_quantity;
-    }
-
-    public void setTotal_quantity(int total_quantity) {
-        this.total_quantity = total_quantity;
-    }
-
-    public int getTotal_available() {
-        return total_available;
-    }
-
-    public void setTotal_available(int total_available) {
-        this.total_available = total_available;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
 }

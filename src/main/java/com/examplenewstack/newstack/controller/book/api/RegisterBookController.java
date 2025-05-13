@@ -19,7 +19,6 @@ public class RegisterBookController {
         this.registerBookService = registerBookService;
     }
 
-
     @PostMapping("/register")
     public ResponseEntity<?> registerBook(@RequestBody BookDTO bookDTO){
         try {

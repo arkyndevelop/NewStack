@@ -23,7 +23,7 @@ public class CreateClientService {
     public Client createClient(@RequestBody ClientDTO clientDTO) {
 
         if (clientRepository.findByCPF(clientDTO.getCPF()) || clientRepository.findByEmail(clientDTO.getEmail())) {
-            throw new CustomException("Dados de usuario ja cadastrados!");
+            throw new CustomException("Erro: Dados de usuario ja cadastrados!");
 
         }
         return clientRepository.save(clientDTO.toUser());

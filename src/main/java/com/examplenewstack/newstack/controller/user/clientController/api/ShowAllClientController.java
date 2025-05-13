@@ -24,7 +24,7 @@ public class ShowAllClientController {
             return ResponseEntity.ok().body(showAllClientService.findAllClients());
         } catch (Exception e){
 
-           throw new CustomException("Erro ao exibir todos os clientes");
+           throw new CustomException("Erro: Nenhum cliente cadastrado encontrado!");
 
 
         }

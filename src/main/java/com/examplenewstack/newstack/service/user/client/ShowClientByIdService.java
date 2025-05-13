@@ -1,5 +1,6 @@
 package com.examplenewstack.newstack.service.user.client;
 
+
 import com.examplenewstack.newstack.entity.usersinfo.client.Client;
 import com.examplenewstack.newstack.exception.CustomException;
 import com.examplenewstack.newstack.repository.ClientRepository;
@@ -7,29 +8,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
-public class DeleteByIdService {
+public class ShowClientByIdService {
 
     private final ClientRepository clientRepository;
 
-
-    public DeleteByIdService(ClientRepository clientRepository) {
+    public ShowClientByIdService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
-    public ResponseEntity<Client> deleteById(@RequestParam Long id) {
 
-        Optional<Client> client = clientRepository.findById(id);
+    public Optional<Client> showClientById(@RequestParam Long id) {
 
-        if (client.isPresent()) {
-            clientRepository.deleteById(id);
-            return ResponseEntity.ok().build();
+        Optional<Client> clientList = clientRepository.findById(id);
+
+        if (clientList.isEmpty()) {
+            throw new CustomException("Erro: Nenhum cliente cadastrado");
         }
-
-        throw new CustomException("Erro: Nenhum cliente cadastrado!");
-
+        return clientRepository.findById(id);
 
     }
 }

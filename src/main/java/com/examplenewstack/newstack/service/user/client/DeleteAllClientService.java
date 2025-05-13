@@ -25,23 +25,21 @@ public class DeleteAllClientService {
         try {
             if (existingClients.isEmpty()) {
 
-                throw new CustomException("Erro ao encontrar clientes");
+                throw new CustomException("Erro:  Nenhum cliente cadastrado!");
             }
 
 
-                clientRepository.deleteAll();
+            clientRepository.deleteAll();
             ResponseEntity.ok().build();
 
 
-        } catch (Exception e ){
+        } catch (Exception e) {
 
             ResponseEntity.badRequest().build();
         }
 
 
-
     }
-
 
 
 }

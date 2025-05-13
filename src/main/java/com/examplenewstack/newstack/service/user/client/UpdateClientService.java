@@ -21,22 +21,22 @@ public class UpdateClientService {
         this.clientRepository = clientRepository;
     }
 
-    public ResponseEntity<Client> updateClient(@RequestBody ClientDTO clientDTO, @RequestParam Long id){
+    public ResponseEntity<Client> updateClient(@RequestBody ClientDTO clientDTO, @RequestParam Long id) {
         Optional<Client> clientExists = clientRepository.findById(id);
 
-        if(clientExists.isPresent()){
-        Client client = clientRepository.getReferenceById(id);
+        if (clientExists.isPresent()) {
+            Client client = clientRepository.getReferenceById(id);
 
-        client.setName(clientDTO.getName());
-        client.setCPF(clientDTO.getCPF());
-        client.setEmail(clientDTO.getEmail());
-        client.setTelephone(clientDTO.getTelephone());
-        client.setEmail(clientDTO.getPassword());
+            client.setName(clientDTO.getName());
+            client.setCPF(clientDTO.getCPF());
+            client.setEmail(clientDTO.getEmail());
+            client.setTelephone(clientDTO.getTelephone());
+            client.setEmail(clientDTO.getPassword());
 
-        Client updateClients = clientRepository.save(client);
-        return ResponseEntity.ok(updateClients);
+            Client updateClients = clientRepository.save(client);
+            return ResponseEntity.ok(updateClients);
 
         }
-        throw new CustomException("Erro ao encontrar cliente");
+        throw new CustomException("Erro: cliente não cadastrado!");
     }
 }

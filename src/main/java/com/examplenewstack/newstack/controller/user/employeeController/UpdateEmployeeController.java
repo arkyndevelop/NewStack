@@ -1,33 +1,30 @@
 package com.examplenewstack.newstack.controller.user.employeeController;
 
-import com.examplenewstack.newstack.entity.employee.Employee;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.examplenewstack.newstack.entity.dto.employeedto.EmployeeDTO;
+import com.examplenewstack.newstack.exception.CustomException;
+import com.examplenewstack.newstack.service.user.employee.UpdateEmployeeService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping("/v1")
+@RestController
+@RequestMapping("/employees")
 public class UpdateEmployeeController {
+    private final UpdateEmployeeService updateEmployeeService;
 
-
-    private final UpdateEmployeeController updateEmployeeController;
-
-
-
-    public UpdateEmployeeController(@Lazy  UpdateEmployeeController updateEmployeeController) {
-        this.updateEmployeeController = updateEmployeeController;
+    public UpdateEmployeeController(UpdateEmployeeService updateEmployeeService){
+        this.updateEmployeeService = updateEmployeeService;
     }
 
-    @PostMapping("/employee/update/{cpf}")
-    public String updateEmployee(@PathVariable String cpf, @ModelAttribute Employee employee){
-        try{
-            updateEmployeeController.updateEmployee(cpf, employee);
-            return "redirect:/reports";
-        } catch (Exception e){
-            return "redirect:/reports" + e.getMessage().replace(" ", "+");
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateClient(
+            @RequestBody EmployeeDTO employeeDTO,
+            @RequestParam Long id
+    ){
+        try {
+            updateEmployeeService.updateEmployee(employeeDTO, id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            throw new CustomException("Erro: Dados inválidos!");
         }
     }
 }

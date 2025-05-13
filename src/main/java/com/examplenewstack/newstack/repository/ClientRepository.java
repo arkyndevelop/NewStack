@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 public interface ClientRepository extends JpaRepository<Client, Long> {
     Client findByCPFAndPassword(String cpf, String password);
 
-    Client findByCPF(String cpf);
+    boolean findByCPF(String cpf);
 
 
     @Modifying
@@ -19,5 +19,5 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     void deleteByCPF(@Param("cpf") String cpf);
 
 
-    String CPF(String cpf);
+    boolean findByEmail(String email);
 }

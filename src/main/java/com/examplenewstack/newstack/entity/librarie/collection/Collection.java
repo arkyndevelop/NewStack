@@ -34,7 +34,7 @@ public class Collection {
     private String location;
 
     // Relacionamento com Lore
-    @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Lore> lores;
 
 

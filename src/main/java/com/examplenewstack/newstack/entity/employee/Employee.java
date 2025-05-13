@@ -24,11 +24,11 @@ public class Employee extends User {
     public Employee() { super(); }
 
     //Relacionamento com Loan
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee",fetch = FetchType.LAZY)
     private List<Loan> loans;
 
     //Relacionamento com Lore
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee",fetch = FetchType.LAZY)
     private List<Lore> lores;
 
     public Employee(String name, String CPF, String email, String telephone, String password) {

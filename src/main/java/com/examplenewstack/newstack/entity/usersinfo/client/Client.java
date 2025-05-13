@@ -17,7 +17,7 @@ public class Client extends User {
     private Address address;
 
     // Um cliente pode ter vários empréstimos (1:N)
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     private List<Loan> loans;
 
     public Client() { super(); }

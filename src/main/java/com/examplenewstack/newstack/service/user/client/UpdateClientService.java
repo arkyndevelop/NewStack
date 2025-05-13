@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -31,7 +32,10 @@ public class UpdateClientService {
             client.setCPF(clientDTO.getCPF());
             client.setEmail(clientDTO.getEmail());
             client.setTelephone(clientDTO.getTelephone());
-            client.setEmail(clientDTO.getPassword());
+            if (Objects.equals(clientDTO.getPassword(), clientDTO.getConfirmPassword())) {
+                client.setPassword(clientDTO.getPassword());
+                
+            }
 
             Client updateClients = clientRepository.save(client);
             return ResponseEntity.ok(updateClients);

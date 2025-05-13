@@ -28,7 +28,7 @@ public class RegisterClientController {
             return ResponseEntity.ok(client);
         } catch (Exception e) {
 
-            throw new CustomException("Erro: Dados de cliente ja cadastrado!");
+            throw new CustomException("Erro: Dados de cliente ja cadastrado ou dados invalidos!");
 
         }
     }

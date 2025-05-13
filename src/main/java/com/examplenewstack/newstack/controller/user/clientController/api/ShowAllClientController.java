@@ -17,7 +17,7 @@ public class ShowAllClientController {
         this.showAllClientService = showAllClientService;
     }
 
-    @GetMapping("/show/all")
+    @GetMapping("/reports/all")
     public ResponseEntity<?> showAllClients(){
         try {
 

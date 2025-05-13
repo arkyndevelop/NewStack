@@ -20,9 +20,9 @@ public class ShowAllClientService {
 
     public List<Client> findAllClients() {
 
-        List<Client> existing = clientRepository.findAll();
+        List<Client> clientList = clientRepository.findAll();
 
-        if (existing.isEmpty()) {
+        if (clientList.isEmpty()) {
             throw new CustomException("Erro: Nenhum cliente cadastrado!");
         }
         return clientRepository.findAll();

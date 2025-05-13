@@ -20,7 +20,7 @@ public class ShowAllClientView {
 
 
 
-    @GetMapping("/show/all")
+    @GetMapping("/showClients/all")
     public ModelAndView showAllClients(){
 
         List<Client> existing = this.showAllClientService.findAllClients();

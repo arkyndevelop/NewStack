@@ -26,7 +26,7 @@ public class UpdateClientController {
            updateClientService.updateClient(clientDTO, id);
             return ResponseEntity.ok().build();
         } catch (Exception e){
-            throw new CustomException("Erro ao atualizar um cliente");
+            throw new CustomException("Erro: Nenhum cliente encontrado para atualizar!");
         }
     }
 }

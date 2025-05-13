@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/clients")
 public class DeleteByIdView {
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/deleteBy/{id}")
     public ModelAndView deleteById(){
         ModelAndView modelAndView = new ModelAndView("reportClient");
         return modelAndView;

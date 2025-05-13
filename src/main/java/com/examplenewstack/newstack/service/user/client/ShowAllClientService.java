@@ -23,7 +23,7 @@ public class ShowAllClientService {
         List<Client> existing = clientRepository.findAll();
 
         if (existing.isEmpty()) {
-            throw new CustomException("Nenhum usuario cadastrado");
+            throw new CustomException("Erro: Nenhum cliente cadastrado!");
         }
         return clientRepository.findAll();
 

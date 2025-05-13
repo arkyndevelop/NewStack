@@ -20,7 +20,7 @@ public class DeleteAllClientController {
     }
 
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/all")
     public ResponseEntity<?> deleteAllClients(){
         try{
             deleteAllClientService.deleteAllClients();
@@ -29,7 +29,7 @@ public class DeleteAllClientController {
         } catch (Exception e){
 
 
-            throw new CustomException("Erro ao deleta todos clientes");
+            throw new CustomException("Erro: Nenhum cliente cadastrado encontrado!");
         }
     }
 }

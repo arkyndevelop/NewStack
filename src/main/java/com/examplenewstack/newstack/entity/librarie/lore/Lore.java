@@ -47,22 +47,22 @@ public class Lore {
 
 
     //Relacionamento com Employee
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
     // Relacionamento com Collection
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "collection_id", nullable = false)
     private Collection collection;
 
     //Relacionamento 1:1 book
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private Book book;
 
     //Relacionamento com Loan
-    @OneToMany(mappedBy = "lore")
+    @OneToMany(mappedBy = "lore",fetch = FetchType.LAZY)
     private List<Loan> loans;
 
 

@@ -6,6 +6,7 @@ import com.examplenewstack.newstack.exception.CustomException;
 import com.examplenewstack.newstack.repository.ClientRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class ShowClientByIdService {
     }
 
 
-    public Optional<Client> showClientById(@RequestParam Long id) {
+    public Optional<Client> showClientById(@PathVariable Long id) {
 
         Optional<Client> clientList = clientRepository.findById(id);
 

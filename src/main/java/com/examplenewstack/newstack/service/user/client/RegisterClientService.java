@@ -24,15 +24,15 @@ public class RegisterClientService {
 
 
         if(clientRepository.existsByCPF(clientDTO.getCPF())){
-            throw  new RegisteredDataException("Erro: CPF ja cadastrado!");
+            throw  new RegisteredDataException("cpf");
         }
 
         if (clientRepository.existsByEmail(clientDTO.getEmail())) {
-            throw new RegisteredDataException("Erro: Email ja cadastrado!");
+            throw new RegisteredDataException("email");
         }
 
         if (clientRepository.existsByTelephone(clientDTO.getTelephone())) {
-            throw new RegisteredDataException("Erro: Telefone ja cadastrado!");
+            throw new RegisteredDataException("telephone");
         }
 
         return clientRepository.save(clientDTO.toUser());

@@ -20,7 +20,7 @@ public class RegisterClientService {
     }
 
 
-    public Client registerClient(@Valid @RequestBody ClientDTO clientDTO) {
+    public Client registerClient(@RequestBody ClientDTO clientDTO) {
 
 
         if(clientRepository.existsByCPF(clientDTO.getCPF())){

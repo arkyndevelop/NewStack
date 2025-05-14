@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
@@ -42,6 +43,6 @@ public class Book {
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime date_register;
+    private Instant dateRegister = Instant.now();
 
 }

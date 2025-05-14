@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Optional;
 
 @Service
-public class DeleteByIdService {
+public class DeleteClientByIdService {
 
     private final ClientRepository clientRepository;
 
 
-    public DeleteByIdService(ClientRepository clientRepository) {
+    public DeleteClientByIdService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 

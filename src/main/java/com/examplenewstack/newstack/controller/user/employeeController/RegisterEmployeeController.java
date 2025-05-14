@@ -2,7 +2,9 @@ package com.examplenewstack.newstack.controller.user.employeeController;
 
 import com.examplenewstack.newstack.entity.dto.employeedto.EmployeeDTO;
 import com.examplenewstack.newstack.entity.employee.Employee;
+import com.examplenewstack.newstack.exception.CustomException;
 import com.examplenewstack.newstack.repository.EmployeeRepository;
+import com.examplenewstack.newstack.service.user.employee.RegisterEmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,32 +21,23 @@ import java.util.Map;
 @RequestMapping("/employee")
 public class RegisterEmployeeController {
 
-    private final EmployeeRepository employeeRepository;
+    private final RegisterEmployeeService registerEmployeeService;
 
-    public RegisterEmployeeController(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public RegisterEmployeeController(RegisterEmployeeService registerEmployeeService) {
+        this.registerEmployeeService = registerEmployeeService;
     }
 
-    @GetMapping("/register")
-    public ModelAndView registerScreen(){
-        ModelAndView modelAndView = new ModelAndView();
-        return modelAndView;
-    }
+
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody EmployeeDTO employeeDTO, BindingResult result){
-        //verifica erros nos campos
-        if(result.hasErrors()) {
-            // Captura a mensagem de erro do CPF ou demais campos
-            String errorMessage = result.getFieldError().getDefaultMessage();
+    public ResponseEntity<?> registerEmployee( @RequestBody EmployeeDTO employeeDTO){
 
-            return ResponseEntity.badRequest().body(errorMessage);
+        try{
+
+            Employee employee = registerEmployeeService.registerEmployee(employeeDTO);
+            return ResponseEntity.ok(employee);
+        } catch (Exception e){
+            throw new CustomException("Erro: Dados de empregados ja cadastrado ou dados inválidos!");
         }
-
-        Employee employee = employeeDTO.toUser();
-        // Salva os dados do usuário cadastrado
-        employeeRepository.save(employee);
-
-        return ResponseEntity.ok().body(Map.of("message", "Funcionário cadastrado com sucesso"));
     }
 }

@@ -2,7 +2,7 @@ package com.examplenewstack.newstack.controller.user.clientController.api;
 
 import com.examplenewstack.newstack.entity.dto.clientdto.ClientDTO;
 import com.examplenewstack.newstack.exception.CustomException;
-import com.examplenewstack.newstack.service.user.client.DeleteByIdService;
+import com.examplenewstack.newstack.service.user.client.DeleteClientByIdService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/clients")
 public class DeleteClientByIdController {
 
-    private final DeleteByIdService deleteByIdService;
+    private final DeleteClientByIdService deleteClientByIdService;
 
 
-    public DeleteClientByIdController(DeleteByIdService deleteByIdService) {
-        this.deleteByIdService = deleteByIdService;
+    public DeleteClientByIdController(DeleteClientByIdService deleteClientByIdService) {
+        this.deleteClientByIdService = deleteClientByIdService;
     }
 
 
@@ -22,7 +22,7 @@ public class DeleteClientByIdController {
    public ResponseEntity<?> deleteById(@RequestBody ClientDTO clientDTO , @PathVariable Long id){
             try{
 
-                deleteByIdService.deleteById(id);
+                deleteClientByIdService.deleteById(id);
                 return ResponseEntity.ok().build();
             } catch (Exception e){
 

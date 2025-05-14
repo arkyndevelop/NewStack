@@ -9,8 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/employee")
 public class RegisterEmployeeController {
 
@@ -25,12 +26,10 @@ public class RegisterEmployeeController {
     @PostMapping("/register")
     public ResponseEntity<?> registerEmployee( @RequestBody EmployeeDTO employeeDTO){
 
-        try{
 
             Employee employee = registerEmployeeService.registerEmployee(employeeDTO);
             return ResponseEntity.ok(employee);
-        } catch (Exception e){
-            throw new CustomException("Erro: Dados de empregados ja cadastrado ou dados inválidos!");
-        }
+
+
     }
 }

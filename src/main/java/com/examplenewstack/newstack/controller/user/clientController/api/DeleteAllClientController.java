@@ -1,7 +1,7 @@
 package com.examplenewstack.newstack.controller.user.clientController.api;
 
 
-import com.examplenewstack.newstack.exception.CustomException;
+import com.examplenewstack.newstack.exception.ClientsException.CustomException;
 import com.examplenewstack.newstack.service.user.client.DeleteAllClientService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,14 +22,10 @@ public class DeleteAllClientController {
 
     @DeleteMapping("/delete/all")
     public ResponseEntity<?> deleteAllClients(){
-        try{
+
             deleteAllClientService.deleteAllClients();
             return ResponseEntity.ok().build();
 
-        } catch (Exception e){
 
-
-            throw new CustomException("Erro: Nenhum cliente cadastrado encontrado!");
-        }
     }
 }

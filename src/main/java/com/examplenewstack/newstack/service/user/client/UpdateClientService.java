@@ -3,7 +3,8 @@ package com.examplenewstack.newstack.service.user.client;
 
 import com.examplenewstack.newstack.entity.dto.clientdto.ClientDTO;
 import com.examplenewstack.newstack.entity.usersinfo.client.Client;
-import com.examplenewstack.newstack.exception.CustomException;
+import com.examplenewstack.newstack.exception.ClientsException.CustomException;
+import com.examplenewstack.newstack.exception.ClientsException.NoCustomersFoundException;
 import com.examplenewstack.newstack.repository.ClientRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,6 @@ public class UpdateClientService {
             return ResponseEntity.ok(updateClients);
 
         }
-        throw new CustomException("Erro: cliente não cadastrado!");
+        throw new NoCustomersFoundException("Erro: cliente não cadastrado por esse id!");
     }
 }

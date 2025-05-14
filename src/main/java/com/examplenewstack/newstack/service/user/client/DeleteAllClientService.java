@@ -2,7 +2,8 @@ package com.examplenewstack.newstack.service.user.client;
 
 
 import com.examplenewstack.newstack.entity.usersinfo.client.Client;
-import com.examplenewstack.newstack.exception.CustomException;
+import com.examplenewstack.newstack.exception.ClientsException.CustomException;
+import com.examplenewstack.newstack.exception.ClientsException.NoCustomersFoundException;
 import com.examplenewstack.newstack.repository.ClientRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,10 +23,10 @@ public class DeleteAllClientService {
 
         List<Client> existingClients = this.clientRepository.findAll();
 
-        try {
+
             if (existingClients.isEmpty()) {
 
-                throw new CustomException("Erro:  Nenhum cliente cadastrado!");
+                throw new NoCustomersFoundException("Erro: Nenhum cliente cadastrado!");
             }
 
 
@@ -33,10 +34,9 @@ public class DeleteAllClientService {
             ResponseEntity.ok().build();
 
 
-        } catch (Exception e) {
 
             ResponseEntity.badRequest().build();
-        }
+
 
 
     }

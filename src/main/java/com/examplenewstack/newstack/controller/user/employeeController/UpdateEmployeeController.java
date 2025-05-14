@@ -1,7 +1,7 @@
 package com.examplenewstack.newstack.controller.user.employeeController;
 
 import com.examplenewstack.newstack.entity.dto.employeedto.EmployeeDTO;
-import com.examplenewstack.newstack.exception.CustomException;
+import com.examplenewstack.newstack.exception.ClientsException.CustomException;
 import com.examplenewstack.newstack.service.user.employee.UpdateEmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

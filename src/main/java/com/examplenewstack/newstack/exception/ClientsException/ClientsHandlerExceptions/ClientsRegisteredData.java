@@ -1,7 +1,7 @@
 package com.examplenewstack.newstack.exception.ClientsException.ClientsHandlerExceptions;
 
 
-import com.examplenewstack.newstack.exception.ClientsException.RegisteredDataException;
+import com.examplenewstack.newstack.exception.ClientsException.ClientsRegisteredDataException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class ClientsRegisteredDataExceptions extends ResponseEntityExceptionHandler {
+public class ClientsRegisteredData extends ResponseEntityExceptionHandler {
 
 
-    @ExceptionHandler(RegisteredDataException.class)
-    private ResponseEntity<RestErrorMessage> ClientRegisteredData(RegisteredDataException registeredException){
+    @ExceptionHandler(ClientsRegisteredDataException.class)
+    private ResponseEntity<RestErrorMessage> ClientRegisteredData(ClientsRegisteredDataException registeredException){
         String RestErrorMessage = registeredException.getMessage();
-        String message= switch (RestErrorMessage){
+        String message = switch (RestErrorMessage){
             case "cpf" -> "CPF ja cadastrado!";
             case "email" -> "Email ja cadastrado!";
-            case "telephone" -> "Telefone ja cadastrado";
+            case "telephone" -> "Telefone ja cadastrado!";
             default -> "Dados ja cadastrados!";
 
         };

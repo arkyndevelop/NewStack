@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class NoCustomersFoundExceptions extends ResponseEntityExceptionHandler {
+public class NoCustomersFound extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NoCustomersFoundException.class)
     private ResponseEntity<RestErrorMessage> CustomersFound(NoCustomersFoundException NoCustomersFound){

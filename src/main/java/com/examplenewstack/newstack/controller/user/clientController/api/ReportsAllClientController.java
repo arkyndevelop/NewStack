@@ -1,6 +1,6 @@
 package com.examplenewstack.newstack.controller.user.clientController.api;
 
-import com.examplenewstack.newstack.exception.CustomException;
+import com.examplenewstack.newstack.exception.ClientsException.CustomException;
 import com.examplenewstack.newstack.service.user.client.ReportsAllClientService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,15 +19,11 @@ public class ReportsAllClientController {
 
     @GetMapping("/reports/all")
     public ResponseEntity<?> showAllClients(){
-        try {
 
             return ResponseEntity.ok().body(reportsAllClientService.findAllClients());
-        } catch (Exception e){
-
-           throw new CustomException("Erro: Nenhum cliente cadastrado encontrado!");
 
 
-        }
+
 
 
     }

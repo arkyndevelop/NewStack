@@ -1,7 +1,7 @@
 package com.examplenewstack.newstack.controller.user.clientController.api;
 
 
-import com.examplenewstack.newstack.exception.CustomException;
+import com.examplenewstack.newstack.exception.ClientsException.CustomException;
 import com.examplenewstack.newstack.service.user.client.ReportsClientByIdService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +20,9 @@ public class ReportsClientByIdController {
     @GetMapping("/reportsBy/{id}")
     public ResponseEntity<?> showClientById( @PathVariable Long id) {
 
-        try {
+
             return ResponseEntity.ok().body(reportsClientByIdService.showClientById(id));
-        } catch (Exception e) {
-            throw new CustomException("Erro: Nenhum cliente encontrado!");
-        }
+
 
 
     }

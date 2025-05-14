@@ -1,7 +1,8 @@
 package com.examplenewstack.newstack.service.user.client;
 
 import com.examplenewstack.newstack.entity.usersinfo.client.Client;
-import com.examplenewstack.newstack.exception.CustomException;
+import com.examplenewstack.newstack.exception.ClientsException.CustomException;
+import com.examplenewstack.newstack.exception.ClientsException.NoCustomersFoundException;
 import com.examplenewstack.newstack.repository.ClientRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class DeleteClientByIdService {
             return ResponseEntity.ok().build();
         }
 
-        throw new CustomException("Erro: Nenhum cliente cadastrado!");
+        throw new NoCustomersFoundException("Erro: Cliente não encontrado pelo id!");
 
 
     }

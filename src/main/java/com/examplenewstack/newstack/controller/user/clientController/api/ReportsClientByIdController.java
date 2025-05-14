@@ -1,28 +1,27 @@
 package com.examplenewstack.newstack.controller.user.clientController.api;
 
 
-import com.examplenewstack.newstack.entity.dto.clientdto.ClientDTO;
 import com.examplenewstack.newstack.exception.CustomException;
-import com.examplenewstack.newstack.service.user.client.ShowClientByIdService;
+import com.examplenewstack.newstack.service.user.client.ReportsClientByIdService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/clients")
-public class ShowClientByIdController {
+public class ReportsClientByIdController {
 
-    private final ShowClientByIdService showClientByIdService;
+    private final ReportsClientByIdService reportsClientByIdService;
 
 
-    public ShowClientByIdController(ShowClientByIdService showClientByIdService) {
-        this.showClientByIdService = showClientByIdService;
+    public ReportsClientByIdController(ReportsClientByIdService reportsClientByIdService) {
+        this.reportsClientByIdService = reportsClientByIdService;
     }
 
     @GetMapping("/reportsBy/{id}")
     public ResponseEntity<?> showClientById( @PathVariable Long id) {
 
         try {
-            return ResponseEntity.ok().body(showClientByIdService.showClientById(id));
+            return ResponseEntity.ok().body(reportsClientByIdService.showClientById(id));
         } catch (Exception e) {
             throw new CustomException("Erro: Nenhum cliente encontrado!");
         }

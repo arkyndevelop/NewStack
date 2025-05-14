@@ -32,11 +32,14 @@ public class UpdateEmployeeService {
             employee.setCPF(employeeDTO.getCPF());
             employee.setEmail(employeeDTO.getEmail());
             employee.setTelephone(employeeDTO.getTelephone());
-            employee.setPassword(employeeDTO.getPassword());
-
+            if(employeeDTO.getPassword().equals(employeeDTO.getConfirmPassword())) {
+                employee.setPassword(employeeDTO.getPassword());
+            } else {
+                return ResponseEntity.badRequest().build();
+            }
             Employee updateEmployee = employeeRepository.save(employee);
             return ResponseEntity.ok(updateEmployee);
         }
-        throw new CustomException("Erro: Funcionário não localizado!");
+        return ResponseEntity.badRequest().build();
     }
 }

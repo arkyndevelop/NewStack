@@ -14,18 +14,16 @@ public class ClientsRegisteredDataExceptions extends ResponseEntityExceptionHand
 
     @ExceptionHandler(RegisteredDataException.class)
     private ResponseEntity<RestErrorMessage> ClientRegisteredData(RegisteredDataException registeredException){
-        String RestErrorMessage = "Dados ja cadastrados";
-        if(registeredException.getMessage().contains("cpf")){
-            RestErrorMessage = "cpf ja cadastrado";
-        }
-        if(registeredException.getMessage().contains("email")){
-            RestErrorMessage = "email ja cadastrado";
-        }
-        if(registeredException.getMessage().contains("telefone")){
-            RestErrorMessage = "telefone ja cadastrado";
-        }
-          RestErrorMessage treatResponse = new RestErrorMessage(HttpStatus.CONFLICT , registeredException.getMessage());
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(treatResponse);
+        String RestErrorMessage = registeredException.getMessage();
+        String message= switch (RestErrorMessage){
+            case "cpf" -> "CPF ja cadastrado!";
+            case "email" -> "Email ja cadastrado!";
+            case "telephone" -> "Telefone ja cadastrado";
+            default -> "Dados ja cadastrados!";
+
+        };
+         return ResponseEntity.status(HttpStatus.CONFLICT)
+                 .body(new RestErrorMessage(HttpStatus.CONFLICT, message));
     }
 
 

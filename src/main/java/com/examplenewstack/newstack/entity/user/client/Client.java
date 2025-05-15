@@ -20,7 +20,6 @@ public class Client extends User {
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     private List<Loan> loans;
 
-    public Client() { super(); }
 
     public Client(Instant dateRegister) {
         super(dateRegister);
@@ -30,28 +29,8 @@ public class Client extends User {
         super(name, CPF, email, telephone, password);
     }
 
-    // Getters e Setters
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public List<Loan> getLoans() {
-        return loans;
-    }
-
-    public void setLoans(List<Loan> loans) {
-        this.loans = loans;
-    }
-
     @Override
     public User toUser() {
         return super.toUser();
     }
-
-
-
 }

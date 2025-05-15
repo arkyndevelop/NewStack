@@ -18,8 +18,9 @@ import java.util.List;
 @Table(name = "librarian")
 
 
-
 public class Employee extends User {
+    @Getter
+    @Setter
     private TypeEmployee typeEmployee;
     public Employee() { super(); }
 
@@ -33,14 +34,6 @@ public class Employee extends User {
 
     public Employee(String name, String CPF, String email, String telephone, String password) {
         super(name, CPF, email, telephone, password);
-    }
-
-    public TypeEmployee getTypeEmployee() {
-        return typeEmployee;
-    }
-
-    public void setTypeEmployee(TypeEmployee typeEmployee) {
-        this.typeEmployee = typeEmployee;
     }
 
     @Override

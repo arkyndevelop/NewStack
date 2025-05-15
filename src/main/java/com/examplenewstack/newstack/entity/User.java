@@ -1,16 +1,22 @@
 package com.examplenewstack.newstack.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
+@Getter
+@Setter
 @MappedSuperclass
+@AllArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false,length = 60)
@@ -31,8 +37,6 @@ public class User {
     @Column(nullable = false, updatable = false)
     private Instant dateRegister = Instant.now();
 
-
-
     public User() {} // Utilizado apenas em alguns casos
 
     public User(String name, String CPF, String email, String telephone, String password) {
@@ -47,61 +51,9 @@ public class User {
         this.dateRegister = dateRegister;
     }
 
-
     // Data é definida no momento da confirmação do cadastro
     @PrePersist
     private void onCreate() {
-
-    }
-
-    // Getters e Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCPF() {
-        return CPF;
-    }
-
-    public void setCPF(String CPF) {
-        this.CPF = CPF;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Instant getDateRegister() {
-        return dateRegister;
     }
 
     // Adicione um novo getter para a data formatada

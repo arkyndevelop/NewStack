@@ -2,7 +2,7 @@ package com.examplenewstack.newstack.service.user.employee;
 
 
 import com.examplenewstack.newstack.entity.employee.Employee;
-import com.examplenewstack.newstack.exceptions.client.CustomException;
+import com.examplenewstack.newstack.exceptions.employee.NoEmployeersFoundByIdException;
 import com.examplenewstack.newstack.repository.EmployeeRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -20,20 +20,16 @@ public class DeleteEmployeeByIdService {
         this.employeeRepository = employeeRepository;
     }
 
-
-
-    public ResponseEntity<Employee> deleteEmployeeById(@RequestParam Long id){
+    public ResponseEntity<Employee> deleteEmployeeById(@RequestParam Long id) {
 
         Optional<Employee> employee = employeeRepository.findById(id);
 
-        if(employee.isPresent()){
+        if (employee.isPresent()) {
             employeeRepository.deleteById(id);
             return ResponseEntity.ok().build();
         }
 
-        throw new CustomException("Erro: Nenhum empregado encontrado!");
-
-
+        throw new NoEmployeersFoundByIdException();
 
     }
 }

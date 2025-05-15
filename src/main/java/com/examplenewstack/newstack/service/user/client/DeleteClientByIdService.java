@@ -28,7 +28,6 @@ public class DeleteClientByIdService {
             return ResponseEntity.ok().build();
         }
 
-        throw new NoCustomersFoundException("Erro: Cliente não encontrado pelo id!");
 
 
     }

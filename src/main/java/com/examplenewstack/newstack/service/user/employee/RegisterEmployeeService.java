@@ -3,7 +3,7 @@ package com.examplenewstack.newstack.service.user.employee;
 
 import com.examplenewstack.newstack.dtos.employee.EmployeeDTO;
 import com.examplenewstack.newstack.entity.employee.Employee;
-import com.examplenewstack.newstack.exceptions.employee.EmployeeRegisteredDataException;
+import com.examplenewstack.newstack.exceptions.employee.EmployeersRegisteredDataException;
 import com.examplenewstack.newstack.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,15 +22,15 @@ private final EmployeeRepository employeeRepository;
             @RequestBody EmployeeDTO employeeDTO){
 
         if(employeeRepository.existsByCPF(employeeDTO.getCPF())){
-            throw new EmployeeRegisteredDataException("cpf");
+            throw new EmployeersRegisteredDataException("cpf");
         }
 
         if (employeeRepository.existsByEmail(employeeDTO.getEmail())) {
-            throw new EmployeeRegisteredDataException("email");
+            throw new EmployeersRegisteredDataException("email");
         }
 
         if(employeeRepository.existsByTelephone(employeeDTO.getTelephone())){
-            throw new EmployeeRegisteredDataException("telephone");
+            throw new EmployeersRegisteredDataException("telephone");
         }
 
         return employeeRepository.save(employeeDTO.toUser());

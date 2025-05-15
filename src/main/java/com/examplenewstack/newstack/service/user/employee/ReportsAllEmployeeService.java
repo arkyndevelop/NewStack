@@ -2,7 +2,7 @@ package com.examplenewstack.newstack.service.user.employee;
 
 
 import com.examplenewstack.newstack.entity.employee.Employee;
-import com.examplenewstack.newstack.exceptions.client.CustomException;
+import com.examplenewstack.newstack.exceptions.employee.NoEmployeersFoundException;
 import com.examplenewstack.newstack.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +17,12 @@ public class ReportsAllEmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public List<Employee> findAllEmployee(){
+    public List<Employee> findAllEmployee() {
 
         List<Employee> employeeList = employeeRepository.findAll();
 
-        if(employeeList.isEmpty()){
-            throw new CustomException("Erro: Nenhum empregado encontrado!");
+        if (employeeList.isEmpty()) {
+            throw new NoEmployeersFoundException();
 
         }
         return employeeRepository.findAll();

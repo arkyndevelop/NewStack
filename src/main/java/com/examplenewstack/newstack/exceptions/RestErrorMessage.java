@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.exceptions.client.infra;
+package com.examplenewstack.newstack.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +8,8 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ClientErrorMessage {
+public class RestErrorMessage {
+
     private HttpStatus status;
     private String message;
 }

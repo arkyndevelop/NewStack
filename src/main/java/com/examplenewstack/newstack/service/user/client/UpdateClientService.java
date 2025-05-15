@@ -3,8 +3,7 @@ package com.examplenewstack.newstack.service.user.client;
 
 import com.examplenewstack.newstack.dtos.client.ClientDTO;
 import com.examplenewstack.newstack.entity.user.client.Client;
-import com.examplenewstack.newstack.exceptions.client.NoCustomersPasswordConfirmException;
-import com.examplenewstack.newstack.exceptions.client.NoCustomersFoundException;
+import com.examplenewstack.newstack.exceptions.client.CustomersSamePasswordException;
 import com.examplenewstack.newstack.exceptions.employee.NoEmployeersFoundByIdException;
 import com.examplenewstack.newstack.repository.ClientRepository;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +38,7 @@ public class UpdateClientService {
 
                 
             } else {
-                throw  new NoCustomersPasswordConfirmException();
+                throw  new CustomersSamePasswordException();
             }
 
             Client updateClients = clientRepository.save(client);

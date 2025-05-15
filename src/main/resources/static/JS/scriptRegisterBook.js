@@ -59,7 +59,7 @@ document.getElementById('RegisterLivro_Form').addEventListener('submit', async f
         // Exibe uma mensagem de sucesso e redireciona o usuário.
         alert('Livro cadastrado com sucesso!');
         limpaFormular();
-        window.location.href = 'admMaster.html'; // Redireciona para a página admMaster.html.
+        window.location.href = 'registerBook.html'; // Redireciona para a página registerBook
     } catch (error) {
         // Exibe o alerta de erro
         document.getElementById('mensagemErro').textContent = error.message;

@@ -2,7 +2,7 @@ package com.examplenewstack.newstack.entity.loan;
 
 import com.examplenewstack.newstack.entity.employee.Employee;
 import com.examplenewstack.newstack.entity.librarie.lore.Lore;
-import com.examplenewstack.newstack.entity.usersinfo.client.Client;
+import com.examplenewstack.newstack.entity.user.client.Client;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

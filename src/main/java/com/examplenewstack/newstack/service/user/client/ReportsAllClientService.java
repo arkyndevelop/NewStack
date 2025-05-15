@@ -1,9 +1,8 @@
 package com.examplenewstack.newstack.service.user.client;
 
 
-import com.examplenewstack.newstack.entity.usersinfo.client.Client;
-import com.examplenewstack.newstack.exception.ClientsException.CustomException;
-import com.examplenewstack.newstack.exception.ClientsException.NoCustomersFoundException;
+import com.examplenewstack.newstack.entity.user.client.Client;
+import com.examplenewstack.newstack.exceptions.client.NoCustomersFoundException;
 import com.examplenewstack.newstack.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 

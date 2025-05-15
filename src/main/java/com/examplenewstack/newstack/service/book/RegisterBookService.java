@@ -1,8 +1,8 @@
 package com.examplenewstack.newstack.service.book;
 
-import com.examplenewstack.newstack.entity.dto.bookdto.BookDTO;
+import com.examplenewstack.newstack.dtos.book.BookDTO;
 import com.examplenewstack.newstack.entity.librarie.book.Book;
-import com.examplenewstack.newstack.exception.ClientsException.CustomException;
+import com.examplenewstack.newstack.exceptions.client.CustomException;
 import com.examplenewstack.newstack.repository.BookRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;

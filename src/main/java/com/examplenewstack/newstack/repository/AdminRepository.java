@@ -1,6 +1,6 @@
 package com.examplenewstack.newstack.repository;
 
-import com.examplenewstack.newstack.entity.usersinfo.adminMaster.AdminMaster;
+import com.examplenewstack.newstack.entity.user.admin.AdminMaster;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

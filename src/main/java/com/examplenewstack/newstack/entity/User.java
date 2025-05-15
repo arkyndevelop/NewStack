@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 @MappedSuperclass
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false,length = 60)
@@ -22,7 +22,7 @@ public class User {
     @Column(nullable = false,unique = true)
     private String email;
 
-    @Column(nullable = true,length = 18)
+    @Column(nullable = true,length = 18, unique = true)
     private String telephone;
 
     @Column(nullable = false,length = 85)

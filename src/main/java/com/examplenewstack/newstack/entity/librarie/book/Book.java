@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

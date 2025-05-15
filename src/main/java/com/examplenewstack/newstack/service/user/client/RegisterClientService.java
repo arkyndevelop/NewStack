@@ -3,7 +3,7 @@ package com.examplenewstack.newstack.service.user.client;
 
 import com.examplenewstack.newstack.dtos.client.ClientDTO;
 import com.examplenewstack.newstack.entity.user.client.Client;
-import com.examplenewstack.newstack.exceptions.client.ClientsRegisteredDataException;
+import com.examplenewstack.newstack.exceptions.client.CustomersRegisteredDataException;
 import com.examplenewstack.newstack.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,15 +23,15 @@ public class RegisterClientService {
 
 
         if(clientRepository.existsByCPF(clientDTO.getCPF())){
-            throw  new ClientsRegisteredDataException("cpf");
+            throw  new CustomersRegisteredDataException("cpf");
         }
 
         if (clientRepository.existsByEmail(clientDTO.getEmail())) {
-            throw new ClientsRegisteredDataException("email");
+            throw new CustomersRegisteredDataException("email");
         }
 
         if (clientRepository.existsByTelephone(clientDTO.getTelephone())) {
-            throw new ClientsRegisteredDataException("telephone");
+            throw new CustomersRegisteredDataException("telephone");
         }
 
         return clientRepository.save(clientDTO.toUser());

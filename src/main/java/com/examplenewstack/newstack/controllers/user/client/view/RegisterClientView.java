@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.controllers.user.client;
+package com.examplenewstack.newstack.controllers.user.client.view;
 
 
 import org.springframework.stereotype.Controller;

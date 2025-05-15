@@ -1,7 +1,6 @@
-package com.examplenewstack.newstack.controllers.user.employee;
+package com.examplenewstack.newstack.controllers.user.employee.api;
 
 import com.examplenewstack.newstack.dtos.employee.EmployeeDTO;
-import com.examplenewstack.newstack.exceptions.client.CustomException;
 import com.examplenewstack.newstack.service.user.employee.UpdateEmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +19,10 @@ public class UpdateEmployeeController {
             @RequestBody EmployeeDTO employeeDTO,
             @RequestParam Long id
     ){
-        try {
+
             updateEmployeeService.updateEmployee(employeeDTO, id);
             return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            throw new CustomException("Erro: Dados inválidos!");
-        }
+
+
     }
 }

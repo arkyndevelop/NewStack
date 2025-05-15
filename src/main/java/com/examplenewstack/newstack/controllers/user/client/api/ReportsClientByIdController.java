@@ -17,11 +17,10 @@ public class ReportsClientByIdController {
     }
 
     @GetMapping("/reportsBy/{id}")
-    public ResponseEntity<?> showClientById( @PathVariable Long id) {
+    public ResponseEntity<?> showClientById(@PathVariable Long id) {
 
 
-            return ResponseEntity.ok().body(reportsClientByIdService.showClientById(id));
-
+        return ResponseEntity.ok().body(reportsClientByIdService.showClientById(id));
 
 
     }

@@ -2,6 +2,7 @@ package com.examplenewstack.newstack.service.user.client;
 
 import com.examplenewstack.newstack.entity.user.client.Client;
 import com.examplenewstack.newstack.exceptions.client.NoCustomersFoundException;
+import com.examplenewstack.newstack.exceptions.employee.NoEmployeersFoundByIdException;
 import com.examplenewstack.newstack.repository.ClientRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class DeleteClientByIdService {
             return ResponseEntity.ok().build();
         }
 
-        throw new NoCustomersFoundException("Erro: Cliente não encontrado pelo id!");
+        throw  new NoEmployeersFoundByIdException();
 
 
     }

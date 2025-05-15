@@ -1,7 +1,6 @@
-    package com.examplenewstack.newstack.controllers.user.employee;
+    package com.examplenewstack.newstack.controllers.user.employee.api;
 
 
-    import com.examplenewstack.newstack.exceptions.client.CustomException;
     import com.examplenewstack.newstack.service.user.employee.DeleteEmployeeByIdService;
     import org.springframework.http.ResponseEntity;
     import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,17 +19,15 @@
         @DeleteMapping("/deleteEmployee/{id}")
 
         public ResponseEntity<?> deleteByCPF( @PathVariable Long id) {
-            try {
+
 
 
                 employeeService.deleteEmployeeById(id);
 
                 return ResponseEntity.ok().build();
 
-            } catch (Exception e){
 
-            throw new CustomException("Erro: Nenhum Empregado cadastrado!");
 
-            }
+
         }
         }

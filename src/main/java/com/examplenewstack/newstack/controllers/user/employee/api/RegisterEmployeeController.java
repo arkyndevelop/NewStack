@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.controllers.user.employee;
+package com.examplenewstack.newstack.controllers.user.employee.api;
 
 import com.examplenewstack.newstack.dtos.employee.EmployeeDTO;
 import com.examplenewstack.newstack.entity.employee.Employee;

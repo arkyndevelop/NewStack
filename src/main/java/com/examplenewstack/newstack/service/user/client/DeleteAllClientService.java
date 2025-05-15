@@ -28,14 +28,7 @@ public class DeleteAllClientService {
                 throw new NoCustomersFoundException("Erro: Nenhum cliente cadastrado!");
             }
 
-
             clientRepository.deleteAll();
-            ResponseEntity.ok().build();
-
-
-
-            ResponseEntity.badRequest().build();
-
 
 
     }

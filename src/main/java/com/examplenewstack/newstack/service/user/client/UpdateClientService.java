@@ -3,7 +3,9 @@ package com.examplenewstack.newstack.service.user.client;
 
 import com.examplenewstack.newstack.dtos.client.ClientDTO;
 import com.examplenewstack.newstack.entity.user.client.Client;
+import com.examplenewstack.newstack.exceptions.client.NoCustomersPasswordConfirmException;
 import com.examplenewstack.newstack.exceptions.client.NoCustomersFoundException;
+import com.examplenewstack.newstack.exceptions.employee.NoEmployeersFoundByIdException;
 import com.examplenewstack.newstack.repository.ClientRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -34,13 +36,18 @@ public class UpdateClientService {
             client.setTelephone(clientDTO.getTelephone());
             if (Objects.equals(clientDTO.getPassword(), clientDTO.getConfirmPassword())) {
                 client.setPassword(clientDTO.getPassword());
+
                 
+            } else {
+                throw  new NoCustomersPasswordConfirmException();
             }
 
             Client updateClients = clientRepository.save(client);
             return ResponseEntity.ok(updateClients);
 
+        } else {
+            throw  new NoEmployeersFoundByIdException();
         }
-        throw new NoCustomersFoundException("Erro: cliente não cadastrado por esse id!");
+
     }
 }

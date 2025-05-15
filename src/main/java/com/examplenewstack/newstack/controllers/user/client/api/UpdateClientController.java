@@ -22,8 +22,8 @@ public class UpdateClientController {
             @PathVariable Long id
     ) {
 
-           updateClientService.updateClient(clientDTO, id);
-            return ResponseEntity.ok().build();
+        updateClientService.updateClient(clientDTO, id);
+        return ResponseEntity.ok().build();
 
     }
 }

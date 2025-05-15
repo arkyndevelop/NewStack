@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.controllers.user.client;
+package com.examplenewstack.newstack.controllers.user.client.view;
 
 
 import com.examplenewstack.newstack.entity.user.client.Client;

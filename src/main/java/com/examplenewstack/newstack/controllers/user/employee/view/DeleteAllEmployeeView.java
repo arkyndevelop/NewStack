@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.controllers.user.client;
+package com.examplenewstack.newstack.controllers.user.employee.view;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/clients")
-public class DeleteAllClientView {
+@RequestMapping("/employee")
+public class DeleteAllEmployeeView {
 
     @DeleteMapping("/delete")
-    public ModelAndView deleteAll(){
-        ModelAndView modelAndView = new ModelAndView("reportClient");
+    public ModelAndView deleteAllEmployee(){
+        ModelAndView modelAndView = new ModelAndView("reports");
         return modelAndView;
     }
 }

@@ -1,6 +1,6 @@
 package com.examplenewstack.newstack.service.user.employee;
 
-import com.examplenewstack.newstack.entity.dto.employeedto.EmployeeDTO;
+import com.examplenewstack.newstack.dtos.employee.EmployeeDTO;
 import com.examplenewstack.newstack.entity.employee.Employee;
 import com.examplenewstack.newstack.repository.EmployeeRepository;
 import org.springframework.http.ResponseEntity;

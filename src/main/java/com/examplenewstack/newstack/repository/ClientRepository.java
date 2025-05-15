@@ -1,6 +1,6 @@
 package com.examplenewstack.newstack.repository;
 
-import com.examplenewstack.newstack.entity.usersinfo.client.Client;
+import com.examplenewstack.newstack.entity.user.client.Client;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

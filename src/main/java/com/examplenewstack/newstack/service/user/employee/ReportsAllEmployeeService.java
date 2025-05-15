@@ -2,7 +2,7 @@ package com.examplenewstack.newstack.service.user.employee;
 
 
 import com.examplenewstack.newstack.entity.employee.Employee;
-import com.examplenewstack.newstack.exception.ClientsException.CustomException;
+import com.examplenewstack.newstack.exceptions.client.CustomException;
 import com.examplenewstack.newstack.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 

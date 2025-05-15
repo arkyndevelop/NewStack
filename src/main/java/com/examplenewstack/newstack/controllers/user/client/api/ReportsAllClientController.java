@@ -1,0 +1,29 @@
+package com.examplenewstack.newstack.controllers.user.client.api;
+
+import com.examplenewstack.newstack.service.user.client.ReportsAllClientService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/clients")
+public class ReportsAllClientController {
+
+    private final ReportsAllClientService reportsAllClientService;
+
+    public ReportsAllClientController(ReportsAllClientService reportsAllClientService) {
+        this.reportsAllClientService = reportsAllClientService;
+    }
+
+    @GetMapping("/reports/all")
+    public ResponseEntity<?> showAllClients(){
+
+            return ResponseEntity.ok().body(reportsAllClientService.findAllClients());
+
+
+
+
+
+    }
+}

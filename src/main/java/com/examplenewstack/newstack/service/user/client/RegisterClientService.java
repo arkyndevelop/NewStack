@@ -1,9 +1,9 @@
 package com.examplenewstack.newstack.service.user.client;
 
 
-import com.examplenewstack.newstack.entity.dto.clientdto.ClientDTO;
-import com.examplenewstack.newstack.entity.usersinfo.client.Client;
-import com.examplenewstack.newstack.exception.ClientsException.ClientsRegisteredDataException;
+import com.examplenewstack.newstack.dtos.client.ClientDTO;
+import com.examplenewstack.newstack.entity.user.client.Client;
+import com.examplenewstack.newstack.exceptions.client.ClientsRegisteredDataException;
 import com.examplenewstack.newstack.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;

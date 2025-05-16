@@ -10,6 +10,6 @@ public class BookViewController {
 
     @GetMapping("/register")
     public ModelAndView registerScreenBook(){
-        return new ModelAndView("admMaster");
+        return new ModelAndView("registerBook");
     }
 }

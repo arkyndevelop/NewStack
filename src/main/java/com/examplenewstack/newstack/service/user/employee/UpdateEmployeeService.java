@@ -3,7 +3,7 @@ package com.examplenewstack.newstack.service.user.employee;
 import com.examplenewstack.newstack.dtos.employee.EmployeeDTO;
 import com.examplenewstack.newstack.entity.employee.Employee;
 import com.examplenewstack.newstack.exceptions.employee.NoEmployeersFoundByIdException;
-import com.examplenewstack.newstack.exceptions.employee.NoEmployeePasswordConfirmException;
+import com.examplenewstack.newstack.exceptions.employee.EmployeersSamePasswordException;
 import com.examplenewstack.newstack.repository.EmployeeRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class UpdateEmployeeService {
             if (employeeDTO.getPassword().equals(employeeDTO.getConfirmPassword())) {
                 employee.setPassword(employeeDTO.getPassword());
             } else {
-                throw new NoEmployeePasswordConfirmException();
+                throw new EmployeersSamePasswordException();
             }
             Employee updateEmployee = employeeRepository.save(employee);
             return ResponseEntity.ok(updateEmployee);

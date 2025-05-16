@@ -2,6 +2,7 @@ package com.examplenewstack.newstack.controllers.user.client.api;
 
 
 import com.examplenewstack.newstack.service.user.client.DeleteAllClientService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

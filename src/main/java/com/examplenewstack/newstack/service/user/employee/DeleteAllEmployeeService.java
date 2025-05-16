@@ -4,6 +4,7 @@ package com.examplenewstack.newstack.service.user.employee;
 import com.examplenewstack.newstack.entity.employee.Employee;
 import com.examplenewstack.newstack.exceptions.employee.NoEmployeersFoundException;
 import com.examplenewstack.newstack.repository.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @Service
 public class DeleteAllEmployeeService {
 
+    @Autowired
     private final EmployeeRepository employeeRepository;
 
 

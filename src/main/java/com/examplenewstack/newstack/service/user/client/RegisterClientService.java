@@ -5,12 +5,14 @@ import com.examplenewstack.newstack.dtos.client.ClientDTO;
 import com.examplenewstack.newstack.entity.user.client.Client;
 import com.examplenewstack.newstack.exceptions.client.CustomersRegisteredDataException;
 import com.examplenewstack.newstack.repository.ClientRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class RegisterClientService {
 
+    @Autowired
     private final ClientRepository clientRepository;
 
 

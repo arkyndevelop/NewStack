@@ -4,6 +4,7 @@ import com.examplenewstack.newstack.dtos.UserDTO;
 import com.examplenewstack.newstack.entity.user.client.Client;
 
 public class ClientDTO extends UserDTO {
+
     public ClientDTO() { super();}
 
     public ClientDTO(String name, String cpf, String email, String telephone, String password, String confirmPassword) {

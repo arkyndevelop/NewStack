@@ -65,5 +65,4 @@ public class Lore {
     @OneToMany(mappedBy = "lore",fetch = FetchType.LAZY)
     private List<Loan> loans;
 
-
 }

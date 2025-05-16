@@ -5,13 +5,15 @@ import com.examplenewstack.newstack.dtos.employee.EmployeeDTO;
 import com.examplenewstack.newstack.entity.employee.Employee;
 import com.examplenewstack.newstack.exceptions.employee.EmployeersRegisteredDataException;
 import com.examplenewstack.newstack.repository.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class RegisterEmployeeService {
 
-private final EmployeeRepository employeeRepository;
+    @Autowired
+    private final EmployeeRepository employeeRepository;
 
 
     public RegisterEmployeeService(EmployeeRepository employeeRepository) {

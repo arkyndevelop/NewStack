@@ -5,6 +5,7 @@ import com.examplenewstack.newstack.entity.employee.Employee;
 import com.examplenewstack.newstack.exceptions.employee.NoEmployeersFoundByIdException;
 import com.examplenewstack.newstack.exceptions.employee.EmployeersSamePasswordException;
 import com.examplenewstack.newstack.repository.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,7 @@ import java.util.Optional;
 @Service
 public class UpdateEmployeeService {
 
+    @Autowired
     private final EmployeeRepository employeeRepository;
 
     public UpdateEmployeeService(EmployeeRepository employeeRepository) {

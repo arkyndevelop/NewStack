@@ -16,8 +16,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "librarian")
-
-
 public class Employee extends User {
     @Getter
     @Setter

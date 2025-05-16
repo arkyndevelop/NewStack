@@ -1,9 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewStack</title>
+    <link rel="stylesheet" href="/src/main/resources/static/CSS/navBar.css">
 </head>
+<header>
+    <nav class="navbar">
+    <div class="navbar-container">
+        <a href="#" class="navbar-logo">New<span>Stack</span></a>
+
+        <ul class="navbar-links">
+            <li><a href="#">Início</a></li>
+
+            <li class="dropdown">
+                <a href="#">Livros <span class="dropdown-icon">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="#">Todos os Livros</a>
+                    <a href="#">Lançamentos</a>
+                    <!-- <a href="#">Mais Populares</a> -->
+                    
+                </div>
+            </li>
+
+            <li class="dropdown">
+                <a href="#">Categorias <span class="dropdown-icon">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="#">Ação</a>
+                    <a href="#">Aventura</a>
+                    <a href="#">Drama</a>
+                    <a href="#">Fantasia</a>
+                    <a href="#">Romance</a>
+                    <a href="#">Suspense</a>
+                    <a href="#">Terror</a>
+                </div>
+            </li>
+            <li><a href="#">Sobre</a></li>
+
+            <li>
+                <div class="search-bar">
+                    <input type="text" placeholder="Pesquisar livros...">
+                    <span class="search-icon">🔍</span>
+                </div>
+            </li>
+
+            <li>
+                <button class="login-btn" a onclick="window.location.href = '/v1/login'">Login</button>
+            </li>
+            <li>
+                <button class="register-btn" onclick="window.location.href = '/v1/register'">Cadastrar</button>
+            </li>
+        </ul>
+
+        <button class="mobile-menu-btn">☰</button>
+    </div>
+</nav>
+</header>
+
 <body>
 
 </body>

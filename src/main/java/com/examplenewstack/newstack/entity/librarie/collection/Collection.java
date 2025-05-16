@@ -37,5 +37,4 @@ public class Collection {
     @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Lore> lores;
 
-
 }

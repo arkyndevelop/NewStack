@@ -12,7 +12,7 @@ public class BookByIDNotFound {
 
     @ExceptionHandler(NoBooksFoundByIdException.class)
     private ResponseEntity<RestErrorMessage> bookByIdNotFound(
-            NoBooksFoundByIdException noBooksFoundByIdException// aqui ta por ID nao pera, ce foi no erradp krai
+            NoBooksFoundByIdException noBooksFoundByIdException
     ){
         RestErrorMessage treatResponse = new RestErrorMessage(HttpStatus.NOT_FOUND, noBooksFoundByIdException.getMessage());
         return ResponseEntity

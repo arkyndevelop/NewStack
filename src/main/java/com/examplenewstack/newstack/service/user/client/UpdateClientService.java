@@ -38,7 +38,7 @@ public class UpdateClientService {
             if (Objects.equals(clientDTO.getPassword(), clientDTO.getConfirmPassword())) {
                 client.setPassword(clientDTO.getPassword());
 
-                
+
             } else {
                 throw  new CustomersSamePasswordException();
             }
@@ -52,3 +52,4 @@ public class UpdateClientService {
 
     }
 }
+

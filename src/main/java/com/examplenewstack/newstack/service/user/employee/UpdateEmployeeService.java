@@ -23,28 +23,25 @@ public class UpdateEmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public ResponseEntity<Employee> updateEmployee(
-            @RequestBody EmployeeDTO employeeDTO,
-            @RequestParam Long id
-    ) {
+    public ResponseEntity<Employee> updateEmployee(@RequestBody EmployeeDTO employeeDTO, @RequestParam Long id) {
         Optional<Employee> employeeExisting = employeeRepository.findById(id);
-        if (employeeExisting.isPresent()) {
-            Employee employee = employeeRepository.getReferenceById(id);
-
-            employee.setName(employeeDTO.getName());
-            employee.setCPF(employeeDTO.getCPF());
-            employee.setEmail(employeeDTO.getEmail());
-            employee.setTelephone(employeeDTO.getTelephone());
-            if (employeeDTO.getPassword().equals(employeeDTO.getConfirmPassword())) {
-                employee.setPassword(employeeDTO.getPassword());
-            } else {
-                throw new EmployeersSamePasswordException();
-            }
-            Employee updateEmployee = employeeRepository.save(employee);
-            return ResponseEntity.ok(updateEmployee);
-        } else {
+        if (employeeExisting.isEmpty()) {
             throw new NoEmployeersFoundByIdException();
         }
+        Employee employee = employeeRepository.getReferenceById(id);
 
+        employee.setName(employeeDTO.getName());
+        employee.setCPF(employeeDTO.getCPF());
+        employee.setEmail(employeeDTO.getEmail());
+        employee.setTelephone(employeeDTO.getTelephone());
+        if (employeeDTO.getPassword().equals(employeeDTO.getConfirmPassword())) {
+            throw new EmployeersSamePasswordException();
+        }
+        employee.setPassword(employeeDTO.getPassword());
+
+        Employee updateEmployee = employeeRepository.save(employee);
+        return ResponseEntity.ok(updateEmployee);
     }
 }
+
+

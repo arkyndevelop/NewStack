@@ -1,7 +1,7 @@
-package com.examplenewstack.newstack.entity.librarie.collection;
+package com.examplenewstack.newstack.entity.collection;
 
 
-import com.examplenewstack.newstack.entity.librarie.lore.Lore;
+import com.examplenewstack.newstack.entity.lore.Lore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

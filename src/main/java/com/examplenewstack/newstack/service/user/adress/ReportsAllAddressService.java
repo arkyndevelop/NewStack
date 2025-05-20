@@ -25,7 +25,7 @@ public class ReportsAllAddressService {
 
 
 
-    public List<Address> reportsAllAddress(@RequestBody AddressDTO addressDTO){
+    public List<Address> reportsAllAddress(){
 
         List<Address> Adresslist = addressRepository.findAll();
 

@@ -1,14 +1,11 @@
 package com.examplenewstack.newstack.entity.employee;
 
 import com.examplenewstack.newstack.entity.User;
-import com.examplenewstack.newstack.entity.enums.TypeEmployee;
-import com.examplenewstack.newstack.entity.librarie.lore.Lore;
+import com.examplenewstack.newstack.enums.TypeEmployee;
+import com.examplenewstack.newstack.entity.lore.Lore;
 import com.examplenewstack.newstack.entity.loan.Loan;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;

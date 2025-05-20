@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.entity.enums;
+package com.examplenewstack.newstack.enums;
 
 public enum TypeEmployee {
     LIBRARIAN, LIBRARY_ASSISTANT, RECEPTIONIST

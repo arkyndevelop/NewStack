@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.controllers.user.client.view;
+package com.examplenewstack.newstack.controllers.book.view;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,12 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/clients")
-public class DeleteAllClientView {
+@RequestMapping("/books")
+public class DeleteAllBookView {
 
     @GetMapping("/delete/all")
-    public ModelAndView deleteAll(){
-
-        return new ModelAndView("reportClient");
+    public ModelAndView delete(){
+        return new ModelAndView("");
     }
 }

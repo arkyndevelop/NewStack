@@ -1,8 +1,8 @@
-package com.examplenewstack.newstack.entity.librarie.lore;
+package com.examplenewstack.newstack.entity.lore;
 
 import com.examplenewstack.newstack.entity.employee.Employee;
-import com.examplenewstack.newstack.entity.librarie.book.Book;
-import com.examplenewstack.newstack.entity.librarie.collection.Collection;
+import com.examplenewstack.newstack.entity.book.Book;
+import com.examplenewstack.newstack.entity.collection.Collection;
 import com.examplenewstack.newstack.entity.loan.Loan;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

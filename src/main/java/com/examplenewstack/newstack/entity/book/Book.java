@@ -1,5 +1,6 @@
-package com.examplenewstack.newstack.entity.librarie.book;
+package com.examplenewstack.newstack.entity.book;
 
+import com.examplenewstack.newstack.entity.user.client.Client;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,14 +11,15 @@ import lombok.Setter;
 import java.time.Instant;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "book")
+
 
 //Getters and Setters, Constructor and NoArgsConstructor
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "book")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,6 +28,9 @@ public class Book {
     @Column(nullable = false,length = 255)
     private String title;
 
+    @Column(nullable = false, length = 17)
+    private String ISBN;
+
     @Column(nullable = false,length = 100)
     private String category;
 
@@ -33,7 +38,7 @@ public class Book {
     private String year_publication;
 
     @Column(nullable = false)
-    private Boolean disponibility;
+    private boolean disponibility;
 
     @Column(nullable = false)
     private int total_quantity;

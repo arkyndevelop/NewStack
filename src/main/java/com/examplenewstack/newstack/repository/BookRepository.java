@@ -1,12 +1,18 @@
 package com.examplenewstack.newstack.repository;
 
-import com.examplenewstack.newstack.entity.librarie.book.Book;
+import com.examplenewstack.newstack.entity.book.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book , Long> {
 
 
     boolean existsByTitle(String title);
+
+    Optional<Book> findByISBN(String isbn);
+
+    boolean existsByISBN(String isbn);
 }

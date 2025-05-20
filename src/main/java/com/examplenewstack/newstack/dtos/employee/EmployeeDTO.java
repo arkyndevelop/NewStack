@@ -2,7 +2,7 @@ package com.examplenewstack.newstack.dtos.employee;
 
 import com.examplenewstack.newstack.dtos.UserDTO;
 import com.examplenewstack.newstack.entity.employee.Employee;
-import com.examplenewstack.newstack.entity.enums.TypeEmployee;
+import com.examplenewstack.newstack.enums.TypeEmployee;
 
 public class EmployeeDTO extends UserDTO {
     private TypeEmployee typeEmployee;

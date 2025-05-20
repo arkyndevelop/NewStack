@@ -35,7 +35,7 @@ document.getElementById('RegisterLivro_Form').addEventListener('submit', async f
         dataPublicacao: document.getElementById('dataPublicacao').value,
         quantExemplares: document.getElementById('quantExemplares').value,
         dataCadastro: dataCadastroAtual, // Adiciona a data de cadastro
-        /*imgLivro: document.getElementById('imgLivro').value,*/
+        imgLivro: document.getElementById('imgLivro').value,
         disponibilidade: disponibilidadeValue === 'Sim', // Converte 'sim' para true e qualquer outra coisa para false
     };
 

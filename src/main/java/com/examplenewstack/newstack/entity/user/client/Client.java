@@ -20,6 +20,7 @@ public class Client extends User {
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     private List<Loan> loans;
 
+    public Client() {}
 
     public Client(Instant dateRegister) {
         super(dateRegister);

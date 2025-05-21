@@ -1,7 +1,7 @@
 package com.examplenewstack.newstack.entity.collection;
 
 
-import com.examplenewstack.newstack.entity.lore.Lore;
+import com.examplenewstack.newstack.entity.book.Book;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,8 +33,9 @@ public class Collection {
     @Column(nullable = false)
     private String location;
 
-    // Relacionamento com Lore
-    @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Lore> lores;
+    // Relacionamento com book
+    @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Book> books;
+
 
 }

@@ -1,7 +1,7 @@
 package com.examplenewstack.newstack.entity.loan;
 
+import com.examplenewstack.newstack.entity.book.Book;
 import com.examplenewstack.newstack.entity.employee.Employee;
-import com.examplenewstack.newstack.entity.lore.Lore;
 import com.examplenewstack.newstack.entity.user.client.Client;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -46,8 +46,8 @@ public class Loan {
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
-    //Relacionamento com a tabela lore 1:n
+    //Relacionamento com a tabela book 1:n
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "lore_id", nullable = false)
-    private Lore lore;
+    @JoinColumn(name = "book_id", nullable = false)
+    private Book book;
 }

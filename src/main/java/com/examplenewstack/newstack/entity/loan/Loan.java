@@ -3,6 +3,7 @@ package com.examplenewstack.newstack.entity.loan;
 import com.examplenewstack.newstack.entity.book.Book;
 import com.examplenewstack.newstack.entity.employee.Employee;
 import com.examplenewstack.newstack.entity.user.client.Client;
+import com.examplenewstack.newstack.enums.StatusLoan;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +20,6 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +35,7 @@ public class Loan {
     private LocalDateTime actualReturnDate;
 
     @Column(nullable = false)
-    private String status;
+    private StatusLoan status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = false)

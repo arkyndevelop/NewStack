@@ -44,7 +44,7 @@ public class Book {
 
     // Apenas um campo booleano para indicar se está disponível
     @Column(nullable = false)
-    private Boolean availability;
+    private boolean availability;
 
     // Quantidade total de exemplares
     @Column(nullable = false)

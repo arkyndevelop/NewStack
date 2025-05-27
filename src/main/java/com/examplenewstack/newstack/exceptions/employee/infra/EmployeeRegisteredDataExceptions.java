@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 @ControllerAdvice
 public class EmployeeRegisteredDataExceptions {
 
-    private ResponseEntity<EmployeeErrorMessage> EmployeeRegisteredData(EmployeeRegisteredDataException employeeRegisteredDataException){
+    private ResponseEntity<RestErrorMessage> EmployeeRegisteredData(EmployeeRegisteredDataException employeeRegisteredDataException){
         String EmployeeErrorMessage = employeeRegisteredDataException.getMessage();
         String message = switch (EmployeeErrorMessage){
             case "cpf" -> "CPF ja cadastrado!";
@@ -19,7 +19,7 @@ public class EmployeeRegisteredDataExceptions {
 
         };
 
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(new EmployeeErrorMessage(HttpStatus.CONFLICT, message));
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new RestErrorMessage(HttpStatus.CONFLICT, message));
 
 
 

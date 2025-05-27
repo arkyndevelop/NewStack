@@ -27,7 +27,7 @@ public class UpdateBookService {
         bookExists.setISBN(bookDTO.getISBN());
         bookExists.setCategory(bookDTO.getCategory());
         bookExists.setYear_publication(bookDTO.getYear_publication());
-        bookExists.setDisponibility(bookDTO.toBook().isDisponibility()); // Verificar sobre a disponilidade!
+        bookExists.setAvailability(bookDTO.isDisponibility()); // Verificar sobre a disponilidade!
         bookExists.setDisponibility_quantity(bookDTO.getDisponibility_quantity());
         bookExists.setISBN(bookDTO.getISBN());
 

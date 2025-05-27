@@ -45,7 +45,7 @@ public class BookDTO {
         book.setTitle(this.getTitle());
         book.setCategory(getCategory());
         book.setYear_publication(getYear_publication());
-        book.setDisponibility(isDisponibility());
+        book.setAvailability(isDisponibility());
         book.setTotal_quantity(getTotal_quantity());
         book.setDisponibility_quantity(getDisponibility_quantity());
         book.setISBN(getISBN());

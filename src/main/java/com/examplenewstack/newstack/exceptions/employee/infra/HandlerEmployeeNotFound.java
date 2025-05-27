@@ -16,5 +16,4 @@ public class HandlerEmployeeNotFound {
         RestErrorMessage treatResponseEmployee = new RestErrorMessage(HttpStatus.NOT_FOUND, noEmployeersFoundException.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(treatResponseEmployee);
     }
-
 }

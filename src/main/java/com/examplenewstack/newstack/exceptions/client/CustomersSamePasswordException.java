@@ -1,7 +1,0 @@
-package com.examplenewstack.newstack.exceptions.client;
-
-public class CustomersSamePasswordException extends RuntimeException{
-
-    public CustomersSamePasswordException(){super("Erro: senhas não são iguais!");}
-    public CustomersSamePasswordException(String message){super(message);}
-}

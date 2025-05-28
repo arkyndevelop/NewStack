@@ -13,22 +13,20 @@ import java.util.Optional;
 @Service
 public class ReportsClientByIdService {
 
-    @Autowired
     private final ClientRepository clientRepository;
 
     public ReportsClientByIdService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
-
-    public Optional<Client> showClientById(@PathVariable Long id) {
-
+    public Optional<Client> showClientById(
+            Long id
+    ){
         Optional<Client> clientList = clientRepository.findById(id);
 
         if (clientList.isEmpty()) {
             throw  new NoEmployeersFoundByIdException();
         }
         return clientRepository.findById(id);
-
     }
 }

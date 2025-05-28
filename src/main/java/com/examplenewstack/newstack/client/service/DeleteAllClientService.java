@@ -12,7 +12,6 @@ import java.util.List;
 @Service
 public class DeleteAllClientService {
 
-    @Autowired
     private final ClientRepository clientRepository;
 
     public DeleteAllClientService(ClientRepository clientRepository) {
@@ -22,17 +21,10 @@ public class DeleteAllClientService {
     public void deleteAllClients() {
 
         List<Client> existingClients = this.clientRepository.findAll();
+        if (existingClients.isEmpty()) {
 
-
-            if (existingClients.isEmpty()) {
-
-                throw new NoCustomersFoundException("Erro: Nenhum cliente cadastrado!");
-            }
-
-            clientRepository.deleteAll();
-
-
+            throw new NoCustomersFoundException("Erro: Nenhum cliente cadastrado!");
+        }
+        clientRepository.deleteAll();
     }
-
-
 }

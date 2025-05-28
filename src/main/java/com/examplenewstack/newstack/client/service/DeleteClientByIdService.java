@@ -13,24 +13,21 @@ import java.util.Optional;
 @Service
 public class DeleteClientByIdService {
 
-    @Autowired
     private final ClientRepository clientRepository;
-
 
     public DeleteClientByIdService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
-    public ResponseEntity<Client> deleteById(@RequestParam Long id) {
-
+    public ResponseEntity<Client> deleteById(
+            @RequestParam Long id
+    ){
         Optional<Client> client = clientRepository.findById(id);
 
-        if (client.isPresent()) {
-            clientRepository.deleteById(id);
-            return ResponseEntity.ok().build();
+        if (!client.isPresent()) {
+            throw new NoCustomersFoundByIdException();
         }
-
-        throw new NoCustomersFoundByIdException();
-
+        clientRepository.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }

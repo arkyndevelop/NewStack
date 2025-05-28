@@ -12,27 +12,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Service
 public class RegisterClientService {
 
-    @Autowired
     private final ClientRepository clientRepository;
-
 
     public RegisterClientService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
+    public Client registerClient(
+            ClientRequestDTO clientRequestDTO
+    ) {
 
-    public Client registerClient(@RequestBody ClientRequestDTO clientRequestDTO) {
-
-
-        if(clientRepository.existsByCPF(clientRequestDTO.getCPF())){
-            throw  new CustomersRegisteredDataException("cpf");
+        if (clientRepository.existsByCPF(clientRequestDTO.CPF())) {
+            throw new CustomersRegisteredDataException("cpf");
         }
-
-        if (clientRepository.existsByEmail(clientRequestDTO.getEmail())) {
+        if (clientRepository.existsByEmail(clientRequestDTO.email())) {
             throw new CustomersRegisteredDataException("email");
         }
-
-        if (clientRepository.existsByTelephone(clientRequestDTO.getTelephone())) {
+        if (clientRepository.existsByTelephone(clientRequestDTO.telephone())) {
             throw new CustomersRegisteredDataException("telephone");
         }
 

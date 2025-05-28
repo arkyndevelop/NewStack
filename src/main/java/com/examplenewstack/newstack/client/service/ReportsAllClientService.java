@@ -12,24 +12,18 @@ import java.util.List;
 @Service
 public class ReportsAllClientService {
 
-    @Autowired
     private final ClientRepository clientRepository;
-
 
     public ReportsAllClientService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
     public List<Client> findAllClients() {
-
         List<Client> clientList = clientRepository.findAll();
 
         if (clientList.isEmpty()) {
             throw new NoCustomersFoundException("Erro: Nenhum cliente cadastrado!");
         }
         return clientRepository.findAll();
-
     }
-
-
 }

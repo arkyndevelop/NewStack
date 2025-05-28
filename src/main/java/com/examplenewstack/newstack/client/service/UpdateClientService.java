@@ -3,6 +3,7 @@ package com.examplenewstack.newstack.client.service;
 
 import com.examplenewstack.newstack.client.dto.ClientRequestDTO;
 import com.examplenewstack.newstack.client.Client;
+import com.examplenewstack.newstack.client.dto.ClientResponseDTO;
 import com.examplenewstack.newstack.client.exception.CustomersSamePasswordException;
 import com.examplenewstack.newstack.employee.exception.NoEmployeersFoundByIdException;
 import com.examplenewstack.newstack.client.repository.ClientRepository;
@@ -18,38 +19,37 @@ import java.util.Optional;
 @Service
 public class UpdateClientService {
 
-    @Autowired
     private final ClientRepository clientRepository;
 
     public UpdateClientService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
-    public ResponseEntity<Client> updateClient(@RequestBody ClientRequestDTO clientRequestDTO, @RequestParam Long id) {
+    public ResponseEntity<Client> updateClient(
+            ClientRequestDTO clientRequestDTO,
+            Long id
+    ) {
         Optional<Client> clientExists = clientRepository.findById(id);
 
-        if (clientExists.isPresent()) {
-            Client client = clientRepository.getReferenceById(id);
+        if (clientExists.isEmpty()) {
+            throw new NoEmployeersFoundByIdException();
+        }
+        Client client = clientRepository.getReferenceById(id);
 
-            client.setName(clientRequestDTO.getName());
-            client.setCPF(clientRequestDTO.getCPF());
-            client.setEmail(clientRequestDTO.getEmail());
-            client.setTelephone(clientRequestDTO.getTelephone());
-            if (Objects.equals(clientRequestDTO.getPassword(), clientRequestDTO.getConfirmPassword())) {
-                client.setPassword(clientRequestDTO.getPassword());
+        client.setName(clientRequestDTO.name());
+        client.setCPF(clientRequestDTO.CPF());
+        client.setEmail(clientRequestDTO.email());
+        client.setTelephone(clientRequestDTO.telephone());
 
-
-            } else {
-                throw  new CustomersSamePasswordException();
-            }
-
-            Client updateClients = clientRepository.save(client);
-            return ResponseEntity.ok(updateClients);
-
+        // Confirmação da senha inserida e a segunda senha informada
+        if (Objects.equals(clientRequestDTO.password(), clientRequestDTO.confirmPassword())) {
+            client.setPassword(clientRequestDTO.password());
         } else {
-            throw  new NoEmployeersFoundByIdException();
+            throw new CustomersSamePasswordException();
         }
 
+        Client updateClients = clientRepository.save(client);
+        return ResponseEntity.ok(updateClients);
     }
 }
 

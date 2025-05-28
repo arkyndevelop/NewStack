@@ -1,7 +1,7 @@
 package com.examplenewstack.newstack.client.controller.api;
 
 
-import com.examplenewstack.newstack.client.dto.ClientDTO;
+import com.examplenewstack.newstack.client.dto.ClientRequestDTO;
 import com.examplenewstack.newstack.client.Client;
 import com.examplenewstack.newstack.client.service.RegisterClientService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,9 +23,9 @@ public class RegisterClientController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> clientRegister(@RequestBody ClientDTO clientDTO) {
+    public ResponseEntity<?> clientRegister(@RequestBody ClientRequestDTO clientRequestDTO) {
 
-        Client client = registerClientService.registerClient(clientDTO);
+        Client client = registerClientService.registerClient(clientRequestDTO);
         return ResponseEntity.ok(client);
 
     }

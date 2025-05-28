@@ -1,7 +1,7 @@
 package com.examplenewstack.newstack.employee.service;
 
 
-import com.examplenewstack.newstack.employee.dto.EmployeeDTO;
+import com.examplenewstack.newstack.employee.dto.EmployeeRequestDTO;
 import com.examplenewstack.newstack.employee.Employee;
 import com.examplenewstack.newstack.employee.exception.EmployeersRegisteredDataException;
 import com.examplenewstack.newstack.employee.repository.EmployeeRepository;
@@ -21,7 +21,7 @@ public class RegisterEmployeeService {
     }
 
     public Employee registerEmployee(
-            @RequestBody EmployeeDTO employeeDTO){
+            @RequestBody EmployeeRequestDTO employeeDTO){
 
         if(employeeRepository.existsByCPF(employeeDTO.getCPF())){
             throw new EmployeersRegisteredDataException("cpf");

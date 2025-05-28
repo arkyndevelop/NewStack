@@ -1,6 +1,6 @@
 package com.examplenewstack.newstack.employee.service;
 
-import com.examplenewstack.newstack.employee.dto.EmployeeDTO;
+import com.examplenewstack.newstack.employee.dto.EmployeeRequestDTO;
 import com.examplenewstack.newstack.employee.Employee;
 import com.examplenewstack.newstack.employee.exception.NoEmployeersFoundByIdException;
 import com.examplenewstack.newstack.employee.exception.EmployeersSamePasswordException;
@@ -23,7 +23,7 @@ public class UpdateEmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public ResponseEntity<Employee> updateEmployee(@RequestBody EmployeeDTO employeeDTO, @RequestParam Long id) {
+    public ResponseEntity<Employee> updateEmployee(@RequestBody EmployeeRequestDTO employeeDTO, @RequestParam Long id) {
         Optional<Employee> employeeExisting = employeeRepository.findById(id);
         if (employeeExisting.isEmpty()) {
             throw new NoEmployeersFoundByIdException();

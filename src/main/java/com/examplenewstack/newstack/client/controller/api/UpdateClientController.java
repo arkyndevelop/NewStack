@@ -1,7 +1,7 @@
 package com.examplenewstack.newstack.client.controller.api;
 
 
-import com.examplenewstack.newstack.client.dto.ClientDTO;
+import com.examplenewstack.newstack.client.dto.ClientRequestDTO;
 import com.examplenewstack.newstack.client.service.UpdateClientService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +20,11 @@ public class UpdateClientController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateClient(
-            @RequestBody ClientDTO clientDTO,
+            @RequestBody ClientRequestDTO clientRequestDTO,
             @PathVariable Long id
     ) {
 
-        updateClientService.updateClient(clientDTO, id);
+        updateClientService.updateClient(clientRequestDTO, id);
         return ResponseEntity.ok().build();
 
     }

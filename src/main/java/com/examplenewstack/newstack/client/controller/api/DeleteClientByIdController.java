@@ -1,6 +1,6 @@
 package com.examplenewstack.newstack.client.controller.api;
 
-import com.examplenewstack.newstack.client.dto.ClientDTO;
+import com.examplenewstack.newstack.client.dto.ClientRequestDTO;
 import com.examplenewstack.newstack.client.service.DeleteClientByIdService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ public class DeleteClientByIdController {
 
 
     @DeleteMapping("/delete/{id}")
-   public ResponseEntity<?> deleteById(@RequestBody ClientDTO clientDTO , @PathVariable Long id){
+   public ResponseEntity<?> deleteById(@RequestBody ClientRequestDTO clientRequestDTO, @PathVariable Long id){
 
 
                 deleteClientByIdService.deleteById(id);

@@ -1,7 +1,7 @@
 package com.examplenewstack.newstack.client.service;
 
 
-import com.examplenewstack.newstack.client.dto.ClientDTO;
+import com.examplenewstack.newstack.client.dto.ClientRequestDTO;
 import com.examplenewstack.newstack.client.Client;
 import com.examplenewstack.newstack.client.exception.CustomersSamePasswordException;
 import com.examplenewstack.newstack.employee.exception.NoEmployeersFoundByIdException;
@@ -25,18 +25,18 @@ public class UpdateClientService {
         this.clientRepository = clientRepository;
     }
 
-    public ResponseEntity<Client> updateClient(@RequestBody ClientDTO clientDTO, @RequestParam Long id) {
+    public ResponseEntity<Client> updateClient(@RequestBody ClientRequestDTO clientRequestDTO, @RequestParam Long id) {
         Optional<Client> clientExists = clientRepository.findById(id);
 
         if (clientExists.isPresent()) {
             Client client = clientRepository.getReferenceById(id);
 
-            client.setName(clientDTO.getName());
-            client.setCPF(clientDTO.getCPF());
-            client.setEmail(clientDTO.getEmail());
-            client.setTelephone(clientDTO.getTelephone());
-            if (Objects.equals(clientDTO.getPassword(), clientDTO.getConfirmPassword())) {
-                client.setPassword(clientDTO.getPassword());
+            client.setName(clientRequestDTO.getName());
+            client.setCPF(clientRequestDTO.getCPF());
+            client.setEmail(clientRequestDTO.getEmail());
+            client.setTelephone(clientRequestDTO.getTelephone());
+            if (Objects.equals(clientRequestDTO.getPassword(), clientRequestDTO.getConfirmPassword())) {
+                client.setPassword(clientRequestDTO.getPassword());
 
 
             } else {

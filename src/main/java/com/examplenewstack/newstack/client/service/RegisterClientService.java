@@ -1,7 +1,7 @@
 package com.examplenewstack.newstack.client.service;
 
 
-import com.examplenewstack.newstack.client.dto.ClientDTO;
+import com.examplenewstack.newstack.client.dto.ClientRequestDTO;
 import com.examplenewstack.newstack.client.Client;
 import com.examplenewstack.newstack.client.exception.CustomersRegisteredDataException;
 import com.examplenewstack.newstack.client.repository.ClientRepository;
@@ -21,21 +21,21 @@ public class RegisterClientService {
     }
 
 
-    public Client registerClient(@RequestBody ClientDTO clientDTO) {
+    public Client registerClient(@RequestBody ClientRequestDTO clientRequestDTO) {
 
 
-        if(clientRepository.existsByCPF(clientDTO.getCPF())){
+        if(clientRepository.existsByCPF(clientRequestDTO.getCPF())){
             throw  new CustomersRegisteredDataException("cpf");
         }
 
-        if (clientRepository.existsByEmail(clientDTO.getEmail())) {
+        if (clientRepository.existsByEmail(clientRequestDTO.getEmail())) {
             throw new CustomersRegisteredDataException("email");
         }
 
-        if (clientRepository.existsByTelephone(clientDTO.getTelephone())) {
+        if (clientRepository.existsByTelephone(clientRequestDTO.getTelephone())) {
             throw new CustomersRegisteredDataException("telephone");
         }
 
-        return clientRepository.save(clientDTO.toUser());
+        return clientRepository.save(clientRequestDTO.toUser());
     }
 }

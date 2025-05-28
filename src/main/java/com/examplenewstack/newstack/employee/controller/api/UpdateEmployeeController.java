@@ -1,6 +1,6 @@
 package com.examplenewstack.newstack.employee.controller.api;
 
-import com.examplenewstack.newstack.employee.dto.EmployeeDTO;
+import com.examplenewstack.newstack.employee.dto.EmployeeRequestDTO;
 import com.examplenewstack.newstack.employee.service.UpdateEmployeeService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class UpdateEmployeeController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateClient(
-            @RequestBody EmployeeDTO employeeDTO,
+            @RequestBody EmployeeRequestDTO employeeDTO,
             @RequestParam Long id
     ){
 

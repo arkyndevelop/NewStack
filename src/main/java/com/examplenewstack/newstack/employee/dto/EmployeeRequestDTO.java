@@ -1,15 +1,15 @@
 package com.examplenewstack.newstack.employee.dto;
 
-import com.examplenewstack.newstack.core.dto.UserDTO;
+import com.examplenewstack.newstack.core.dto.UserRequestDTO;
 import com.examplenewstack.newstack.employee.Employee;
 import com.examplenewstack.newstack.employee.enums.TypeEmployee;
 
-public class EmployeeDTO extends UserDTO {
+public class EmployeeRequestDTO extends UserRequestDTO {
     private TypeEmployee typeEmployee;
 
-    public EmployeeDTO() { super(); }
+    public EmployeeRequestDTO() { super(); }
 
-    public EmployeeDTO(String name, String CPF, String email, String telephone, String password, String confirmPassword, TypeEmployee typeEmployee) {
+    public EmployeeRequestDTO(String name, String CPF, String email, String telephone, String password, String confirmPassword, TypeEmployee typeEmployee) {
         super(name, CPF, email, telephone, password, confirmPassword);
         this.typeEmployee = typeEmployee;
     }

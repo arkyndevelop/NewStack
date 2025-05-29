@@ -1,8 +1,8 @@
 package com.examplenewstack.newstack.address.controller.api;
 
-import com.examplenewstack.newstack.dtos.adress.AddressDTO;
-import com.examplenewstack.newstack.entity.user.client.Client;
-import com.examplenewstack.newstack.service.user.adress.UpdateAddressService;
+import com.examplenewstack.newstack.address.dto.AddressDTO;
+import com.examplenewstack.newstack.address.service.UpdateAddressService;
+import com.examplenewstack.newstack.client.Client;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,10 +21,11 @@ public class UpdateAddressByIdController {
     }
 
 
-    public ResponseEntity<?> updateAddressById(@RequestBody AddressDTO addressDTO, @RequestBody Client client, @PathVariable Long id){
-
+    public ResponseEntity<?> updateAddressById(
+            @RequestBody AddressDTO addressDTO,
+            @RequestBody Client client,
+            @PathVariable Long id
+    ){
         return ResponseEntity.ok().body(updateAddressService.updateAddress(addressDTO,client,id));
-
-
     }
 }

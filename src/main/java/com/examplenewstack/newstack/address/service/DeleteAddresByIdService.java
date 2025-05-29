@@ -1,16 +1,14 @@
 package com.examplenewstack.newstack.address.service;
 
 
-import com.examplenewstack.newstack.dtos.adress.AddressDTO;
-import com.examplenewstack.newstack.dtos.book.BookDTO;
-import com.examplenewstack.newstack.entity.user.address.Address;
-import com.examplenewstack.newstack.exceptions.Address.AddressNotFoundException;
-import com.examplenewstack.newstack.repository.AddressRepository;
+
+import com.examplenewstack.newstack.address.Address;
+import com.examplenewstack.newstack.address.exception.AddressNotFoundException;
+import com.examplenewstack.newstack.address.repository.AddressRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
 import java.util.Optional;
 
 

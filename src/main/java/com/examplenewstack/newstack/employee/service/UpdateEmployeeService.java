@@ -30,14 +30,14 @@ public class UpdateEmployeeService {
         }
         Employee employee = employeeRepository.getReferenceById(id);
 
-        employee.setName(employeeDTO.getName());
-        employee.setCPF(employeeDTO.getCPF());
-        employee.setEmail(employeeDTO.getEmail());
-        employee.setTelephone(employeeDTO.getTelephone());
-        if (employeeDTO.getPassword().equals(employeeDTO.getConfirmPassword())) {
+        employee.setName(employeeDTO.name());
+        employee.setCPF(employeeDTO.CPF());
+        employee.setEmail(employeeDTO.email());
+        employee.setTelephone(employeeDTO.telephone());
+        if (employeeDTO.password().equals(employeeDTO.confirmPassword())) {
             throw new EmployeersSamePasswordException();
         }
-        employee.setPassword(employeeDTO.getPassword());
+        employee.setPassword(employeeDTO.password());
 
         Employee updateEmployee = employeeRepository.save(employee);
         return ResponseEntity.ok(updateEmployee);

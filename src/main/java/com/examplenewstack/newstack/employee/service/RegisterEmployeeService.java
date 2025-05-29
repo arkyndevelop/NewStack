@@ -23,15 +23,15 @@ public class RegisterEmployeeService {
     public Employee registerEmployee(
             @RequestBody EmployeeRequestDTO employeeDTO){
 
-        if(employeeRepository.existsByCPF(employeeDTO.getCPF())){
+        if(employeeRepository.existsByCPF(employeeDTO.CPF())){
             throw new EmployeersRegisteredDataException("cpf");
         }
 
-        if (employeeRepository.existsByEmail(employeeDTO.getEmail())) {
+        if (employeeRepository.existsByEmail(employeeDTO.email())) {
             throw new EmployeersRegisteredDataException("email");
         }
 
-        if(employeeRepository.existsByTelephone(employeeDTO.getTelephone())){
+        if(employeeRepository.existsByTelephone(employeeDTO.telephone())){
             throw new EmployeersRegisteredDataException("telephone");
         }
 

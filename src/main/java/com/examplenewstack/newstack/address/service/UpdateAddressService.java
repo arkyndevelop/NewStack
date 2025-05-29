@@ -1,14 +1,12 @@
 package com.examplenewstack.newstack.address.service;
 
-import com.examplenewstack.newstack.dtos.adress.AddressDTO;
-import com.examplenewstack.newstack.entity.user.address.Address;
-import com.examplenewstack.newstack.entity.user.client.Client;
-import com.examplenewstack.newstack.exceptions.Address.AddressNotFoundException;
-import com.examplenewstack.newstack.exceptions.client.NoCustomersFoundException;
-import com.examplenewstack.newstack.repository.AddressRepository;
+import com.examplenewstack.newstack.address.Address;
+import com.examplenewstack.newstack.address.dto.AddressDTO;
+import com.examplenewstack.newstack.address.exception.AddressNotFoundException;
+import com.examplenewstack.newstack.address.repository.AddressRepository;
+import com.examplenewstack.newstack.client.Client;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
 
@@ -17,14 +15,17 @@ public class UpdateAddressService {
 
     private final AddressRepository addressRepository;
 
-
     public UpdateAddressService(AddressRepository addressRepository) {
         this.addressRepository = addressRepository;
     }
 
 
 
-    public ResponseEntity<Address> updateAddress(AddressDTO addressDTO, Client client, Long id){
+    public ResponseEntity<Address> updateAddress(
+            AddressDTO addressDTO,
+            Client client,
+            Long id
+    ){
          Optional<Address> addressExists = addressRepository.findById(id);
 
         if(addressExists.isEmpty()){

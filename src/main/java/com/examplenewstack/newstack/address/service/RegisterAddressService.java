@@ -16,12 +16,9 @@ public class RegisterAddressService {
         this.addressRepository = addressRepository;
     }
 
-
-    public Address registerAddres(@RequestBody AddressDTO addressDTO){
-
+    public Address registerAddres(
+            AddressDTO addressDTO
+    ) {
         return addressRepository.save(addressDTO.toAdress());
-
-
-
     }
 }

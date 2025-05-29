@@ -10,16 +10,10 @@ import java.util.List;
 @Service
 public class ReportsAllAddressService {
 
-
     private final AddressRepository addressRepository;
-
-
     public ReportsAllAddressService(AddressRepository addressRepository) {
         this.addressRepository = addressRepository;
     }
-
-
-
 
     public List<Address> reportsAllAddress(){
 
@@ -28,13 +22,6 @@ public class ReportsAllAddressService {
         if(Adresslist.isEmpty()){
             throw new AddressNotFoundException();
         }
-
         return addressRepository.findAll();
-
-
     }
-
-
-
-
 }

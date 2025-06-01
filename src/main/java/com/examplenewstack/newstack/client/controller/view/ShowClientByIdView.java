@@ -23,10 +23,7 @@ public class ShowClientByIdView {
     @GetMapping("/report/{id}")
     public ModelAndView showClientById(@PathVariable Long id){
 
-       Optional<Client> clientList = this.reportsClientByIdService.showClientById(id);
-
         ModelAndView modelAndView = new ModelAndView("reportClient");
-        modelAndView.addObject("clientlist", clientList);
         return modelAndView;
     }
 }

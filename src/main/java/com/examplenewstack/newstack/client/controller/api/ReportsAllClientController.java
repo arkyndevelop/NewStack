@@ -21,11 +21,6 @@ public class ReportsAllClientController {
     @GetMapping("/reports/all")
     public ResponseEntity<?> reportsAllClients(){
 
-            return ResponseEntity.ok().body(reportsAllClientService.findAllClients());
-
-
-
-
-
+        return ResponseEntity.ok().body(reportsAllClientService.findAllClients());
     }
 }

@@ -11,7 +11,9 @@ public record ClientResponseDTO(
         String telephone
 ) implements UserResponseDTO {
 
-    public static ClientResponseDTO fromEntity(Client client) {
+    public static ClientResponseDTO fromEntity(
+            Client client
+    ){
         return new ClientResponseDTO(
                 client.getId(),
                 client.getName(),

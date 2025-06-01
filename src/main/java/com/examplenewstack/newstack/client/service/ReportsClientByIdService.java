@@ -2,6 +2,7 @@ package com.examplenewstack.newstack.client.service;
 
 
 import com.examplenewstack.newstack.client.Client;
+import com.examplenewstack.newstack.client.dto.ClientResponseDTO;
 import com.examplenewstack.newstack.employee.exception.NoEmployeersFoundByIdException;
 import com.examplenewstack.newstack.client.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +20,20 @@ public class ReportsClientByIdService {
         this.clientRepository = clientRepository;
     }
 
-    public Optional<Client> showClientById(
+    public ClientResponseDTO showClientById(
             Long id
     ){
-        Optional<Client> clientList = clientRepository.findById(id);
+        Optional<Client> client = clientRepository.findById(id);
 
-        if (clientList.isEmpty()) {
+        if (client.isEmpty()) {
             throw  new NoEmployeersFoundByIdException();
         }
-        return clientRepository.findById(id);
+        return new ClientResponseDTO(
+                client.get().getId(),
+                client.get().getName(),
+                client.get().getCPF(),
+                client.get().getEmail(),
+                client.get().getTelephone()
+        );
     }
 }

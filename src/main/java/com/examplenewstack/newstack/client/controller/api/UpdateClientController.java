@@ -26,6 +26,5 @@ public class UpdateClientController {
 
         updateClientService.updateClient(clientRequestDTO, id);
         return ResponseEntity.ok().build();
-
     }
 }

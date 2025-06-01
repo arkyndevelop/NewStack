@@ -18,13 +18,9 @@ public class ReportsAllAddress {
         this.reportsAllAddressService = reportsAllAddressService;
     }
 
-
-
     @GetMapping("/reportsAddress/all")
     public ResponseEntity<?> reportsAllAddress(){
 
         return ResponseEntity.ok().body(reportsAllAddressService.reportsAllAddress());
-
-
     }
 }

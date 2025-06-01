@@ -27,10 +27,7 @@ public class RegisterAddressController {
     @PostMapping("/register")
     public ResponseEntity<?> registerAddress(@RequestBody AddressDTO addressDTO){
 
-
         Address address = registerAddressService.registerAddres(addressDTO);
-
         return ResponseEntity.ok().build();
-
     }
 }

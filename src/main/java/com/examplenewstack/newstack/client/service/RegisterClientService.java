@@ -5,6 +5,7 @@ import com.examplenewstack.newstack.client.dto.ClientRequestDTO;
 import com.examplenewstack.newstack.client.Client;
 import com.examplenewstack.newstack.client.exception.CustomersRegisteredDataException;
 import com.examplenewstack.newstack.client.repository.ClientRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;

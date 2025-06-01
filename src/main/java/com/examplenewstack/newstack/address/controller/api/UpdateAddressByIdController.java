@@ -3,14 +3,13 @@ package com.examplenewstack.newstack.address.controller.api;
 import com.examplenewstack.newstack.address.dto.AddressDTO;
 import com.examplenewstack.newstack.address.service.UpdateAddressService;
 import com.examplenewstack.newstack.client.Client;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/address")
+@Tag(name = "Endereço")
 public class UpdateAddressByIdController {
 
 
@@ -20,7 +19,7 @@ public class UpdateAddressByIdController {
         this.updateAddressService = updateAddressService;
     }
 
-
+    @PutMapping("/update/{id}")
     public ResponseEntity<?> updateAddressById(
             @RequestBody AddressDTO addressDTO,
             @RequestBody Client client,

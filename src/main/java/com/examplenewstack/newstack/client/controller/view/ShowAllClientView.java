@@ -18,16 +18,9 @@ public class ShowAllClientView {
         this.reportsAllClientService = reportsAllClientService;
     }
 
-
-
     @GetMapping("/showClients/all")
     public ModelAndView showAllClients(){
-
-        List<Client> existing = this.reportsAllClientService.findAllClients();
-
         ModelAndView modelAndView = new ModelAndView("reportClient");
-        modelAndView.addObject("clietlist", existing);
         return modelAndView;
-
     }
 }

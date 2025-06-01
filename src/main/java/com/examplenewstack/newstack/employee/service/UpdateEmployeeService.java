@@ -8,40 +8,38 @@ import com.examplenewstack.newstack.employee.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
 @Service
 public class UpdateEmployeeService {
 
-    @Autowired
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeRepository repository;
 
-    public UpdateEmployeeService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public UpdateEmployeeService(EmployeeRepository repository) {
+        this.repository = repository;
     }
 
-    public ResponseEntity<Employee> updateEmployee(@RequestBody EmployeeRequestDTO employeeDTO, @RequestParam Long id) {
-        Optional<Employee> employeeExisting = employeeRepository.findById(id);
+    public ResponseEntity<Employee> updateEmployee(
+            EmployeeRequestDTO request,
+            Long id
+    ){
+        Optional<Employee> employeeExisting = repository.findById(id);
         if (employeeExisting.isEmpty()) {
             throw new NoEmployeersFoundByIdException();
         }
-        Employee employee = employeeRepository.getReferenceById(id);
+        Employee employee = repository.getReferenceById(id);
 
-        employee.setName(employeeDTO.name());
-        employee.setCPF(employeeDTO.CPF());
-        employee.setEmail(employeeDTO.email());
-        employee.setTelephone(employeeDTO.telephone());
-        if (employeeDTO.password().equals(employeeDTO.confirmPassword())) {
+        employee.setName(request.name());
+        employee.setCPF(request.CPF());
+        employee.setEmail(request.email());
+        employee.setTelephone(request.telephone());
+        if (request.password().equals(request.confirmPassword())) {
             throw new EmployeersSamePasswordException();
         }
-        employee.setPassword(employeeDTO.password());
+        employee.setPassword(request.password());
 
-        Employee updateEmployee = employeeRepository.save(employee);
+        Employee updateEmployee = repository.save(employee);
         return ResponseEntity.ok(updateEmployee);
     }
 }
-
-

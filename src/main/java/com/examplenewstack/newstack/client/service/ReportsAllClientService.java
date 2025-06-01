@@ -26,6 +26,7 @@ public class ReportsAllClientService {
         if (clientList.isEmpty()) {
             throw new NoCustomersFoundException("Erro: Nenhum cliente cadastrado!");
         }
+
         return clientList
                 .stream()
                 .map( client -> new ClientResponseDTO(
@@ -34,6 +35,6 @@ public class ReportsAllClientService {
                         client.getCPF(),
                         client.getEmail(),
                         client.getTelephone()))
-                .collect(Collectors.toList());
+                .toList();
     }
 }

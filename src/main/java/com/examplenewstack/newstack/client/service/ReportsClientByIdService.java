@@ -24,7 +24,6 @@ public class ReportsClientByIdService {
             Long id
     ){
         Optional<Client> client = clientRepository.findById(id);
-
         if (client.isEmpty()) {
             throw  new NoEmployeersFoundByIdException();
         }

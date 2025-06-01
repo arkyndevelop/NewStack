@@ -14,24 +14,21 @@ import java.util.Optional;
 @Service
 public class DeleteEmployeeByIdService {
 
-    @Autowired
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeRepository repository;
 
-
-    public DeleteEmployeeByIdService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public DeleteEmployeeByIdService(EmployeeRepository repository) {
+        this.repository = repository;
     }
 
-    public ResponseEntity<Employee> deleteEmployeeById(@RequestParam Long id) {
-
-        Optional<Employee> employee = employeeRepository.findById(id);
-
-        if (employee.isPresent()) {
-            employeeRepository.deleteById(id);
-            return ResponseEntity.ok().build();
+    public ResponseEntity<Employee> deleteEmployeeById(
+            Long id
+    ){
+        Optional<Employee> employee = repository.findById(id);
+        if (employee.isEmpty()) {
+            throw new NoEmployeersFoundByIdException();
         }
 
-        throw new NoEmployeersFoundByIdException();
-
+        repository.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }

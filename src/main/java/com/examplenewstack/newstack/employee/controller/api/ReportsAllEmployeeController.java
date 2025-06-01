@@ -11,17 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/employee")
 @Tag(name = "Funcionário")
 public class ReportsAllEmployeeController {
-   private final ReportsAllEmployeeService reportsAllEmployeeService;
+   private final ReportsAllEmployeeService service;
 
-    public ReportsAllEmployeeController(ReportsAllEmployeeService reportsAllEmployeeService) {
-        this.reportsAllEmployeeService = reportsAllEmployeeService;
+    public ReportsAllEmployeeController(ReportsAllEmployeeService service) {
+        this.service = service;
     }
 
     @GetMapping("/reports/all")
     public ResponseEntity<?> reports(){
 
-       return ResponseEntity.ok().body(reportsAllEmployeeService.findAllEmployee());
-
-
+       return ResponseEntity.ok().body(service.findAllEmployee());
     }
 }

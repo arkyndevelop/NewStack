@@ -12,26 +12,18 @@ import java.util.List;
 @Service
 public class DeleteAllEmployeeService {
 
-    @Autowired
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeRepository repository;
 
 
-    public DeleteAllEmployeeService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public DeleteAllEmployeeService(EmployeeRepository repository) {
+        this.repository = repository;
     }
 
-
     public void deleteAllEmployee(){
-
-        List<Employee> employeeList =  this.employeeRepository.findAll();
-
+        List<Employee> employeeList =  this.repository.findAll();
         if(employeeList.isEmpty()){
-
             throw new NoEmployeersFoundException();
-
         }
-
-        employeeRepository.deleteAll();
-
+        repository.deleteAll();
     }
 }

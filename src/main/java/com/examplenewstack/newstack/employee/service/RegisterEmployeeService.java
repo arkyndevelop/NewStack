@@ -5,36 +5,29 @@ import com.examplenewstack.newstack.employee.dto.EmployeeRequestDTO;
 import com.examplenewstack.newstack.employee.Employee;
 import com.examplenewstack.newstack.employee.exception.EmployeersRegisteredDataException;
 import com.examplenewstack.newstack.employee.repository.EmployeeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class RegisterEmployeeService {
 
-    @Autowired
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeRepository repository;
 
-
-    public RegisterEmployeeService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public RegisterEmployeeService(EmployeeRepository repository) {
+        this.repository = repository;
     }
 
     public Employee registerEmployee(
-            @RequestBody EmployeeRequestDTO employeeDTO){
-
-        if(employeeRepository.existsByCPF(employeeDTO.CPF())){
+            EmployeeRequestDTO employeeDTO
+    ){
+        if(repository.existsByCPF(employeeDTO.CPF())){
             throw new EmployeersRegisteredDataException("cpf");
         }
-
-        if (employeeRepository.existsByEmail(employeeDTO.email())) {
+        if (repository.existsByEmail(employeeDTO.email())) {
             throw new EmployeersRegisteredDataException("email");
         }
-
-        if(employeeRepository.existsByTelephone(employeeDTO.telephone())){
+        if(repository.existsByTelephone(employeeDTO.telephone())){
             throw new EmployeersRegisteredDataException("telephone");
         }
-
-        return employeeRepository.save(employeeDTO.toUser());
+        return repository.save(employeeDTO.toUser());
     }
 }

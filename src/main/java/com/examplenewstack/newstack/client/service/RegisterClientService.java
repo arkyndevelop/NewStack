@@ -5,34 +5,29 @@ import com.examplenewstack.newstack.client.dto.ClientRequestDTO;
 import com.examplenewstack.newstack.client.Client;
 import com.examplenewstack.newstack.client.exception.CustomersRegisteredDataException;
 import com.examplenewstack.newstack.client.repository.ClientRepository;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class RegisterClientService {
 
-    private final ClientRepository clientRepository;
+    private final ClientRepository repository;
 
-    public RegisterClientService(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
+    public RegisterClientService(ClientRepository repository) {
+        this.repository = repository;
     }
 
     public Client registerClient(
-            ClientRequestDTO clientRequestDTO
-    ) {
-
-        if (clientRepository.existsByCPF(clientRequestDTO.CPF())) {
+            ClientRequestDTO request
+    ){
+        if (repository.existsByCPF(request.CPF())) {
             throw new CustomersRegisteredDataException("cpf");
         }
-        if (clientRepository.existsByEmail(clientRequestDTO.email())) {
+        if (repository.existsByEmail(request.email())) {
             throw new CustomersRegisteredDataException("email");
         }
-        if (clientRepository.existsByTelephone(clientRequestDTO.telephone())) {
+        if (repository.existsByTelephone(request.telephone())) {
             throw new CustomersRegisteredDataException("telephone");
         }
-
-        return clientRepository.save(clientRequestDTO.toUser());
+        return repository.save(request.toUser());
     }
 }

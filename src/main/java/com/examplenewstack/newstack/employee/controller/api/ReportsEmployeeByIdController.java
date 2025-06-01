@@ -10,20 +10,17 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Funcionário")
 public class ReportsEmployeeByIdController {
 
-    private final ReportsEmployeeByIdService reportsEmployeeByIdService;
+    private final ReportsEmployeeByIdService service;
 
 
-    public ReportsEmployeeByIdController(ReportsEmployeeByIdService reportsEmployeeByIdService) {
-        this.reportsEmployeeByIdService = reportsEmployeeByIdService;
+    public ReportsEmployeeByIdController(ReportsEmployeeByIdService service) {
+        this.service = service;
     }
 
-
-
     @GetMapping("/reportsBy/{id}")
-    public ResponseEntity<?> reportsEmployeeById(@PathVariable Long id){
-
-        return ResponseEntity.ok().body(reportsEmployeeByIdService.reportsEmployeeById(id));
-
-
+    public ResponseEntity<?> reportsEmployeeById(
+            @PathVariable Long id
+    ){
+        return ResponseEntity.ok().body(service.reportsEmployeeById(id));
     }
 }

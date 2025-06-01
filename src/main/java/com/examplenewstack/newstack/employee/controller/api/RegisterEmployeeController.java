@@ -4,6 +4,7 @@ import com.examplenewstack.newstack.employee.dto.EmployeeRequestDTO;
 import com.examplenewstack.newstack.employee.Employee;
 import com.examplenewstack.newstack.employee.service.RegisterEmployeeService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,21 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Funcionário")
 public class RegisterEmployeeController {
 
-    private final RegisterEmployeeService registerEmployeeService;
+    private final RegisterEmployeeService service;
 
-    public RegisterEmployeeController(RegisterEmployeeService registerEmployeeService) {
-        this.registerEmployeeService = registerEmployeeService;
+    public RegisterEmployeeController(RegisterEmployeeService service) {
+        this.service = service;
     }
 
-
-
     @PostMapping("/register")
-    public ResponseEntity<?> registerEmployee( @RequestBody EmployeeRequestDTO employeeDTO){
+    public ResponseEntity<?> registerEmployee(
+            @RequestBody @Valid EmployeeRequestDTO employeeDTO
+    ){
 
-
-            Employee employee = registerEmployeeService.registerEmployee(employeeDTO);
-            return ResponseEntity.ok(employee);
-
-
+        Employee employee = service.registerEmployee(employeeDTO);
+        return ResponseEntity.ok(employee);
     }
 }

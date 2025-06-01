@@ -13,21 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Funcionário")
 public class DeleteAllEmployeeController {
 
-    private final DeleteAllEmployeeService deleteAllEmployeeService;
+    private final DeleteAllEmployeeService service;
 
-    public DeleteAllEmployeeController(DeleteAllEmployeeService deleteAllEmployeeService) {
-        this.deleteAllEmployeeService = deleteAllEmployeeService;
+    public DeleteAllEmployeeController(DeleteAllEmployeeService service) {
+        this.service = service;
     }
 
     @DeleteMapping("/delete/all")
-
     public ResponseEntity<?> deleteAllEmployees() {
 
-        deleteAllEmployeeService.deleteAllEmployee();
-
+        service.deleteAllEmployee();
         return ResponseEntity.ok().build();
-
     }
-
-
 }

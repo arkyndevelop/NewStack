@@ -30,7 +30,7 @@ public class BookDTO {
     @NotBlank(message = "O ano não pode ser vazio!")
     private String year_publication;
 
-    //Sera feita a incremetação
+    //Será feita a incremetação
     @NotNull(message = "A disponibilidade não pode ser vazia!")
     private boolean disponibility;
 
@@ -42,7 +42,7 @@ public class BookDTO {
 
     public Book toBook(){
         Book book = new Book();
-        book.setTitle(this.getTitle());
+        book.setTitle(getTitle());
         book.setCategory(getCategory());
         book.setYear_publication(getYear_publication());
         book.setDisponibility(isDisponibility());

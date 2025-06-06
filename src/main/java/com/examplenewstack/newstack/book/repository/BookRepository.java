@@ -7,8 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface BookRepository extends JpaRepository<Book, Long> {
-
+public interface BookRepository extends JpaRepository<Book, Integer> {
 
     boolean existsByTitle(String title);
 

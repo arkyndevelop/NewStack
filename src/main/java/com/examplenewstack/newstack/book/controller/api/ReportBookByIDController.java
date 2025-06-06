@@ -18,8 +18,8 @@ public class ReportBookByIDController {
 
     @GetMapping("/reports/{id}")
     public ResponseEntity<?> report(
-            @PathVariable Long id
+            @PathVariable int id
     ){
         return ResponseEntity.ok().body(reportBookByIDService.findByID(id));
     }
-}
+} //to testando no swagger

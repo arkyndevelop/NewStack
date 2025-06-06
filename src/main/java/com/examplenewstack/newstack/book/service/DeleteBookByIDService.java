@@ -16,7 +16,7 @@ public class DeleteBookByIDService {
     }
 
     public ResponseEntity<?> deleteByID(
-            Long bookID
+          Integer bookID
     ) {
         Book findBook = bookRepository.findById(bookID)
                 .orElseThrow(NoBooksFoundByIdException::new);

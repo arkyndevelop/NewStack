@@ -1,6 +1,6 @@
 package com.examplenewstack.newstack.book.controller.api;
 
-import com.examplenewstack.newstack.book.dto.BookDTO;
+import com.examplenewstack.newstack.book.dto.BookRequestDTO;
 import com.examplenewstack.newstack.book.service.UpdateBookService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +19,11 @@ public class UpdateBookController {
 
     @PutMapping("/update/{bookISBN}")
     public ResponseEntity<?> update(
-            @RequestBody BookDTO bookDTO,
+            @RequestBody BookRequestDTO requestDTO,
             @PathVariable String bookISBN
     ){
 
-        updateBookService.updateBook(bookDTO, bookISBN);
+        updateBookService.updateBook(requestDTO, bookISBN);
         return ResponseEntity.ok().build();
     }
 }

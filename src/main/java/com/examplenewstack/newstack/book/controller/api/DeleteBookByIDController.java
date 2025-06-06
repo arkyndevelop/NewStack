@@ -21,7 +21,7 @@ public class DeleteBookByIDController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(
-            @PathVariable Long id
+            @PathVariable int id
     ){
         return ResponseEntity.ok().body(deleteBookByIDService.deleteByID(id));
     }

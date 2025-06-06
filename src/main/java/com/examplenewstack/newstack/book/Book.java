@@ -26,7 +26,7 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private int id;
 
     @Column(nullable = false, length = 255)
     private String title;
@@ -46,7 +46,7 @@ public class Book {
 
     // Quantidade total de exemplares
     @Column(nullable = false)
-    private int total_quantity;
+    private Integer total_quantity;
 
     // Quantidade disponível para empréstimo
     @Column(nullable = false)
@@ -57,14 +57,13 @@ public class Book {
 
     // Relacionamentos
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employee_id", nullable = false)
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "collection_id", nullable = false)
+    @JoinColumn(name = "collection_id")
     private Collection collection;
 
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
     private List<Loan> loans;
-
 }

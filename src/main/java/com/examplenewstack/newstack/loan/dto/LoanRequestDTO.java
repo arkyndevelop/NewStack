@@ -1,5 +1,6 @@
 package com.examplenewstack.newstack.loan.dto;
 
+import com.examplenewstack.newstack.loan.Loan;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 
@@ -19,5 +20,11 @@ public record LoanRequestDTO(
         @NotNull
         Long bookId
 ) {
+        public Loan toLoan(){
+                Loan loan = new Loan();
+                loan.setLoanDate(loanDate);
+                loan.setExpectedReturnDate(expectedReturnDate);
+                return loan;
+        }
 
 }

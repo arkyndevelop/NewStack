@@ -1,6 +1,7 @@
 package com.examplenewstack.newstack.book.service;
 
 import com.examplenewstack.newstack.book.Book;
+import com.examplenewstack.newstack.book.dto.BookResponseDTO;
 import com.examplenewstack.newstack.book.exception.NoBooksFoundByIdException;
 import com.examplenewstack.newstack.book.repository.BookRepository;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,21 @@ public class ReportBookByIDService {
         this.bookRepository = bookRepository;
     }
 
-    public Book findByID(
-            Long bookID
+    public BookResponseDTO findByID(
+            int bookID
     ){
-        return bookRepository.findById(bookID)
+        Book bookFound = bookRepository.findById(bookID)
                 .orElseThrow(NoBooksFoundByIdException::new);
+
+        return new BookResponseDTO(
+                bookFound.getTitle(),
+                bookFound.getISBN(),
+                bookFound.getCategory(),
+                bookFound.getYear_publication(),
+                bookFound.isDisponibility(),
+                bookFound.getTotal_quantity(),
+                bookFound.getDisponibility_quantity(),
+                bookFound.getId()
+        );
     }
 }

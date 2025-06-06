@@ -1,0 +1,18 @@
+package com.examplenewstack.newstack.book.dto;
+
+public record BookResponseDTO (
+    String title,
+    String ISBN,
+    String category,
+    String yearPublication,
+
+    boolean disponibility,
+
+    int totalQuantity,
+    int disponibilityQuantity,
+
+    int collectionId
+
+){
+}
+

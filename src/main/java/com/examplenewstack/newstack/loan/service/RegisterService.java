@@ -3,7 +3,7 @@ package com.examplenewstack.newstack.loan.service;
 
 
 import com.examplenewstack.newstack.loan.Loan;
-import com.examplenewstack.newstack.loan.dto.LoanRequestDTO;
+import com.examplenewstack.newstack.loan.dto.LoanRequest;
 import com.examplenewstack.newstack.loan.repository.LoanRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +17,8 @@ public class RegisterService {
     }
 
     public Loan register(
-            LoanRequestDTO loanRequestDTO
+            LoanRequest loanRequest
     ){
-        return repository.save(loanRequestDTO.toLoan());
+        return repository.save(loanRequest.toLoan());
     }
 }

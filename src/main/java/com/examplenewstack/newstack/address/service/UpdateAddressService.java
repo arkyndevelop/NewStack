@@ -1,7 +1,7 @@
 package com.examplenewstack.newstack.address.service;
 
 import com.examplenewstack.newstack.address.Address;
-import com.examplenewstack.newstack.address.dto.AddressDTO;
+import com.examplenewstack.newstack.address.dto.AddressRequest;
 import com.examplenewstack.newstack.address.exception.AddressNotFoundException;
 import com.examplenewstack.newstack.address.repository.AddressRepository;
 import com.examplenewstack.newstack.client.Client;
@@ -22,7 +22,7 @@ public class UpdateAddressService {
 
 
     public ResponseEntity<Address> updateAddress(
-            AddressDTO addressDTO,
+            AddressRequest request,
             Client client,
             Long id
     ){
@@ -38,14 +38,14 @@ public class UpdateAddressService {
             throw new AddressNotFoundException();
         }
 
-         address.setStreet(addressDTO.getStreet());
-         address.setNumber_house(addressDTO.getNumber_house());
-         address.setNeighborhood(addressDTO.getNeighborhood());
+         address.setStreet(request.street());
+         address.setNumber_house(request.number_house());
+         address.setNeighborhood(request.neighborhood());
          address.setComplement(address.getComplement());
-         address.setCep(addressDTO.getCep());
-         address.setCity(addressDTO.getCity());
-         address.setState(addressDTO.getState());
-         address.setCountry(addressDTO.getCountry());
+         address.setCep(request.cep());
+         address.setCity(request.city());
+         address.setState(request.state());
+         address.setCountry(request.country());
 
          Address updateAddress = addressRepository.save(address);
 

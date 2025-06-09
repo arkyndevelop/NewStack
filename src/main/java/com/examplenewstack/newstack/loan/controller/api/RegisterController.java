@@ -1,7 +1,7 @@
 package com.examplenewstack.newstack.loan.controller.api;
 
 import com.examplenewstack.newstack.loan.Loan;
-import com.examplenewstack.newstack.loan.dto.LoanRequestDTO;
+import com.examplenewstack.newstack.loan.dto.LoanRequest;
 import com.examplenewstack.newstack.loan.service.RegisterService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -24,7 +24,7 @@ public class RegisterController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(
-            @RequestBody @Valid LoanRequestDTO request
+            @RequestBody @Valid LoanRequest request
     ) {
         Loan loan = service.register(request);
         return ResponseEntity.ok().body(loan);

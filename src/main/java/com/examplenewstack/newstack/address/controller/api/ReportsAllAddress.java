@@ -24,3 +24,5 @@ public class ReportsAllAddress {
         return ResponseEntity.ok().body(reportsAllAddressService.reportsAllAddress());
     }
 }
+
+// Esse Endpoint é para caso seja necessário verificar os endereços cadastrados de forma geral!

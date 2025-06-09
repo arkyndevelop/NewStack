@@ -4,10 +4,14 @@ import com.examplenewstack.newstack.core.entity.User;
 import com.examplenewstack.newstack.loan.Loan;
 import com.examplenewstack.newstack.address.Address;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.Instant;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "client")
 public class Client extends User {

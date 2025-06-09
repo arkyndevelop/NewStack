@@ -1,7 +1,7 @@
 package com.examplenewstack.newstack.address.controller.api;
 
-import com.examplenewstack.newstack.address.dto.AddressDTO;
 import com.examplenewstack.newstack.address.Address;
+import com.examplenewstack.newstack.address.dto.AddressRequest;
 import com.examplenewstack.newstack.address.service.RegisterAddressService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -15,19 +15,21 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Endereço")
 public class RegisterAddressController {
 
-
     private final RegisterAddressService registerAddressService;
-
 
     public RegisterAddressController(RegisterAddressService registerAddressService) {
         this.registerAddressService = registerAddressService;
     }
 
-
     @PostMapping("/register")
-    public ResponseEntity<?> registerAddress(@RequestBody AddressDTO addressDTO){
+    public ResponseEntity<?> registerAddress(
+            @RequestBody AddressRequest request
+    ) {
 
-        Address address = registerAddressService.registerAddres(addressDTO);
-        return ResponseEntity.ok().build();
+        Address address = registerAddressService.registerAddress(request);
+        return ResponseEntity.ok().body(address);
     }
 }
+
+
+// Endpoint para ser possível acrescentar, junto do front, a opção dentro do perfil do Usuário para criar um endereço!

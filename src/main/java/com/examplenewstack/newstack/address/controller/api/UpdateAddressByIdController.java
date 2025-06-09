@@ -1,6 +1,6 @@
 package com.examplenewstack.newstack.address.controller.api;
 
-import com.examplenewstack.newstack.address.dto.AddressDTO;
+import com.examplenewstack.newstack.address.dto.AddressRequest;
 import com.examplenewstack.newstack.address.service.UpdateAddressService;
 import com.examplenewstack.newstack.client.Client;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,10 +21,10 @@ public class UpdateAddressByIdController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateAddressById(
-            @RequestBody AddressDTO addressDTO,
+            @RequestBody AddressRequest request,
             @RequestBody Client client,
             @PathVariable Long id
     ){
-        return ResponseEntity.ok().body(updateAddressService.updateAddress(addressDTO,client,id));
+        return ResponseEntity.ok().body(updateAddressService.updateAddress(request,client,id));
     }
 }

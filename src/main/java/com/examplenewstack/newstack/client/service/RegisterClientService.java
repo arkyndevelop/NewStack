@@ -28,6 +28,6 @@ public class RegisterClientService {
         if (repository.existsByTelephone(request.telephone())) {
             throw new CustomersRegisteredDataException("telephone");
         }
-        return repository.save(request.toUser());
+        return repository.save(request.toClient());
     }
 }

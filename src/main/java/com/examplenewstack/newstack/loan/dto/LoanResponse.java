@@ -4,7 +4,7 @@ import com.examplenewstack.newstack.loan.Loan;
 
 import java.time.LocalDateTime;
 
-public record LoanResponseDTO (
+public record LoanResponse(
         Integer loanID,
         LocalDateTime loanDate,
         LocalDateTime expectedReturnDate,
@@ -15,8 +15,8 @@ public record LoanResponseDTO (
         Long clientId,
         Integer bookId
 ){
-    public static LoanResponseDTO fromEntity(Loan loan){
-        return new LoanResponseDTO(
+    public static LoanResponse fromEntity(Loan loan){
+        return new LoanResponse(
                 loan.getId(),
                 loan.getLoanDate(),
                 loan.getExpectedReturnDate(),

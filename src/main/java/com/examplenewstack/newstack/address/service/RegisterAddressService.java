@@ -1,11 +1,10 @@
 package com.examplenewstack.newstack.address.service;
 
 
-import com.examplenewstack.newstack.address.dto.AddressDTO;
 import com.examplenewstack.newstack.address.Address;
+import com.examplenewstack.newstack.address.dto.AddressRequest;
 import com.examplenewstack.newstack.address.repository.AddressRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class RegisterAddressService {
@@ -16,9 +15,9 @@ public class RegisterAddressService {
         this.addressRepository = addressRepository;
     }
 
-    public Address registerAddres(
-            AddressDTO addressDTO
+    public Address registerAddress(
+            AddressRequest request
     ) {
-        return addressRepository.save(addressDTO.toAdress());
+        return addressRepository.save(request.toAddress());
     }
 }

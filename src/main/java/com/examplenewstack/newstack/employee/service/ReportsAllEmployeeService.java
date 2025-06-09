@@ -22,7 +22,6 @@ public class ReportsAllEmployeeService {
         List<Employee> employeeList = repository.findAll();
         if (employeeList.isEmpty()) {
             throw new NoEmployeersFoundException();
-
         }
 
         return employeeList

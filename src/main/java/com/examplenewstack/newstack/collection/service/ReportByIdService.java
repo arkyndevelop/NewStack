@@ -1,0 +1,34 @@
+package com.examplenewstack.newstack.collection.service;
+
+import com.examplenewstack.newstack.collection.Collection;
+import com.examplenewstack.newstack.collection.dto.CollectionResponseDTO;
+import com.examplenewstack.newstack.collection.exception.NoCollectionFound;
+import com.examplenewstack.newstack.collection.repository.CollectionRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class ReportByIdService {
+
+    private final CollectionRepository repository;
+
+    public ReportByIdService(CollectionRepository repository) {
+        this.repository = repository;
+    }
+
+    public CollectionResponseDTO reportById(
+        int collectionId
+    ){
+        Optional<Collection> collectionFound = repository.findById(collectionId);
+        if (!collectionFound.isPresent()){
+            throw new NoCollectionFound();
+        }
+
+        return new CollectionResponseDTO(
+                collectionFound.get().getTotal_quantity(),
+                collectionFound.get().getTotal_available(),
+                collectionFound.get().getLocation()
+        );
+    }
+}

@@ -33,7 +33,7 @@ public record BookRequestDTO(
         @NotNull(message = "A quantidade de livros disponível não pode ser vazia!")
         int disponibility_quantity,
 
-        Long collectionId,
+        int collectionId,
 
         Long employeeId
 ) {

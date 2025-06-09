@@ -26,7 +26,7 @@ public class RegisterBookService {
     public Book register(
             BookRequestDTO bookDTO,
             String isbn,
-            Long collectionID,
+            int collectionID,
             Long employeeID
     ){
         Collection collection = collectionRepository.findById(collectionID)

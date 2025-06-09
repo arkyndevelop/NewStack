@@ -6,11 +6,11 @@ import com.examplenewstack.newstack.collection.repository.CollectionRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CreateService {
+public class CreateCollection {
 
     private final CollectionRepository repository;
 
-    public CreateService(CollectionRepository repository) {
+    public CreateCollection(CollectionRepository repository) {
         this.repository = repository;
     }
 

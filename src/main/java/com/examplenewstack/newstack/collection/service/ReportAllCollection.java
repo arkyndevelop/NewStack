@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ReportAllService {
+public class ReportAllCollection {
 
     private final CollectionRepository repository;
 
-    public ReportAllService(CollectionRepository repository) {
+    public ReportAllCollection(CollectionRepository repository) {
         this.repository = repository;
     }
 

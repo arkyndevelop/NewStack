@@ -13,19 +13,14 @@ public class DeleteClientByIdController {
 
     private final DeleteClientByIdService deleteClientByIdService;
 
-
     public DeleteClientByIdController(DeleteClientByIdService deleteClientByIdService) {
         this.deleteClientByIdService = deleteClientByIdService;
     }
 
-
     @DeleteMapping("/delete/{id}")
-   public ResponseEntity<?> deleteById(@RequestBody ClientRequestDTO clientRequestDTO, @PathVariable Long id){
+    public ResponseEntity<?> deleteById(@RequestBody ClientRequestDTO clientRequestDTO, @PathVariable Long id) {
 
-
-                deleteClientByIdService.deleteById(id);
-                return ResponseEntity.ok().build();
-
-
+        deleteClientByIdService.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }

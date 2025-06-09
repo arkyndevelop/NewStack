@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class DeleteByIdService {
+public class DeleteByIdCollection {
 
     private final CollectionRepository repository;
 
-    public DeleteByIdService(CollectionRepository repository) {
+    public DeleteByIdCollection(CollectionRepository repository) {
         this.repository = repository;
     }
 

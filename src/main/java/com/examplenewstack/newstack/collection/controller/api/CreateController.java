@@ -2,7 +2,6 @@ package com.examplenewstack.newstack.collection.controller.api;
 
 import com.examplenewstack.newstack.collection.Collection;
 import com.examplenewstack.newstack.collection.dto.CollectionRequestDTO;
-import com.examplenewstack.newstack.collection.service.CreateService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/collection")
 @Tag(name = "Coleção")
-public class CreateCollection {
+public class CreateController {
 
-    private final CreateService service;
+    private final com.examplenewstack.newstack.collection.service.CreateCollection service;
 
-    public CreateCollection(CreateService service) {
+    public CreateController(com.examplenewstack.newstack.collection.service.CreateCollection service) {
         this.service = service;
     }
 

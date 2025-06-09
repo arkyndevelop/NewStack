@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class ReportByIdService {
+public class ReportByIdCollection {
 
     private final CollectionRepository repository;
 
-    public ReportByIdService(CollectionRepository repository) {
+    public ReportByIdCollection(CollectionRepository repository) {
         this.repository = repository;
     }
 

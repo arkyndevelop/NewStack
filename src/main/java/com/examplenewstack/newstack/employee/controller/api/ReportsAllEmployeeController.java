@@ -19,7 +19,6 @@ public class ReportsAllEmployeeController {
 
     @GetMapping("/reports/all")
     public ResponseEntity<?> reports(){
-
        return ResponseEntity.ok().body(service.findAllEmployee());
     }
 }

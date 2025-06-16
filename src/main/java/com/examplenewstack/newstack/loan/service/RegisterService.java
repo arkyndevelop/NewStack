@@ -1,7 +1,5 @@
 package com.examplenewstack.newstack.loan.service;
 
-
-
 import com.examplenewstack.newstack.loan.Loan;
 import com.examplenewstack.newstack.loan.dto.LoanRequest;
 import com.examplenewstack.newstack.loan.repository.LoanRepository;

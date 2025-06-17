@@ -18,6 +18,7 @@ import java.util.List;
 @Service
 public class RegisterBookService {
 
+<<<<<<< HEAD
     private final BookRepository bookRepository;
     private final CollectionRepository collectionRepository;
     private final EmployeeRepository employeeRepository;
@@ -56,3 +57,32 @@ public class RegisterBookService {
         return bookRepository.findAll();
     }
 }
+=======
+//    private final BookRepository bookRepository;
+//    private final CollectionRepository collectionRepository;
+//    private final EmployeeRepository employeeRepository;
+//
+//    public RegisterBookService(BookRepository bookRepository, CollectionRepository collectionRepository, EmployeeRepository employeeRepository) {
+//        this.bookRepository = bookRepository;
+//        this.collectionRepository = collectionRepository;
+//        this.employeeRepository = employeeRepository;
+//    }
+//
+//    public Book register(
+//            BookRequestDTO bookDTO,
+//            String isbn,
+//            Long collectionID,
+//            Long employeeID
+//    ){
+//        Collection collection = collectionRepository.findById(collectionID)
+//                .orElseThrow();
+//        if(bookRepository.existsByISBN(isbn)){
+//            throw new NoBooksFoundByISBNException();
+//        }
+//
+//        Employee employeeFound = employeeRepository.findById(employeeID)
+//                .orElseThrow();
+//        return bookRepository.save(bookDTO.tobook(collection, employeeFound));
+//    }
+}
+>>>>>>> 1efdc77e704b013fc27c0253f528a7ef8939012e

@@ -15,10 +15,10 @@ public record LoanRequest(
         LocalDateTime expectedReturnDate,
 
         @NotNull
-        Long clientId,
+        int clientId,
 
         @NotNull
-        Long bookId
+        int bookId
 ) {
         public Loan toLoan(){
                 Loan loan = new Loan();

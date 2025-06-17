@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/loan")
-@Tag(name = "Empréstimo")
-public class RegisterController {
+@RequestMapping("/loans")
+@Tag(name = "Empréstimos")
+public class LoanRegisterController {
 
     private final RegisterService service;
 
-    public RegisterController(RegisterService service) {
+    public LoanRegisterController(RegisterService service) {
         this.service = service;
     }
 

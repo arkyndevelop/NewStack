@@ -6,10 +6,8 @@ import com.examplenewstack.newstack.book.service.RegisterBookService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/books")
@@ -22,12 +20,14 @@ public class RegisterBookController {
         this.registerBookService = registerBookService;
     }
 
-    @PostMapping("/register")
+    @PostMapping(value = "/register", consumes = {"multipart/form-data"})
     public ResponseEntity<?> registerBook(
-            @RequestBody @Valid BookRequestDTO bookDTO
-    ){
+            @RequestPart("book") @Valid BookRequestDTO bookDTO,
+            @RequestPart(value = "imagem", required = false) MultipartFile imagem
+    ) {
         try {
-            Book book = registerBookService.register(bookDTO, bookDTO.ISBN(), bookDTO.collectionId(), bookDTO.employeeId());
+            // Chama o serviço passando o DTO e o arquivo da imagem
+            registerBookService.register(bookDTO,imagem);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

@@ -9,11 +9,8 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/employee")
 public class ReportsEmployeeByIdView {
 
-    @GetMapping("/reports/{id}")
+    @GetMapping("/reports")
     public ModelAndView reportsEmployeeById(){
-        ModelAndView modelAndView = new ModelAndView("reports");
-        return modelAndView;
-
+        return new ModelAndView("reportEmployee");
     }
-
 }

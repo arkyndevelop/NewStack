@@ -2,6 +2,7 @@ package com.examplenewstack.newstack.employee.controller.view;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -9,9 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/employee")
 public class DeleteAllEmployeeView {
 
-    @DeleteMapping("/delete")
+    @GetMapping("/delete")
     public ModelAndView deleteAllEmployee(){
-        ModelAndView modelAndView = new ModelAndView("reports");
-        return modelAndView;
+        return new ModelAndView("reports");
     }
 }

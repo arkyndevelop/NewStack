@@ -1,0 +1,204 @@
+/* Estilos Globais/Reset (se você ainda não tiver um) */
+/* Os estilos universais foram movidos para navForm.css para evitar duplicação */
+
+body {
+    background-color: #f0f2f5; /* Cor de fundo suave para a página */
+    display: flex; /* Habilita flexbox no body */
+    flex-direction: column; /* Organiza os filhos (header, main) em coluna */
+    min-height: 100vh; /* Garante que o corpo ocupe a altura total da viewport */
+    margin: 0;
+    /* justify-content e align-items para o body vão afetar a navbar também se ela não for full width.
+    Neste caso, a navbar deve ser 100% de largura, então centralizamos apenas o conteúdo dentro dela.
+       O main (login-page) é que precisa ser centralizado na área restante. */
+}
+
+/* Estilos para a página de login */
+.login-page {
+    display: flex; /* Habilita flexbox para alinhar o .login-container */
+    justify-content: center; /* Centraliza o .login-container horizontalmente */
+    align-items: center; /* Centraliza o .login-container verticalmente */
+    width: 100%; /* Ocupa a largura total */
+    padding: 1rem; /* Padding em volta do container em telas pequenas */
+    flex-grow: 1; /* CRUCIAL: Permite que a seção de login cresça e ocupe todo o espaço vertical disponível, empurrando o formulário para o centro */
+}
+
+/* Container principal do formulário de login */
+.login-container {
+    background-color: #ffffff; /* Fundo branco para o formulário */
+    padding: 2.5rem; /* Espaçamento interno */
+    border-radius: 10px; /* Cantos arredondados */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    text-align: center; /* Centraliza o texto dentro do container */
+    width: 100%; /* Ocupa a largura total em telas pequenas */
+    max-width: 400px; /* Largura máxima para o formulário */
+}
+
+.login-container h2 {
+    font-size: 2rem; /* Tamanho do título */
+    color: #2c3e50; /* Cor do título */
+    margin-bottom: 0.5rem; /* Margem abaixo do título */
+}
+
+.login-container p {
+    font-size: 1rem; /* Tamanho do parágrafo */
+    color: #7f8c8d; /* Cor do parágrafo */
+    margin-bottom: 1.5rem; /* Margem abaixo do parágrafo */
+}
+
+/* Formulário de login */
+.login-form {
+    display: flex;
+    flex-direction: column; /* Itens em coluna */
+    gap: 1.2rem; /* Espaço entre os grupos de input */
+}
+
+.input-group {
+    text-align: left; /* Alinha o label e o input à esquerda */
+}
+
+.input-group label {
+    display: block; /* Garante que o label ocupe sua própria linha */
+    font-size: 0.9rem; /* Tamanho da fonte do label */
+    color: #34495e; /* Cor do label */
+    margin-bottom: 0.4rem; /* Margem abaixo do label */
+    font-weight: 600; /* Negrito suave */
+}
+
+.input-group input {
+    width: 100%; /* Ocupa a largura total do container */
+    padding: 0.8rem 1rem; /* Espaçamento interno do input */
+    border: 1px solid #ddd; /* Borda suave */
+    border-radius: 5px; /* Cantos arredondados */
+    font-size: 1rem; /* Tamanho da fonte do input */
+    color: #333; /* Cor do texto digitado */
+    transition: border-color 0.3s ease; /* Transição suave na borda */
+}
+
+.input-group input:focus {
+    border-color: #3498db; /* Borda azul ao focar */
+    outline: none; /* Remove o contorno padrão */
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2); /* Sombra azul suave ao focar */
+}
+
+/* Opções (Lembrar-me e Esqueceu a Senha) */
+.options {
+    display: flex;
+    justify-content: space-between; /* Distribui os itens nas extremidades */
+    align-items: center;
+    font-size: 0.9rem;
+    margin-top: 0.5rem; /* Margem superior */
+    flex-wrap: wrap; /* Permite quebrar linha em telas muito pequenas */
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Espaço entre o checkbox e o label */
+}
+
+.remember-me input[type="checkbox"] {
+    cursor: pointer;
+    width: auto; /* Permite que o checkbox tenha seu tamanho padrão */
+}
+
+.remember-me label {
+    color: #555;
+    font-size: 0.9rem;
+    margin-bottom: 0; /* Remove margem inferior padrão para alinhamento */
+}
+
+.forgot-password {
+    color: #3498db; /* Cor azul para o link */
+    text-decoration: none; /* Remove sublinhado */
+    transition: color 0.3s ease; /* Transição suave na cor */
+}
+
+.forgot-password:hover {
+    color: #2980b9; /* Cor do link ao passar o mouse */
+    text-decoration: underline; /* Adiciona sublinhado ao passar o mouse */
+}
+
+/* Botão de Envio */
+.submit-btn {
+    background-color: #3498db; /* Cor de fundo do botão */
+    color: white; /* Cor do texto */
+    border: none; /* Sem borda */
+    padding: 0.9rem 1.5rem; /* Espaçamento interno */
+    border-radius: 25px; /* Cantos bem arredondados */
+    font-size: 1.1rem; /* Tamanho da fonte */
+    font-weight: bold; /* Negrito */
+    cursor: pointer; /* Cursor de clique */
+    transition: background-color 0.3s ease, transform 0.1s ease; /* Transições suaves */
+    margin-top: 1.5rem; /* Margem superior */
+    width: 100%; /* Ocupa a largura total */
+}
+
+.submit-btn:hover {
+    background-color: #2980b9; /* Cor ao passar o mouse */
+    transform: translateY(-2px); /* Efeito sutil de levantar */
+}
+
+.submit-btn:active {
+    transform: translateY(0); /* Retorna ao normal ao clicar */
+}
+
+/* Link de Cadastro */
+.register-link {
+    margin-top: 1.5rem; /* Margem superior */
+    font-size: 0.9rem; /* Tamanho da fonte */
+    color: #555; /* Cor do texto */
+}
+
+.register-link a {
+    color: #3498db; /* Cor do link */
+    text-decoration: none; /* Sem sublinhado */
+    font-weight: 600; /* Negrito */
+    transition: color 0.3s ease; /* Transição suave */
+}
+
+.register-link a:hover {
+    color: #2980b9; /* Cor do link ao passar o mouse */
+    text-decoration: underline; /* Adiciona sublinhado */
+}
+
+/* --- Media Queries para Responsividade --- */
+@media (max-width: 576px) {
+    /* Ajustes para telas muito pequenas (smartphones) */
+    .login-container {
+        padding: 1.5rem; /* Reduz o padding interno do formulário */
+        border-radius: 0; /* Remove cantos arredondados para ocupar a largura total */
+        box-shadow: none; /* Remove sombra para uma aparência mais "full-width" */
+        max-width: 100%; /* Garante que ele ocupe a largura total */
+        height: 100vh; /* Ocupa a altura total da viewport (cuidado se houver muito conteúdo) */
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Centraliza o conteúdo verticalmente */
+    }
+
+    .login-container h2 {
+        font-size: 1.8rem; /* Reduz o tamanho do título */
+    }
+
+    .login-container p {
+        font-size: 0.9rem; /* Reduz o tamanho do parágrafo */
+    }
+
+    .input-group input {
+        padding: 0.7rem 0.8rem; /* Ajusta o padding dos inputs */
+    }
+
+    .submit-btn {
+        padding: 0.8rem 1rem; /* Ajusta o padding do botão */
+        font-size: 1rem; /* Reduz o tamanho da fonte do botão */
+    }
+
+    .options {
+        flex-direction: column; /* Empilha as opções verticalmente */
+        align-items: flex-start; /* Alinha as opções à esquerda */
+        gap: 0.8rem; /* Espaço entre as opções empilhadas */
+    }
+
+    .register-link {
+        margin-top: 2rem; /* Aumenta a margem superior para afastar do botão */
+    }
+}

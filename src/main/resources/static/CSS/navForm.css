@@ -1,0 +1,161 @@
+/* Estilos Universais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Garante que padding e border não aumentem o tamanho total do elemento */
+    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif; /* Define a fonte padrão */
+}
+
+/* Container da Barra de Navegação (Navbar) */
+.navbar {
+    background-color: #2c3e50; /* Cor de fundo escura */
+    color: white; /* Cor do texto */
+    padding: 1rem 0; /* Espaçamento interno superior e inferior */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave para profundidade */
+    position: sticky; /* Mantém a navbar no topo ao rolar */
+    top: 0; /* Fixa no topo */
+    z-index: 100; /* Garante que fique acima de outros elementos */
+    width: 100%; /* Ensure navbar takes full width */
+}
+
+.navbar-container {
+    width: 90%; /* Largura do conteúdo da navbar */
+    max-width: 1200px; /* Largura máxima para telas grandes */
+    margin: 0 auto; /* Centraliza o container horizontalmente */
+    display: flex; /* Habilita Flexbox para alinhamento */
+    justify-content: flex-start; /* Alinha os itens ao início (esquerda) no desktop */
+    align-items: center; /* Centraliza os itens verticalmente */
+    gap: 20px; /* Espaço entre o logo e os links de navegação */
+}
+
+/* Logo da Navbar */
+.navbar-logo {
+    font-size: 1.8rem; /* Tamanho da fonte do logo */
+    font-weight: bold; /* Negrito */
+    text-decoration: none; /* Remove sublinhado */
+    color: white; /* Cor do logo */
+}
+
+.navbar-logo span {
+    color: #3498db; /* Cor azul para a parte "Stack" do logo */
+}
+
+/* Links de Navegação (Início, Sobre) */
+.navbarform {
+    display: flex; /* Habilita Flexbox para os links */
+    list-style: none; /* Remove os marcadores de lista */
+    margin: 0; /* Remove margens padrão */
+    padding: 0; /* Remove preenchimentos padrão */
+}
+
+.navbarform li {
+    position: relative; /* Necessário para posicionamento de pseudo-elementos ou submenus */
+    margin-right: 1.5rem; /* Espaço entre os itens da lista */
+    margin-left: 0; /* Garante que não haja margem esquerda desnecessária */
+}
+
+.navbarform a {
+    color: white; /* Cor dos links */
+    text-decoration: none; /* Remove sublinhado */
+    font-weight: 500; /* Peso da fonte */
+    padding: 0.5rem 0; /* Espaçamento interno */
+    transition: color 0.3s; /* Transição suave na mudança de cor */
+    display: flex; /* Para alinhar o texto verticalmente */
+    align-items: center; /* Alinha o texto ao centro verticalmente */
+}
+
+.navbarform a:hover {
+    color: #3498db; /* Cor do link ao passar o mouse */
+}
+
+/* Container dos Botões (Cadastrar, Login) */
+.navbar-container ul {
+    margin-left: auto; /* Empurra os botões para a extrema direita usando auto-margin */
+    display: flex; /* Habilita Flexbox para os botões */
+    list-style: none; /* Remove marcadores de lista */
+    padding: 0; /* Remove preenchimentos padrão */
+}
+
+/* Botões de Login e Cadastro */
+.login-btn,
+.register-btn {
+    background-color: #3498db; /* Cor de fundo dos botões */
+    color: white; /* Cor do texto dos botões */
+    border: none; /* Remove a borda */
+    padding: 0.5rem 1.2rem; /* Espaçamento interno */
+    border-radius: 20px; /* Cantos arredondados */
+    font-weight: 500; /* Peso da fonte */
+    cursor: pointer; /* Muda o cursor para indicar clicável */
+    transition: background-color 0.3s; /* Transição suave na cor de fundo */
+    margin-left: 1rem; /* Espaço entre os botões */
+    white-space: nowrap; /* Evita que o texto quebre em várias linhas em telas pequenas */
+}
+
+.login-btn:hover,
+.register-btn:hover {
+    background-color: #2980b9; /* Cor de fundo ao passar o mouse */
+}
+
+/* Botão do Menu Mobile (inicialmente escondido) */
+.mobile-menu-btn {
+    display: none; /* Escondido por padrão em telas maiores */
+    background: none; /* Sem fundo */
+    border: none; /* Sem borda */
+    color: white; /* Cor do ícone */
+    font-size: 1.5rem; /* Tamanho do ícone */
+    cursor: pointer; /* Muda o cursor para indicar clicável */
+}
+
+
+@media (max-width: 768px) {
+    /* Aplica estilos quando a largura da tela é no máximo 768px */
+
+    .navbar-container {
+        justify-content: space-between; /* No mobile, distribui o logo e o botão de menu nas extremidades */
+        gap: 0; /* Remove o espaçamento entre elementos quando o menu está recolhido */
+    }
+
+    /* Esconde os links de navegação normais no mobile */
+    .navbarform {
+        display: none;
+    }
+
+    /* Esconde o botão de cadastro no mobile para economizar espaço */
+    .register-btn {
+        margin-left: 0.5rem;
+    }
+
+    /* Ajusta a margem do botão de login para melhor espaçamento no mobile */
+    .login-btn {
+        margin-left: 0.5rem;
+    }
+
+    /* Mostra o botão do menu mobile (ícone de hambúrguer) */
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    /* Estilos para quando o menu mobile está ATIVO (visível) */
+    /* Isso requer JavaScript para adicionar/remover a classe 'active' */
+    .navbarform.active {
+        display: flex; /* Exibe os itens do menu */
+        flex-direction: column; /* Empilha os itens verticalmente */
+        position: absolute; /* Posicionamento absoluto em relação à navbar */
+        top: 100%; /* Posiciona logo abaixo da navbar */
+        left: 0; /* Alinha à esquerda */
+        width: 100%; /* Ocupa a largura total da tela */
+        background-color: #2c3e50; /* Mesma cor de fundo da navbar */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra para o menu */
+        padding: 1rem 0; /* Espaçamento interno */
+        z-index: 99; /* Abaixo da navbar fixa */
+    }
+
+    .navbarform.active li {
+        margin: 0.5rem 1rem; /* Ajusta o espaçamento para itens empilhados */
+    }
+
+    .navbarform.active a {
+        padding: 0.5rem 1rem; /* Aumenta a área clicável dos links */
+        justify-content: flex-start; /* Alinha o texto dos links à esquerda */
+    }
+}

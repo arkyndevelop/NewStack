@@ -2,6 +2,7 @@ package com.examplenewstack.newstack.employee.controller.view;
 
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,9 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class RegisterEmployeeView {
 
 
-    @PostMapping("/registerEmployee")
+    @GetMapping("/registerEmployee")
     public ModelAndView registerEmployee(){
-        ModelAndView modelAndView = new ModelAndView("register");
-        return modelAndView;
+        return new ModelAndView("register");
     }
 }

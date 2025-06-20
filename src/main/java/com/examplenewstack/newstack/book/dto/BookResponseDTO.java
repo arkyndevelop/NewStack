@@ -11,8 +11,13 @@ public record BookResponseDTO (
     int totalQuantity,
     int disponibilityQuantity,
 
-    int collectionId
+    int collectionId,
 
+    // Setando os novos atributos na entidade Book
+    String author,
+    String description,
+    String publisher,
+    String thumbnailUrl
 ){
 }
 

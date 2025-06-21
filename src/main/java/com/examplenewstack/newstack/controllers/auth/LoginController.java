@@ -27,9 +27,7 @@ public class LoginController {
     // Manipula requisições GET para '/home/login'
     @GetMapping("/login")
     public ModelAndView loginScreen(HttpServletRequest request , Model model){
-        // Cria e retorna uma view chamada 'login'
-        ModelAndView modelAndView = new ModelAndView("login");
-        return modelAndView;
+        return new ModelAndView("login");
     }
 
     // Manipula requisições POST para '/home/login'

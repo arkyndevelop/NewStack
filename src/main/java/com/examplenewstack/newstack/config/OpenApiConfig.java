@@ -11,8 +11,8 @@ public class OpenApiConfig {
     public OpenAPI apiInfo() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("API de Produtos")
+                        .title("API de Biblioteca")
                         .version("1.0")
-                        .description("Documentação da API de cadastro e gerenciamento de produtos"));
+                        .description("Documentação da API de cadastro e gerenciamento de livros"));
     }
 }

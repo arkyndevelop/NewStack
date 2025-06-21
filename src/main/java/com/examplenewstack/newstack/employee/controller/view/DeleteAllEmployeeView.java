@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/employee")
 public class DeleteAllEmployeeView {
 
-    @GetMapping("/delete")
+    @GetMapping("/delete/all")
     public ModelAndView deleteAllEmployee(){
         return new ModelAndView("reports");
     }

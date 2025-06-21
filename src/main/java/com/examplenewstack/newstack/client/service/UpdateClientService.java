@@ -41,12 +41,6 @@ public class UpdateClientService {
         client.setEmail(clientRequestDTO.email());
         client.setTelephone(clientRequestDTO.telephone());
 
-        // Confirmação da senha inserida e a segunda senha informada
-        if (Objects.equals(clientRequestDTO.password(), clientRequestDTO.confirmPassword())) {
-            client.setPassword(clientRequestDTO.password());
-        } else {
-            throw new CustomersSamePasswordException();
-        }
 
         Client updateClients = clientRepository.save(client);
         return ResponseEntity.ok(updateClients);

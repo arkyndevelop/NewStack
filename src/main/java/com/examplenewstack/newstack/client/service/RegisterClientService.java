@@ -20,7 +20,7 @@ public class RegisterClientService {
             ClientRequestDTO request
     ){
         if (repository.existsByCPF(request.CPF())) {
-            throw new CustomersRegisteredDataException("cpf");
+            throw new CustomersRegisteredDataException("CPF");
         }
         if (repository.existsByEmail(request.email())) {
             throw new CustomersRegisteredDataException("email");

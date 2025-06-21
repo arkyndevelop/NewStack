@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/CSS/navForm.css" rel="stylesheet">
+  <link href="/CSS/form.css" rel="stylesheet">
+  <script src="/JS/scriptRegisterEmployee.js" defer></script>
+  <title>Cadastro de Funcionário - NewStack</title>
+</head>
+
+<body>
+<header>
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/v1/home">NewStack</a>
+    </div>
+  </nav>
+</header>
+
+<main class="login-page">
+  <div class="login-container">
+    <h2>Cadastrar Novo Funcionário</h2>
+    <p>Preencha os dados do novo membro da equipe.</p>
+
+    <form class="login-form" id="registerEmployeeForm">
+      <div class="input-group">
+        <label for="name">Nome Completo</label>
+        <input type="text" id="name" name="name" placeholder="Nome do funcionário" required>
+      </div>
+      <div class="input-group">
+        <label for="CPF">CPF</label>
+        <input type="text" id="CPF" name="CPF" placeholder="000.000.000-00" required oninput="this.value = maskCPF(this.value)">
+      </div>
+      <div class="input-group">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" placeholder="email@newstack.com" required>
+      </div>
+      <div class="input-group">
+        <label for="telephone">Telefone</label>
+        <input type="tel" id="telephone" name="telephone" placeholder="(XX) XXXXX-XXXX" required>
+      </div>
+      <div class="input-group">
+        <label for="typeEmployee">Cargo</label>
+        <select id="typeEmployee" name="typeEmployee" class="form-control" style="width: 100%; padding: 0.8rem 1rem; border: 1px solid #ddd; border-radius: 5px;" required>
+          <option value="" disabled selected>Selecione um cargo</option>
+          <option th:each="type : ${T(com.examplenewstack.newstack.employee.enums.TypeEmployee).values()}"
+                  th:value="${type}" th:text="${type.name().replace('_', ' ')}"></option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="password">Senha Provisória</label>
+        <input type="password" id="password" name="password" placeholder="********" required>
+      </div>
+      <div class="input-group">
+        <label for="confirmPassword">Confirmar Senha</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="********" required>
+      </div>
+
+      <button type="submit" class="submit-btn">Cadastrar Funcionário</button>
+    </form>
+  </div>
+</main>
+</body>
+
+</html>

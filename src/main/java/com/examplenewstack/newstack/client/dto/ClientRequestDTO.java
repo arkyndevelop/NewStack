@@ -6,9 +6,7 @@ import com.examplenewstack.newstack.client.Client;
 import com.examplenewstack.newstack.loan.Loan;
 import com.examplenewstack.newstack.loan.dto.LoanRequest;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -33,16 +31,11 @@ public record ClientRequestDTO(
 
         @NotBlank(message = "Senha não pode estar vazia!")
         @Size(min = 8, max = 85)
-        String password,
+        String password
 
-        @NotBlank(message = "Confirmação de senha não pode estar vazia!")
-        String confirmPassword,
+//        AddressRequest address,
+//        LoanRequest loan
 
-        @Valid
-        AddressRequest address,
-
-        @Valid
-        LoanRequest loan
 ) implements UserRequestDTO {
 
     public Client toClient() {
@@ -53,13 +46,8 @@ public record ClientRequestDTO(
         client.setTelephone(telephone);
         client.setPassword(password);
 
-        if (address() != null) {
-            client.setAddress(address().toAddress());
-        }
-
-        if (loan() != null) {
-            client.setLoans((List<Loan>) loan().toLoan());
-        }
+//        client.setAddress((address != null) ? address.toAddress() : null);
+//        client.setLoans((loan() == null) ? (List<Loan>) loan().toLoan() : null);
 
         return client;
     }

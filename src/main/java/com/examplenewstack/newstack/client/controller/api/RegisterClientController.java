@@ -27,8 +27,6 @@ public class RegisterClientController {
     public ResponseEntity<?> clientRegister(
             @RequestBody @Valid ClientRequestDTO clientRequestDTO
     ) {
-
-        Client client = registerClientService.registerClient(clientRequestDTO);
-        return ResponseEntity.ok(client);
+        return ResponseEntity.ok(registerClientService.registerClient(clientRequestDTO));
     }
 }

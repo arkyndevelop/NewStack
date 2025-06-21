@@ -28,7 +28,7 @@
             </div>
             <ul>
                 <li>
-                    <button class="register-btn" onclick="window.location.href = '/register/auth'">Cadastro</button>
+                    <button class="register-btn" onclick="window.location.href = '/clients/register'">Cadastro</button>
                 </li>
             </ul>
         </div>
@@ -40,14 +40,16 @@
         <h2>Faça Login</h2>
         <p>Bem-vindo de volta!</p>
 
-        <form th:action="@{/v1/auth}" method="POST">
+<!--        <form th:action="@{/v1/auth}" method="POST">-->
+        <form action="/v1/home" method="POST">
             <div class="input-group">
                 <label for="cpf">CPF</label>
-                <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00"  required>
+                <input type="text" id="cpf" name="CPF" placeholder="000.000.000-00"  required>
             </div>
             <div class="input-group">
                 <label for="password">Senha</label>
                 <input type="password" id="password" class="password" name="password" placeholder="********" required>
+                <input type="checkbox" onclick=" Ipassword.type = this.checked ? 'text' : 'password'">
             </div>
             <div class="options">
                 <div class="remember-me">

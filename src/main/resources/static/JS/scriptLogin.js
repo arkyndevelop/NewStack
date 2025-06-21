@@ -1,21 +1,21 @@
 const formulario = document.querySelector('form');
-const Iusername = document.querySelector('.username');
+const Icpf = document.querySelector('#cpf');
 const Ipassword = document.querySelector('.password');
 
 formulario.addEventListener('submit',function(event){
     event.preventDefault();
-    login(Iusername.value, Ipassword.value);
+    login(Icpf.value, Ipassword.value);
 });
 
-function login(username, password){
-    fetch('/home/login',{
+function login(CPF, password){
+    fetch('/home',{
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
         method: 'POST',
         body: JSON.stringify({
-            username: username,
+            CPF: CPF,
             password: password
         })
     }).then(function(res){console.log(res)})

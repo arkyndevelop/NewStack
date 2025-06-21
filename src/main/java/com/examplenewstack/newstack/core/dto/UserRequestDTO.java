@@ -29,8 +29,6 @@ public interface UserRequestDTO{
         @Size(min = 8, max = 85)
         String password();
 
-        @NotBlank(message = "Confirmação de senha não pode estar vazia!")
-        String confirmPassword();
 }
 
 

@@ -31,11 +31,24 @@ public class Book {
     @Column(nullable = false, length = 255)
     private String title;
 
+    @Column(nullable = false,length = 1000)
+    private String author;
+
     @Column(nullable = false, length = 17)
     private String ISBN;
 
     @Column(nullable = false, length = 100)
     private String category;
+
+
+    @Column(nullable = false,length = 1000)
+    private String description;
+
+    @Column(nullable = false,length = 255)
+    private String publisher;
+
+    @Column(nullable = false,length = 1000)
+    private String thumbnailUrl;
 
     @Column(nullable = false)
     private String year_publication;
@@ -54,6 +67,7 @@ public class Book {
 
     @Column(nullable = false)  //Falha em usar @Temporal com Instant
     private Instant dateRegister = Instant.now();
+
 
     // Relacionamentos
     @ManyToOne(fetch = FetchType.LAZY)

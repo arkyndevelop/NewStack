@@ -27,20 +27,22 @@ public record BookRequestDTO(
         @NotNull(message = "A disponibilidade não pode ser vazia!")
         boolean disponibility,
 
-        @NotNull(message = "A a quantidade de livros não pode ser vazia!")
+        @NotNull(message = "A quantidade de livros não pode ser vazia!")
         int total_quantity,
 
         @NotNull(message = "A quantidade de livros disponível não pode ser vazia!")
         int disponibility_quantity,
 
         int collectionId,
+        int employeeId,
 
-        int employeeId
+        String author,
+        String description,
+        String publisher,
+        String thumbnailUrl
+
 ) {
-    public Book tobook(
-            Collection collection,
-            Employee employee
-    ){
+    public Book tobook(Collection collection, Employee employee) {
         Book book = new Book();
 
         book.setTitle(title);
@@ -53,6 +55,12 @@ public record BookRequestDTO(
 
         book.setEmployee(employee);
         book.setCollection(collection);
+
+        // Novos campos
+        book.setAuthor(author);
+        book.setDescription(description);
+        book.setPublisher(publisher);
+        book.setThumbnailUrl(thumbnailUrl);
 
         return book;
     }

@@ -15,9 +15,7 @@ public class ReportBookByIDService {
         this.bookRepository = bookRepository;
     }
 
-    public BookResponseDTO findByID(
-            int bookID
-    ){
+    public BookResponseDTO findByID(int bookID) {
         Book bookFound = bookRepository.findById(bookID)
                 .orElseThrow(NoBooksFoundByIdException::new);
 
@@ -31,6 +29,11 @@ public class ReportBookByIDService {
                 bookFound.getDisponibility_quantity(),
                 bookFound.getCollection().getId(),
                 bookFound.getEmployee().getId()
+                // Inclusão dos novos atributos para resposta completa
+                bookFound.getAuthor(),
+                bookFound.getDescription(),
+                bookFound.getPublisher(),
+                bookFound.getThumbnailUrl()
         );
     }
 }

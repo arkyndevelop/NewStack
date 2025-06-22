@@ -28,8 +28,7 @@ public class ReportBookByIDService {
                 bookFound.getTotal_quantity(),
                 bookFound.getDisponibility_quantity(),
                 bookFound.getCollection().getId(),
-                bookFound.getEmployee().getId()
-                // Inclusão dos novos atributos para resposta completa
+                bookFound.getEmployee().getId(),
                 bookFound.getAuthor(),
                 bookFound.getDescription(),
                 bookFound.getPublisher(),

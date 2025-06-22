@@ -48,7 +48,11 @@ public class RegisterBookService {
                 bookDTO.total_quantity(),
                 bookDTO.disponibility_quantity(),
                 bookDTO.collectionId(),
-                bookDTO.employeeId()
+                bookDTO.employeeId(),
+                bookDTO.author(),
+                bookDTO.description(),
+                bookDTO.publisher(),
+                bookDTO.thumbnailUrl()
         );
     }
 }

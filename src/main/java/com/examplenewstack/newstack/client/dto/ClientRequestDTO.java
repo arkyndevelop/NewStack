@@ -33,8 +33,8 @@ public record ClientRequestDTO(
         @Size(min = 8, max = 85)
         String password
 
-//        AddressRequest address,
-//        LoanRequest loan
+//      AddressRequest address,
+//      LoanRequest loan
 
 ) implements UserRequestDTO {
 

@@ -41,7 +41,11 @@ public class UpdateBookService {
                         bookExists.getTotal_quantity(),
                         bookExists.getDisponibility_quantity(),
                         bookExists.getCollection().getId(),
-                        
+                        bookExists.getEmployee().getId(),
+                        bookExists.getAuthor(),
+                        bookExists.getDescription(),
+                        bookExists.getPublisher(),
+                        bookExists.getThumbnailUrl()
                 ));
     }
 }

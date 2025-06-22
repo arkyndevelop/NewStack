@@ -17,18 +17,17 @@ public class UpdateBookService {
         this.bookRepository = bookRepository;
     }
 
-    public ResponseEntity<BookResponseDTO> updateBook(
-            BookRequestDTO request,
-            String bookISBN
-    ){
+    public ResponseEntity<BookResponseDTO> updateBook(BookRequestDTO request, String bookISBN) {
         Book bookExists = bookRepository.findByISBN(bookISBN)
                 .orElseThrow(NoBooksFoundByISBNException::new);
 
+        // Atualização dos campos existentes com dados do request
         bookExists.setTitle(request.title());
         bookExists.setISBN(request.ISBN());
         bookExists.setCategory(request.category());
         bookExists.setYear_publication(request.year_publication());
-        bookExists.setDisponibility(request.disponibility()); // Verificar sobre a disponilidade!
+        bookExists.setDisponibility(request.disponibility());
+        bookExists.setTotal_quantity(request.total_quantity()); // Não esquecer de atualizar a quantidade total
         bookExists.setDisponibility_quantity(request.disponibility_quantity());
 
         Book updateBook = bookRepository.save(bookExists);
@@ -42,7 +41,7 @@ public class UpdateBookService {
                         bookExists.getTotal_quantity(),
                         bookExists.getDisponibility_quantity(),
                         bookExists.getCollection().getId(),
-                        bookExists.getEmployee().getId()
+                        
                 ));
     }
 }

@@ -17,23 +17,27 @@ public class ReportAllBooksService {
         this.bookRepository = bookRepository;
     }
 
-    public List<BookResponseDTO> reportAllBooks(){
+    public List<BookResponseDTO> reportAllBooks() {
         List<Book> findBooks = bookRepository.findAll();
-        if(findBooks.isEmpty()){
+        if (findBooks.isEmpty()) {
             throw new NoBooksFoundException();
         }
         return findBooks
                 .stream()
-                .map(books -> new BookResponseDTO(
-                        books.getTitle(),
-                        books.getISBN(),
-                        books.getCategory(),
-                        books.getYear_publication(),
-                        books.isDisponibility(),
-                        books.getTotal_quantity(),
-                        books.getDisponibility_quantity(),
-                        books.getCollection().getId(),
-                        books.getEmployee().getId()
+                .map(book -> new BookResponseDTO(
+                        book.getTitle(),
+                        book.getISBN(),
+                        book.getCategory(),
+                        book.getYear_publication(),
+                        book.isDisponibility(),
+                        book.getTotal_quantity(),
+                        book.getDisponibility_quantity(),
+                        book.getCollection().getId(),
+                        // Novos campos adicionados ao DTO para retornar mais informações do livro
+                        book.getAuthor(),
+                        book.getDescription(),
+                        book.getPublisher(),
+                        book.getThumbnailUrl()
                 ))
                 .toList();
     }

@@ -1,82 +1,158 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const quantidadeInput = document.getElementById('quantExemplares');
+document.addEventListener("DOMContentLoaded", () => {
+    const tituloInput = document.getElementById("titulo");
+    const form = document.getElementById("RegisterLivro_Form");
 
-    quantidadeInput.addEventListener('input', function() {
-        if (this.value < 0) {
-            this.value = 0;
+    tituloInput.addEventListener("blur", async () => {
+        const titulo = tituloInput.value.trim();
+        if (!titulo) return;
+
+        try {
+            const response = await fetch(`/google-books/titulo/${encodeURIComponent(titulo)}`);
+            if (!response.ok) throw new Error("Livro não encontrado");
+
+            const data = await response.json();
+
+            document.getElementById("autor").value = data.authors?.[0] || "";
+            document.getElementById("descricao").value = data.description || "";
+            document.getElementById("editora").value = data.publisher || "";
+            document.getElementById("dataPublicacao").value = formatarData(data.publishedDate);
+
+            const categoriaOriginal = data.categories?.[0] || "";
+            const categoriaTraduzida = categoriasTraduzidas[categoriaOriginal] || categoriaOriginal;
+            document.getElementById("categoria").value = categoriaTraduzida;
+
+            if (data.imageLinks?.thumbnail) {
+                mostrarImagem(data.imageLinks.thumbnail);
+                document.getElementById("imagemUrlGoogle").value = data.imageLinks.thumbnail;
+            } else {
+                removerImagem();
+                document.getElementById("imagemUrlGoogle").value = "";
+            }
+
+        } catch (err) {
+            mostrarErro("Livro não encontrado.");
         }
     });
 
-    quantidadeInput.addEventListener('wheel', function(event) {
-        // Impede a rolagem padrão que mudaria o valor
+    form.addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        const currentValue = parseInt(this.value) || 0;
-        const delta = Math.sign(event.deltaY); // +1 para rolagem para baixo, -1 para cima
+        const formData = new FormData(form);
 
-        if (delta < 0) { // Rolando para cima (aumentar)
-            this.value = currentValue + 1;
-        } else if (delta > 0 && currentValue > 0) { // Rolando para baixo (diminuir) e valor maior que 0
-            this.value = currentValue - 1;
+        try {
+            const response = await fetch(form.action, {
+                method: "POST",
+                body: formData
+            });
+
+            if (!response.ok) throw new Error("Erro ao cadastrar livro");
+
+            mostrarSucesso();
+            form.reset();
+            removerImagem();
+
+        } catch (error) {
+            mostrarErro(error.message);
         }
     });
 });
 
-document.getElementById('RegisterLivro_Form').addEventListener('submit', async function(e) {
-    e.preventDefault(); // Impede o envio padrão do formulário.
-
-    // Coleta os dados do formulário a partir dos campos de entrada.
-    const disponibilidadeValue = document.getElementById('disponibilidade').value;
-    const dataCadastroAtual = new Date().toISOString(); // Obtém a data e hora atuais no formato ISO 8601
-    const bookData = {
-        titulo: document.getElementById('titulo').value,
-        autor: document.getElementById('autor').value,
-        categoria: document.getElementById('categoria').value,
-        dataPublicacao: document.getElementById('dataPublicacao').value,
-        quantExemplares: document.getElementById('quantExemplares').value,
-        dataCadastro: dataCadastroAtual, // Adiciona a data de cadastro
-        imgLivro: document.getElementById('imgLivro').value,
-        disponibilidade: disponibilidadeValue === 'Sim', // Converte 'sim' para true e qualquer outra coisa para false
-    };
-
-
-    try {
-        // Envia os dados do livro para a API usando o método POST.
-        const response = await fetch('http://localhost:8080/livros', { // add a url da api
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json' // Indica que os dados estão em formato JSON.
-            },
-            body: JSON.stringify(bookData) // Converte os dados do objeto em uma string JSON.
-        });
-
-        // Verifica se a resposta da API foi bem-sucedida.
-        if (!response.ok) {
-            const error = await response.text(); // Obtém a mensagem de erro da resposta.
-            throw new Error(error); // Lança um erro com a mensagem da API.
-        }
-
-        // Exibe uma mensagem de sucesso e redireciona o usuário.
-        alert('Livro cadastrado com sucesso!');
-        limpaFormular();
-        window.location.href = 'registerBook.html'; // Redireciona para a página registerBook
-    } catch (error) {
-        // Exibe o alerta de erro
-        document.getElementById('mensagemErro').textContent = error.message;
-        document.getElementById('alertaErro').style.display = 'block';
-    }
-});
-
-function limpaFormular() {
-    document.getElementById('titulo').value = '';
-    document.getElementById('autor').value = '';
-    document.getElementById('categoria').value = '';
-    document.getElementById('dataPublicacao').value = '';
-    document.getElementById('quantExemplares').value = '';
-    document.getElementById('disponibilidade').value = 'Sim';
+function formatarData(dataStr) {
+    if (!dataStr) return "";
+    const partes = dataStr.split("-");
+    if (partes.length === 3) return dataStr;
+    if (partes.length === 2) return `${partes[0]}-${partes[1]}-01`;
+    if (partes.length === 1) return `${partes[0]}-01-01`;
+    return "";
 }
 
-// Função para fechar o alerta de erro
+function mostrarImagem(url) {
+    removerImagem();
+    const imglivro = document.getElementById("imglivro");
+    const img = document.createElement("img");
+    img.id = "previewImagem";
+    img.src = url;
+    img.alt = "Capa do livro";
+    img.style.maxWidth = "200px";
+    img.style.marginTop = "10px";
+    imglivro.appendChild(img);
+}
+
+function removerImagem() {
+    const imgPreview = document.getElementById("previewImagem");
+    if (imgPreview) imgPreview.remove();
+}
+
+function mostrarErro(mensagem) {
+    const alerta = document.getElementById("alertaErro");
+    const msg = document.getElementById("mensagemErro");
+    msg.textContent = mensagem;
+    alerta.classList.remove("d-none");
+}
+
 function fecharAlerta() {
-    document.getElementById('alertaErro').style.display = 'none';
+    const alerta = document.getElementById("alertaErro");
+    alerta.classList.add("d-none");
 }
+
+function mostrarSucesso() {
+    const alerta = document.getElementById("alertaSucesso");
+    alerta.classList.remove("d-none");
+}
+
+function fecharAlertaSucesso() {
+    const alerta = document.getElementById("alertaSucesso");
+    alerta.classList.add("d-none");
+}
+
+
+const categoriasTraduzidas = {
+    "Art": "Arte",
+    "Biography & Autobiography": "Biografia e Autobiografia",
+    "Body, Mind & Spirit": "Corpo, Mente e Espírito",
+    "Business & Economics": "Negócios e Economia",
+    "Computers": "Computação",
+    "Cooking": "Culinária",
+    "Crafts & Hobbies": "Artesanato e Passatempos",
+    "Design": "Design",
+    "Drama": "Drama",
+    "Education": "Educação",
+    "Family & Relationships": "Família e Relacionamentos",
+    "Fiction": "Ficção",
+    "Foreign Language Study": "Estudo de Línguas Estrangeiras",
+    "Games & Activities": "Jogos e Atividades",
+    "Gardening": "Jardinagem",
+    "Health & Fitness": "Saúde e Boa Forma",
+    "History": "História",
+    "House & Home": "Casa e Lar",
+    "Humor": "Humor",
+    "Juvenile Fiction": "Ficção Juvenil",
+    "Juvenile Nonfiction": "Não Ficção Juvenil",
+    "Language Arts & Disciplines": "Linguística e Disciplinas Relacionadas",
+    "Law": "Direito",
+    "Literary Collections": "Coleções Literárias",
+    "Literary Criticism": "Crítica Literária",
+    "Mathematics": "Matemática",
+    "Medical": "Medicina",
+    "Music": "Música",
+    "Nature": "Natureza",
+    "Performing Arts": "Artes Cênicas",
+    "Pets": "Animais de Estimação",
+    "Philosophy": "Filosofia",
+    "Photography": "Fotografia",
+    "Poetry": "Poesia",
+    "Political Science": "Ciência Política",
+    "Psychology": "Psicologia",
+    "Religion": "Religião",
+    "Science": "Ciência",
+    "Self-Help": "Autoajuda",
+    "Social Science": "Ciências Sociais",
+    "Sports & Recreation": "Esportes e Recreação",
+    "Study Aids": "Guias de Estudo",
+    "Technology & Engineering": "Tecnologia e Engenharia",
+    "Transportation": "Transporte",
+    "Travel": "Viagem",
+    "True Crime": "Crimes Reais",
+    "Young Adult Fiction": "Ficção para Jovens",
+    "Young Adult Nonfiction": "Não Ficção para Jovens"
+};

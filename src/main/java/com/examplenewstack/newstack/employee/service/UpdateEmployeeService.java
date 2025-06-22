@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -22,7 +23,7 @@ public class UpdateEmployeeService {
 
     public ResponseEntity<Employee> updateEmployee(
             EmployeeRequestDTO request,
-            Long id
+            Integer id
     ){
         Optional<Employee> employeeExisting = repository.findById(id);
         if (employeeExisting.isEmpty()) {
@@ -34,7 +35,8 @@ public class UpdateEmployeeService {
         employee.setCPF(request.CPF());
         employee.setEmail(request.email());
         employee.setTelephone(request.telephone());
-        if (request.password().equals(request.confirmPassword())) {
+
+        if (!Objects.equals(request.password(), request.confirmPassword())) {
             throw new EmployeersSamePasswordException();
         }
         employee.setPassword(request.password());

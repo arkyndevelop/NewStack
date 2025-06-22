@@ -16,21 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Livros")
 public class RegisterBookController {
 
-//    private final RegisterBookService registerBookService;
-//
-//    public RegisterBookController(RegisterBookService registerBookService) {
-//        this.registerBookService = registerBookService;
-//    }
-//
-//    @PostMapping("/register")
-//    public ResponseEntity<?> registerBook(
-//            @RequestBody @Valid BookRequestDTO bookDTO
-//    ){
-//        try {
-//            Book book = registerBookService.register(bookDTO, bookDTO.ISBN(), bookDTO.collectionId(), bookDTO.employeeId());
-//            return ResponseEntity.ok().build();
-//        } catch (Exception e) {
-//            return ResponseEntity.badRequest().body(e.getMessage());
-//        }
-//    }
+    private final RegisterBookService registerBookService;
+
+    public RegisterBookController(RegisterBookService registerBookService) {
+        this.registerBookService = registerBookService;
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> registerBook(
+            @RequestBody @Valid BookRequestDTO bookDTO
+    ) {
+        return ResponseEntity.ok().body(registerBookService.register(bookDTO, bookDTO.ISBN(), bookDTO.collectionId(), bookDTO.employeeId()));
+    }
 }

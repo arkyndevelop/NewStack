@@ -29,7 +29,8 @@ public class ReportBookByIDService {
                 bookFound.isDisponibility(),
                 bookFound.getTotal_quantity(),
                 bookFound.getDisponibility_quantity(),
-                bookFound.getId()
+                bookFound.getCollection().getId(),
+                bookFound.getEmployee().getId()
         );
     }
 }

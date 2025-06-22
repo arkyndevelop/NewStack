@@ -10,14 +10,13 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Entity
-@Table(name = "collection")
-
 //Getters and Setters, Constructor and NoArgsConstructor
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "collection")
 public class Collection {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

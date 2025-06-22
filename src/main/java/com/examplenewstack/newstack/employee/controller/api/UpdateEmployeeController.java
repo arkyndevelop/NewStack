@@ -20,7 +20,7 @@ public class UpdateEmployeeController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateClient(
             @RequestBody @Valid EmployeeRequestDTO request,
-            @RequestParam Long id
+            @RequestParam int id
     ) {
 
         service.updateEmployee(request, id);

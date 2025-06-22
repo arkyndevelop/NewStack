@@ -33,8 +33,8 @@ public class LoginController {
     // Manipula requisições POST para '/home/login'
     @PostMapping("/auth")
     public String login(
-            @RequestParam String cpf,
-            @RequestParam String password,
+            @RequestBody String cpf,
+            @RequestBody String password,
             HttpSession session,
             Model model
     ){

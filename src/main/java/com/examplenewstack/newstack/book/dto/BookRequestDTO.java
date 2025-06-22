@@ -35,7 +35,7 @@ public record BookRequestDTO(
 
         int collectionId,
 
-        Long employeeId
+        int employeeId
 ) {
     public Book tobook(
             Collection collection,

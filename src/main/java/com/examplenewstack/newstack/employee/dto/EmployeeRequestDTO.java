@@ -39,12 +39,14 @@ public record EmployeeRequestDTO(
 
     public Employee toUser() {
         Employee employee = new Employee();
+
         employee.setName(name);
         employee.setCPF(CPF);
         employee.setEmail(email);
         employee.setTelephone(telephone);
         employee.setPassword(password);
         employee.setTypeEmployee(typeEmployee);
+
         return employee;
     }
 }

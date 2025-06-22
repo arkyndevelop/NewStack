@@ -41,7 +41,8 @@ public class UpdateBookService {
                         bookExists.isDisponibility(),
                         bookExists.getTotal_quantity(),
                         bookExists.getDisponibility_quantity(),
-                        bookExists.getId()
+                        bookExists.getCollection().getId(),
+                        bookExists.getEmployee().getId()
                 ));
     }
 }

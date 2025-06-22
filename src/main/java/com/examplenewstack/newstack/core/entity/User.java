@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
 
     @Column(nullable = false,length = 60)
     private String name;

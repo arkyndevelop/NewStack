@@ -8,14 +8,14 @@ formulario.addEventListener('submit',function(event){
 });
 
 function login(CPF, password){
-    fetch('/home',{
+    fetch('/v1/auth',{
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
         method: 'POST',
         body: JSON.stringify({
-            CPF: CPF,
+            cpf: CPF,
             password: password
         })
     }).then(function(res){console.log(res)})

@@ -11,7 +11,8 @@ public record BookResponseDTO (
     int totalQuantity,
     int disponibilityQuantity,
 
-    int collectionId
+    int collectionId,
+    int employeeId
 
 ){
 }

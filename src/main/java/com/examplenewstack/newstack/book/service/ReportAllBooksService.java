@@ -32,7 +32,9 @@ public class ReportAllBooksService {
                         books.isDisponibility(),
                         books.getTotal_quantity(),
                         books.getDisponibility_quantity(),
-                        books.getCollection().getId()))
+                        books.getCollection().getId(),
+                        books.getEmployee().getId()
+                ))
                 .toList();
     }
 }

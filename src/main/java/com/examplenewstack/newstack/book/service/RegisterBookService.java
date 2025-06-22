@@ -1,9 +1,7 @@
 package com.examplenewstack.newstack.book.service;
 
-import com.examplenewstack.newstack.book.Book;
 import com.examplenewstack.newstack.book.dto.BookRequestDTO;
 import com.examplenewstack.newstack.book.dto.BookResponseDTO;
-import com.examplenewstack.newstack.book.exception.NoBooksFoundByISBNException;
 import com.examplenewstack.newstack.book.repository.BookRepository;
 import com.examplenewstack.newstack.collection.Collection;
 import com.examplenewstack.newstack.collection.repository.CollectionRepository;

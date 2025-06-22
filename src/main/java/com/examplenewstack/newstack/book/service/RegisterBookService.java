@@ -1,88 +1,54 @@
 package com.examplenewstack.newstack.book.service;
 
-import com.examplenewstack.newstack.book.Book;
 import com.examplenewstack.newstack.book.dto.BookRequestDTO;
-import com.examplenewstack.newstack.book.exception.NoBooksFoundByISBNException;
+import com.examplenewstack.newstack.book.dto.BookResponseDTO;
 import com.examplenewstack.newstack.book.repository.BookRepository;
 import com.examplenewstack.newstack.collection.Collection;
 import com.examplenewstack.newstack.collection.repository.CollectionRepository;
 import com.examplenewstack.newstack.employee.Employee;
 import com.examplenewstack.newstack.employee.repository.EmployeeRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Service
 public class RegisterBookService {
 
-<<<<<<< HEAD
     private final BookRepository bookRepository;
     private final CollectionRepository collectionRepository;
     private final EmployeeRepository employeeRepository;
 
-    public RegisterBookService(BookRepository bookRepository,
-                               CollectionRepository collectionRepository,
-                               EmployeeRepository employeeRepository) {
+    public RegisterBookService(BookRepository bookRepository, CollectionRepository collectionRepository, EmployeeRepository employeeRepository) {
         this.bookRepository = bookRepository;
         this.collectionRepository = collectionRepository;
         this.employeeRepository = employeeRepository;
     }
 
-    public Book register(BookRequestDTO bookDTO, MultipartFile imagem) {
-        String isbn = bookDTO.ISBN();
-        int collectionID = bookDTO.collectionId();
-        Long employeeID = bookDTO.employeeId();
-
+    public BookResponseDTO register(
+            BookRequestDTO bookDTO,
+            String isbn,
+            int collectionID,
+            int employeeID
+    ){
         Collection collection = collectionRepository.findById(collectionID)
-                .orElseThrow(() -> new RuntimeException("Coleção não encontrada"));
-
-        if (bookRepository.existsByISBN(isbn)) {
-            throw new NoBooksFoundByISBNException();
-        }
-
-        Employee employeeFound = employeeRepository.findById(employeeID)
-                .orElseThrow(() -> new RuntimeException("Funcionário não encontrado"));
-
-        Book book = bookDTO.tobook(collection, employeeFound);
-
-        // Se quiser, pode implementar lógica para salvar a imagem aqui
-
-        return bookRepository.save(book);
-    }
-
-    public List<Book> listAll() {
-        return bookRepository.findAll();
-    }
-}
-=======
-//    private final BookRepository bookRepository;
-//    private final CollectionRepository collectionRepository;
-//    private final EmployeeRepository employeeRepository;
-//
-//    public RegisterBookService(BookRepository bookRepository, CollectionRepository collectionRepository, EmployeeRepository employeeRepository) {
-//        this.bookRepository = bookRepository;
-//        this.collectionRepository = collectionRepository;
-//        this.employeeRepository = employeeRepository;
-//    }
-//
-//    public Book register(
-//            BookRequestDTO bookDTO,
-//            String isbn,
-//            Long collectionID,
-//            Long employeeID
-//    ){
-//        Collection collection = collectionRepository.findById(collectionID)
-//                .orElseThrow();
+                .orElseThrow();
 //        if(bookRepository.existsByISBN(isbn)){
 //            throw new NoBooksFoundByISBNException();
 //        }
-//
-//        Employee employeeFound = employeeRepository.findById(employeeID)
-//                .orElseThrow();
-//        return bookRepository.save(bookDTO.tobook(collection, employeeFound));
-//    }
+
+        Employee employeeFound = employeeRepository.findById(employeeID)
+                .orElseThrow();
+
+        bookRepository.save(bookDTO.tobook(collection, employeeFound));
+
+        return new BookResponseDTO(
+                bookDTO.title(),
+                bookDTO.ISBN(),
+                bookDTO.category(),
+                bookDTO.year_publication(),
+                bookDTO.disponibility(),
+                bookDTO.total_quantity(),
+                bookDTO.disponibility_quantity(),
+                bookDTO.collectionId(),
+                bookDTO.employeeId()
+        );
+    }
 }
->>>>>>> 1efdc77e704b013fc27c0253f528a7ef8939012e

@@ -19,7 +19,7 @@ public class ReportsEmployeeByIdController {
 
     @GetMapping("/reportsBy/{id}")
     public ResponseEntity<?> reportsEmployeeById(
-            @PathVariable Long id
+            @PathVariable int id
     ){
         return ResponseEntity.ok().body(service.reportsEmployeeById(id));
     }

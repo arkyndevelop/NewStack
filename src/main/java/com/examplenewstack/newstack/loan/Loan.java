@@ -1,8 +1,8 @@
 package com.examplenewstack.newstack.loan;
 
 import com.examplenewstack.newstack.book.Book;
-import com.examplenewstack.newstack.employee.Employee;
 import com.examplenewstack.newstack.client.Client;
+import com.examplenewstack.newstack.employee.Employee;
 import com.examplenewstack.newstack.loan.enums.StatusLoan;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,18 +12,19 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "loan")
+
 
 //Getters and Setters, Constructor and NoArgsConstructor
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "loan")
 public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(nullable = false)
     private LocalDateTime loanDate;

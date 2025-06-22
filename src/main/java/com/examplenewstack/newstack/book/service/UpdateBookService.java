@@ -30,29 +30,18 @@ public class UpdateBookService {
         bookExists.setTotal_quantity(request.total_quantity()); // Não esquecer de atualizar a quantidade total
         bookExists.setDisponibility_quantity(request.disponibility_quantity());
 
-        // Atualização dos novos atributos adicionados na entidade
-        bookExists.setAuthor(request.author());
-        bookExists.setDescription(request.description());
-        bookExists.setPublisher(request.publisher());
-        bookExists.setThumbnailUrl(request.thumbnailUrl());
-
-        // Salva as alterações no banco e obtém o objeto atualizado
-        Book updatedBook = bookRepository.save(bookExists);
-
-        // Retorna o DTO com todos os campos atualizados, usando o objeto salvo no banco
-        return ResponseEntity.ok(new BookResponseDTO(
-                updatedBook.getTitle(),
-                updatedBook.getISBN(),
-                updatedBook.getCategory(),
-                updatedBook.getYear_publication(),
-                updatedBook.isDisponibility(),
-                updatedBook.getTotal_quantity(),
-                updatedBook.getDisponibility_quantity(),
-                updatedBook.getCollection().getId(),
-                updatedBook.getAuthor(),
-                updatedBook.getDescription(),
-                updatedBook.getPublisher(),
-                updatedBook.getThumbnailUrl()
-        ));
+        Book updateBook = bookRepository.save(bookExists);
+        return ResponseEntity
+                .ok(new BookResponseDTO(
+                        bookExists.getTitle(),
+                        bookExists.getISBN(),
+                        bookExists.getCategory(),
+                        bookExists.getYear_publication(),
+                        bookExists.isDisponibility(),
+                        bookExists.getTotal_quantity(),
+                        bookExists.getDisponibility_quantity(),
+                        bookExists.getCollection().getId(),
+                        
+                ));
     }
 }

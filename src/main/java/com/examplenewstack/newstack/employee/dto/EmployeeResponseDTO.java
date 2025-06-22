@@ -4,7 +4,7 @@ import com.examplenewstack.newstack.core.dto.UserResponseDTO;
 import com.examplenewstack.newstack.employee.Employee;
 
 public record EmployeeResponseDTO(
-        Long id,
+        Integer id,
         String name,
         String CPF,
         String email,

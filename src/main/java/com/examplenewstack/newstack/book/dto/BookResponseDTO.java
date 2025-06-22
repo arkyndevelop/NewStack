@@ -12,6 +12,7 @@ public record BookResponseDTO (
     int disponibilityQuantity,
 
     int collectionId,
+    int employeeId
 
     // Setando os novos atributos na entidade Book
     String author,

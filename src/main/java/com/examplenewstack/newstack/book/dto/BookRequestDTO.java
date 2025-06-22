@@ -34,12 +34,13 @@ public record BookRequestDTO(
         int disponibility_quantity,
 
         int collectionId,
-        Long employeeId,
+        int employeeId,
 
         String author,
         String description,
         String publisher,
         String thumbnailUrl
+
 ) {
     public Book tobook(Collection collection, Employee employee) {
         Book book = new Book();

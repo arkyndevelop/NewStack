@@ -19,7 +19,7 @@ public class ReportsEmployeeByIdService {
     }
 
     public EmployeeResponseDTO reportsEmployeeById(
-            Long id
+            int id
     ) {
         Optional<Employee> employee = repository.findById(id);
         if (employee.isEmpty()) {

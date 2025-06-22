@@ -11,8 +11,8 @@ public record LoanResponse(
         LocalDateTime actualReturnDate,
         String statusLoan,
 
-        Long employeeId,
-        Long clientId,
+        Integer employeeId,
+        Integer clientId,
         Integer bookId
 ){
     public static LoanResponse fromEntity(Loan loan){

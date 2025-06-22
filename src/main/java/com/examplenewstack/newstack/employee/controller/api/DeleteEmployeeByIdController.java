@@ -23,7 +23,7 @@ public class DeleteEmployeeByIdController {
 
     @DeleteMapping("/deleteEmployee/{id}")
     public ResponseEntity<?> deleteByCPF(
-            @PathVariable Long id
+            @PathVariable int id
     ){
 
         service.deleteEmployeeById(id);

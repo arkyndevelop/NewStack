@@ -48,6 +48,7 @@ public class Address {
     // Relacionamento 1:1 com Client
     // Este lado é o inverso da relação (não possui @JoinColumn)
     @OneToOne(mappedBy = "address",fetch = FetchType.LAZY)
+    //@JoinTable(foreignKey = )
     private Client client;
 
 

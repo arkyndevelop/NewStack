@@ -21,7 +21,7 @@ public class DeleteEmployeeByIdService {
     }
 
     public ResponseEntity<Employee> deleteEmployeeById(
-            Long id
+            int id
     ){
         Optional<Employee> employee = repository.findById(id);
         if (employee.isEmpty()) {

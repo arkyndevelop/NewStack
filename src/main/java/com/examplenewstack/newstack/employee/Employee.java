@@ -10,12 +10,12 @@ import lombok.Setter;
 
 import java.util.List;
 
-
+@Getter
+@Setter
 @Entity
-@Table(name = "librarian")
+@Table(name = "employee")
 public class Employee extends User {
-    @Getter
-    @Setter
+
     private TypeEmployee typeEmployee;
     public Employee() { super(); }
 
@@ -26,7 +26,6 @@ public class Employee extends User {
     //Relacionamento com book
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
     private List<Book> books;
-
 
     public Employee(String name, String CPF, String email, String telephone, String password) {
         super(name, CPF, email, telephone, password);

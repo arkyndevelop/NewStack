@@ -34,6 +34,7 @@ public class ReportAllBooksService {
                         book.getDisponibility_quantity(),
                         book.getCollection().getId(),
                         // Novos campos adicionados ao DTO para retornar mais informações do livro
+                        book.getEmployee().getId(),
                         book.getAuthor(),
                         book.getDescription(),
                         book.getPublisher(),

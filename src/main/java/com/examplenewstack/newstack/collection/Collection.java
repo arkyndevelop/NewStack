@@ -31,7 +31,6 @@ public class Collection {
     @Column(nullable = false)
     private String location;
 
-    // Relacionamento com book
     @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Book> books;
 }

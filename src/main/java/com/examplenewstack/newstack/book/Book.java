@@ -21,7 +21,6 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "book")
-
 public class Book {
 
     @Id
@@ -39,7 +38,6 @@ public class Book {
 
     @Column(nullable = false, length = 100)
     private String category;
-
 
     @Column(nullable = false,length = 1000)
     private String description;
@@ -67,7 +65,6 @@ public class Book {
 
     @Column(nullable = false)  //Falha em usar @Temporal com Instant
     private Instant dateRegister = Instant.now();
-
 
     // Relacionamentos
     @ManyToOne(fetch = FetchType.LAZY)

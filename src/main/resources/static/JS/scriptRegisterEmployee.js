@@ -6,6 +6,58 @@ function maskCPF(value) {
     return value;
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    // Máscara para CPF
+    const cpfInput = document.getElementById('CPF');
+    if (cpfInput) {
+        cpfInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            e.target.value = value;
+        });
+    }
+
+    // Máscara para telefone
+    const telephoneInput = document.getElementById('telephone');
+    if (telephoneInput) {
+        telephoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length <= 10) {
+                value = value.replace(/(\d{2})(\d)/, '($1) $2');
+                value = value.replace(/(\d{4})(\d)/, '$1-$2');
+            } else {
+                value = value.replace(/(\d{2})(\d)/, '($1) $2');
+                value = value.replace(/(\d{5})(\d)/, '$1-$2');
+            }
+            e.target.value = value;
+        });
+    }
+
+    // Validação de senha
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    if (confirmPasswordInput) {
+        confirmPasswordInput.addEventListener('input', function(e) {
+            const senha = document.getElementById('password').value;
+            const confirmarSenha = e.target.value;
+            
+            if (senha !== confirmarSenha) {
+                e.target.setCustomValidity('As senhas não coincidem');
+            } else {
+                e.target.setCustomValidity('');
+            }
+        });
+    }
+});
+
+function toggleMobileMenu() {
+    const navbarLinks = document.querySelector('.navbar-links');
+    if (navbarLinks) {
+        navbarLinks.style.display = navbarLinks.style.display === 'flex' ? 'none' : 'flex';
+    }
+}
+
 document.getElementById('registerEmployeeForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 

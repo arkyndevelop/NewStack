@@ -2,6 +2,7 @@ package com.examplenewstack.newstack.core.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 @Setter
 @MappedSuperclass
 @AllArgsConstructor
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,31 +38,8 @@ public class User {
     @Column(nullable = false, updatable = false)
     private Instant dateRegister = Instant.now();
 
-    public User() {} // Utilizado apenas em alguns casos
-
-    public User(String name, String CPF, String email, String telephone, String password) {
-        this.name = name;
-        this.CPF = CPF;
-        this.email = email;
-        this.telephone = telephone;
-        this.password = password;
-    }
-
-    public User(Instant dateRegister) {
-        this.dateRegister = dateRegister;
-    }
-
-    // Data é definida no momento da confirmação do cadastro
-    @PrePersist
-    private void onCreate() {
-    }
-
-    // Adicione um novo getter para a data formatada
-    public String getFormattedDateRegister() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-                .withZone(ZoneId.systemDefault());
-        return formatter.format(dateRegister);
-    }
+    @Column
+    private String role;
 
     public User toUser(){
         User user = new User();

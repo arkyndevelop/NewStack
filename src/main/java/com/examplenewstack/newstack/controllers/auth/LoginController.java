@@ -1,9 +1,9 @@
 package com.examplenewstack.newstack.controllers.auth;
 
-import com.examplenewstack.newstack.admin.AdminMaster;
-import com.examplenewstack.newstack.client.Client;
-import com.examplenewstack.newstack.admin.repository.AdminRepository;
-import com.examplenewstack.newstack.client.repository.ClientRepository;
+import com.examplenewstack.newstack.domain.admin.AdminMaster;
+import com.examplenewstack.newstack.domain.client.Client;
+import com.examplenewstack.newstack.domain.admin.repository.AdminRepository;
+import com.examplenewstack.newstack.domain.client.repository.ClientRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;

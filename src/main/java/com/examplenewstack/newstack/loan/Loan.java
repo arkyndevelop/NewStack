@@ -3,7 +3,6 @@ package com.examplenewstack.newstack.loan;
 import com.examplenewstack.newstack.book.Book;
 import com.examplenewstack.newstack.client.Client;
 import com.examplenewstack.newstack.employee.Employee;
-import com.examplenewstack.newstack.loan.enums.StatusLoan;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -2,7 +2,7 @@ package com.examplenewstack.newstack.employee.dto;
 
 import com.examplenewstack.newstack.core.dto.UserRequestDTO;
 import com.examplenewstack.newstack.employee.Employee;
-import com.examplenewstack.newstack.employee.enums.TypeEmployee;
+import com.examplenewstack.newstack.employee.TypeEmployee;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

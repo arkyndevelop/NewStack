@@ -2,7 +2,6 @@ package com.examplenewstack.newstack.employee;
 
 import com.examplenewstack.newstack.core.entity.User;
 import com.examplenewstack.newstack.book.Book;
-import com.examplenewstack.newstack.employee.enums.TypeEmployee;
 import com.examplenewstack.newstack.loan.Loan;
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -1,10 +1,8 @@
-package com.examplenewstack.newstack.book.service;
+package com.examplenewstack.newstack.book.controller.view;
 
 import org.springframework.ui.Model;
 import com.examplenewstack.newstack.book.Book;
 import com.examplenewstack.newstack.book.repository.BookRepository;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

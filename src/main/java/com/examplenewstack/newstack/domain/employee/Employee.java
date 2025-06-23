@@ -5,7 +5,9 @@ import com.examplenewstack.newstack.domain.book.Book;
 import com.examplenewstack.newstack.domain.employee.enums.TypeEmployee;
 import com.examplenewstack.newstack.domain.loan.Loan;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -13,11 +15,12 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "employee")
 public class Employee extends User {
 
     private TypeEmployee typeEmployee;
-    public Employee() { super(); }
 
     //Relacionamento com Loan
     @OneToMany(mappedBy = "employee",fetch = FetchType.LAZY)
@@ -26,10 +29,6 @@ public class Employee extends User {
     //Relacionamento com book
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
     private List<Book> books;
-
-    public Employee(String name, String CPF, String email, String telephone, String password) {
-        super(name, CPF, email, telephone, password);
-    }
 
     @Override
     public User toUser() {

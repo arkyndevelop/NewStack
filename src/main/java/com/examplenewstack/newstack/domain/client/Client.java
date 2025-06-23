@@ -23,7 +23,6 @@ public class Client extends User {
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
-    // Um cliente pode ter vários empréstimos (1:N)
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     private List<Loan> loans;
 }

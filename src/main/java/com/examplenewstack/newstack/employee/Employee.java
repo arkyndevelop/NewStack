@@ -15,7 +15,9 @@ import java.util.List;
 @Table(name = "employee")
 public class Employee extends User {
 
+    @Enumerated(EnumType.STRING)
     private TypeEmployee typeEmployee;
+
     public Employee() { super(); }
 
     //Relacionamento com Loan

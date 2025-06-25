@@ -34,6 +34,7 @@ public class Loan {
     @Column(nullable = true)
     private LocalDateTime actualReturnDate;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StatusLoan status;
 

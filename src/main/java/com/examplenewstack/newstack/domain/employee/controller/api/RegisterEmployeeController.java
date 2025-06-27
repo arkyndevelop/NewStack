@@ -1,6 +1,6 @@
 package com.examplenewstack.newstack.domain.employee.controller.api;
 
-import com.examplenewstack.newstack.domain.employee.dto.EmployeeRequestDTO;
+import com.examplenewstack.newstack.domain.employee.dto.EmployeeRequest;
 import com.examplenewstack.newstack.domain.employee.Employee;
 import com.examplenewstack.newstack.domain.employee.service.RegisterEmployeeService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,7 +24,7 @@ public class RegisterEmployeeController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerEmployee(
-            @RequestBody @Valid EmployeeRequestDTO employeeDTO
+            @RequestBody @Valid EmployeeRequest employeeDTO
     ){
 
         Employee employee = service.registerEmployee(employeeDTO);

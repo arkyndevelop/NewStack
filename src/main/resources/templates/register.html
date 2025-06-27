@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
     <link href="/CSS/navForm.css" rel="stylesheet">
     <link href="/CSS/form.css" rel="stylesheet">
 
@@ -39,7 +42,7 @@
         <h2>Criar Conta</h2>
         <p>Junte-se à nossa comunidade!</p>
 
-        <form action="/clients/register" method="POST" class="login-form" id="registerEmployeeForm">
+        <form action="/clients/register" method="POST" class="login-form" id="registerClientForm">
             <div class="input-group">
                 <label for="name">Nome Completo</label>
                 <input type="text" id="name" name="name" placeholder="Seu nome" required>

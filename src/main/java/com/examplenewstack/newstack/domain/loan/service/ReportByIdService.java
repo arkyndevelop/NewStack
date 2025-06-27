@@ -31,7 +31,6 @@ public class ReportByIdService {
                 loanFound.get().getExpectedReturnDate(),
                 loanFound.get().getActualReturnDate(),
                 loanFound.get().getStatus().name(),
-                loanFound.get().getEmployee().getId(),
                 loanFound.get().getClient().getId(),
                 loanFound.get().getBook().getId()
         );

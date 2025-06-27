@@ -3,7 +3,7 @@ package com.examplenewstack.newstack.domain.client.dto;
 import com.examplenewstack.newstack.domain.client.Client;
 import com.examplenewstack.newstack.core.dto.UserResponseDTO;
 
-public record ClientResponseDTO(
+public record  ClientResponseDTO(
         Integer id,
         String name,
         String CPF,

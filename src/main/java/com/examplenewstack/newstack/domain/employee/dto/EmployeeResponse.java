@@ -3,7 +3,7 @@ package com.examplenewstack.newstack.domain.employee.dto;
 import com.examplenewstack.newstack.core.dto.UserResponseDTO;
 import com.examplenewstack.newstack.domain.employee.Employee;
 
-public record EmployeeResponseDTO(
+public record EmployeeResponse(
         Integer id,
         String name,
         String CPF,
@@ -11,8 +11,8 @@ public record EmployeeResponseDTO(
         String telephone
 ) implements UserResponseDTO {
 
-    public static EmployeeResponseDTO fromEntity(Employee employee) {
-        return new EmployeeResponseDTO(
+    public static EmployeeResponse fromEntity(Employee employee) {
+        return new EmployeeResponse(
                 employee.getId(),
                 employee.getName(),
                 employee.getCPF(),

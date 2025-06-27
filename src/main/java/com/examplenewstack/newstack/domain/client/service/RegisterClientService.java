@@ -1,8 +1,8 @@
 package com.examplenewstack.newstack.domain.client.service;
 
 
-import com.examplenewstack.newstack.domain.client.dto.ClientRequestDTO;
 import com.examplenewstack.newstack.domain.client.Client;
+import com.examplenewstack.newstack.domain.client.dto.ClientRequestDTO;
 import com.examplenewstack.newstack.domain.client.exception.CustomersRegisteredDataException;
 import com.examplenewstack.newstack.domain.client.repository.ClientRepository;
 import org.springframework.stereotype.Service;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 public class RegisterClientService {
 
     private final ClientRepository repository;
+
 
     public RegisterClientService(ClientRepository repository) {
         this.repository = repository;

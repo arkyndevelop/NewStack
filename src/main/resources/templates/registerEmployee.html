@@ -4,6 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
   <link href="/CSS/navForm.css" rel="stylesheet">
   <link href="/CSS/form.css" rel="stylesheet">
   <script src="/JS/scriptRegisterEmployee.js" defer></script>
@@ -12,9 +15,9 @@
 
 <body>
 <header>
-  <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/v1/home">NewStack</a>
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="/v1/home" class="navbar-logo">New<span>Stack</span></a>
     </div>
   </nav>
 </header>
@@ -43,10 +46,11 @@
       </div>
       <div class="input-group">
         <label for="typeEmployee">Cargo</label>
-        <select id="typeEmployee" name="typeEmployee" class="form-control" style="width: 100%; padding: 0.8rem 1rem; border: 1px solid #ddd; border-radius: 5px;" required>
+        <select id="typeEmployee" name="typeEmployee" required>
           <option value="" disabled selected>Selecione um cargo</option>
-          <option th:each="type : ${T(com.examplenewstack.newstack.employee.enums.TypeEmployee).values()}"
-                  th:value="${type}" th:text="${type.name().replace('_', ' ')}"></option>
+          <option th:each="type : ${employeeTypes}"
+                  th:value="${type}"
+                  th:text="${type.name().replace('_', ' ')}"></option>
         </select>
       </div>
       <div class="input-group">
@@ -63,5 +67,4 @@
   </div>
 </main>
 </body>
-
 </html>

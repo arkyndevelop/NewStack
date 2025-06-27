@@ -11,6 +11,6 @@ public class ReportsAllEmployeeView {
 
     @GetMapping("/show/all")
     public ModelAndView reportsAllEmployee(){
-        return new ModelAndView("reports");
+        return new ModelAndView("reportEmployee");
     }
 }

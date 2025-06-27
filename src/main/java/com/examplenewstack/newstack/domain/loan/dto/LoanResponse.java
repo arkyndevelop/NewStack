@@ -11,7 +11,6 @@ public record LoanResponse(
         LocalDateTime actualReturnDate,
         String statusLoan,
 
-        Integer employeeId,
         Integer clientId,
         Integer bookId
 ){
@@ -22,7 +21,6 @@ public record LoanResponse(
                 loan.getExpectedReturnDate(),
                 loan.getActualReturnDate(),
                 loan.getStatus().name(),
-                loan.getEmployee().getId(),
                 loan.getClient().getId(),
                 loan.getBook().getId()
         );

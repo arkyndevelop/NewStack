@@ -2,7 +2,7 @@ package com.examplenewstack.newstack.domain.employee.service;
 
 
 import com.examplenewstack.newstack.domain.employee.Employee;
-import com.examplenewstack.newstack.domain.employee.dto.EmployeeResponseDTO;
+import com.examplenewstack.newstack.domain.employee.dto.EmployeeResponse;
 import com.examplenewstack.newstack.domain.employee.exception.NoEmployeersFoundException;
 import com.examplenewstack.newstack.domain.employee.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class ReportsAllEmployeeService {
         this.repository = repository;
     }
 
-    public List<EmployeeResponseDTO> findAllEmployee() {
+    public List<EmployeeResponse> findAllEmployee() {
         List<Employee> employeeList = repository.findAll();
         if (employeeList.isEmpty()) {
             throw new NoEmployeersFoundException();
@@ -26,7 +26,7 @@ public class ReportsAllEmployeeService {
 
         return employeeList
                 .stream()
-                .map(employee -> new EmployeeResponseDTO(
+                .map(employee -> new EmployeeResponse(
                         employee.getId(),
                         employee.getName(),
                         employee.getCPF(),

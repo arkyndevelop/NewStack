@@ -22,10 +22,6 @@ public class Employee extends User {
 
     private TypeEmployee typeEmployee;
 
-    //Relacionamento com Loan
-    @OneToMany(mappedBy = "employee",fetch = FetchType.LAZY)
-    private List<Loan> loans;
-
     //Relacionamento com book
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
     private List<Book> books;

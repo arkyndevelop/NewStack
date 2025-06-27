@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
 
-public record EmployeeRequestDTO(
+public record EmployeeRequest(
         @NotBlank(message = "Nome não pode estar vazio!")
         @Size(min = 3, max = 60)
         String name,
@@ -35,6 +35,7 @@ public record EmployeeRequestDTO(
 
         @NotNull(message = "O tipo de funcionário não pode ser nulo!")
         TypeEmployee typeEmployee
+
 ) implements UserRequestDTO {
 
     public Employee toUser() {

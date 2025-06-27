@@ -10,7 +10,7 @@ function maskCPF(value) {
     return value;
 }
 
-document.getElementById('registerEmployeeForm').addEventListener('submit', async function(e) {
+document.getElementById('registerClientForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
     // --- 1. Captura e Limpa os Dados ---

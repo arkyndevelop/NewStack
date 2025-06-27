@@ -42,11 +42,6 @@ public class Loan {
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
-    //Relacionamento com a tabela employee 1:n
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employee_id", nullable = false)
-    private Employee employee;
-
     //Relacionamento com a tabela book 1:n
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", nullable = false)

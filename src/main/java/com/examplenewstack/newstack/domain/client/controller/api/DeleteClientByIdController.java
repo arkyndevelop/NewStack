@@ -17,7 +17,7 @@ public class DeleteClientByIdController {
         this.deleteClientByIdService = deleteClientByIdService;
     }
 
-    @DeleteMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public ResponseEntity<?> deleteById(@RequestBody ClientRequestDTO clientRequestDTO, @PathVariable Long id) {
 
         deleteClientByIdService.deleteById(id);

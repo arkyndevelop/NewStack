@@ -2,18 +2,23 @@ package com.examplenewstack.newstack.domain.admin;
 
 import com.examplenewstack.newstack.core.entity.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.time.Instant;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "admin_master")
 public class AdminMaster extends User {
-    public AdminMaster() { super(); }
 
-    public AdminMaster(String name, String CPF, String email, String telephone, String password) {
-        super(name, CPF, email, telephone, password);
+    public AdminMaster(Integer id, String name, String CPF, String email, String telephone, String password, Instant dateRegister, String role) {
+        super(id, name, CPF, email, telephone, password, dateRegister, role);
     }
 
-    @Override
-    public User toUser() {
-        return super.toUser();
+    public AdminMaster() {
     }
 }

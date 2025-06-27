@@ -1,11 +1,10 @@
 package com.examplenewstack.newstack.domain.employee.service;
 
-import com.examplenewstack.newstack.domain.employee.dto.EmployeeRequestDTO;
+import com.examplenewstack.newstack.domain.employee.dto.EmployeeRequest;
 import com.examplenewstack.newstack.domain.employee.Employee;
 import com.examplenewstack.newstack.domain.employee.exception.NoEmployeersFoundByIdException;
 import com.examplenewstack.newstack.domain.employee.exception.EmployeersSamePasswordException;
 import com.examplenewstack.newstack.domain.employee.repository.EmployeeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +21,7 @@ public class UpdateEmployeeService {
     }
 
     public ResponseEntity<Employee> updateEmployee(
-            EmployeeRequestDTO request,
+            EmployeeRequest request,
             Integer id
     ){
         Optional<Employee> employeeExisting = repository.findById(id);

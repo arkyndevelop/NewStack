@@ -30,7 +30,6 @@ public class ReportAllService {
                         loan.getExpectedReturnDate(),
                         loan.getActualReturnDate(),
                         loan.getStatus().name(),
-                        loan.getEmployee().getId(),
                         loan.getClient().getId(),
                         loan.getBook().getId()))
                 .toList();

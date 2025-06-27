@@ -37,7 +37,6 @@ public class UpdateService {
                 loanFound.get().getActualReturnDate(),
                 loanFound.get().getStatus().name(),
                 loanFound.get().getClient().getId(),
-                loanFound.get().getEmployee().getId(),
                 loanFound.get().getBook().getId()
         );
     }

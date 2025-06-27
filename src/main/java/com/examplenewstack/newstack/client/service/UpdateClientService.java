@@ -27,7 +27,7 @@ public class UpdateClientService {
 
     public ResponseEntity<Client> updateClient(
             ClientRequestDTO clientRequestDTO,
-            Long id
+            int id
     ) {
         Optional<Client> clientExists = clientRepository.findById(id);
 

@@ -21,7 +21,7 @@ public class UpdateClientController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateClient(
             @RequestBody ClientRequestDTO clientRequestDTO,
-            @PathVariable Long id
+            @PathVariable int id
     ) {
 
         updateClientService.updateClient(clientRequestDTO, id);

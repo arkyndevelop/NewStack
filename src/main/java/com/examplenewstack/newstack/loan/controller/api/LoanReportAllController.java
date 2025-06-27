@@ -20,7 +20,6 @@ public class LoanReportAllController {
 
     @GetMapping("/report/all")
     public ResponseEntity<?> reportAll(){
-        service.reportAll();
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(service.reportAll());
     }
 }

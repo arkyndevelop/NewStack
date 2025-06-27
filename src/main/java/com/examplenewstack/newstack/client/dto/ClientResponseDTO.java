@@ -1,5 +1,6 @@
 package com.examplenewstack.newstack.client.dto;
 
+import com.examplenewstack.newstack.address.Address;
 import com.examplenewstack.newstack.client.Client;
 import com.examplenewstack.newstack.core.dto.UserResponseDTO;
 

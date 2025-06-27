@@ -20,10 +20,6 @@ public class Employee extends User {
 
     public Employee() { super(); }
 
-    //Relacionamento com Loan
-    @OneToMany(mappedBy = "employee",fetch = FetchType.LAZY)
-    private List<Loan> loans;
-
     //Relacionamento com book
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
     private List<Book> books;

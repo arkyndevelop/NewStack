@@ -18,7 +18,7 @@ public class DeleteClientByIdController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteById(@RequestBody ClientRequestDTO clientRequestDTO, @PathVariable Long id) {
+    public ResponseEntity<?> deleteById(@RequestBody ClientRequestDTO clientRequestDTO, @PathVariable int id) {
 
         deleteClientByIdService.deleteById(id);
         return ResponseEntity.ok().build();

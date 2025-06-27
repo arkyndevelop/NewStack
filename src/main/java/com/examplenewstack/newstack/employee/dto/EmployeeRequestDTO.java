@@ -3,6 +3,8 @@ package com.examplenewstack.newstack.employee.dto;
 import com.examplenewstack.newstack.core.dto.UserRequestDTO;
 import com.examplenewstack.newstack.employee.Employee;
 import com.examplenewstack.newstack.employee.TypeEmployee;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -33,7 +35,8 @@ public record EmployeeRequestDTO(
         @NotBlank(message = "Confirmação de senha não pode estar vazia!")
         String confirmPassword,
 
-        @NotNull(message = "O tipo de funcionário não pode ser nulo!")
+
+        @NotNull(message = "O tipo de funcionário não pode ser nulo!") @Enumerated(EnumType.STRING)
         TypeEmployee typeEmployee
 ) implements UserRequestDTO {
 

@@ -22,6 +22,6 @@ public class ReportsAllAddressService {
         if(Adresslist.isEmpty()){
             throw new AddressNotFoundException();
         }
-        return addressRepository.findAll();
+        return Adresslist;
     }
 }

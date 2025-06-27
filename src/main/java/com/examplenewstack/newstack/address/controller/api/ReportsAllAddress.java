@@ -1,11 +1,15 @@
 package com.examplenewstack.newstack.address.controller.api;
 
+import com.examplenewstack.newstack.address.Address;
+import com.examplenewstack.newstack.address.dto.AddressResponse;
 import com.examplenewstack.newstack.address.service.ReportsAllAddressService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/address")
@@ -21,7 +25,9 @@ public class ReportsAllAddress {
     @GetMapping("/reportsAddress/all")
     public ResponseEntity<?> reportsAllAddress(){
 
-        return ResponseEntity.ok().body(reportsAllAddressService.reportsAllAddress());
+        List<Address>addressList=this.reportsAllAddressService.reportsAllAddress();
+        List<AddressResponse>addressResponses=addressList.stream().map(AddressResponse::fromEntity).toList();
+        return ResponseEntity.ok(addressResponses);
     }
 }
 

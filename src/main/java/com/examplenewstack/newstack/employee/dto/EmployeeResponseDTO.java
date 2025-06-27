@@ -2,13 +2,15 @@ package com.examplenewstack.newstack.employee.dto;
 
 import com.examplenewstack.newstack.core.dto.UserResponseDTO;
 import com.examplenewstack.newstack.employee.Employee;
+import com.examplenewstack.newstack.employee.TypeEmployee;
 
 public record EmployeeResponseDTO(
         Integer id,
         String name,
         String CPF,
         String email,
-        String telephone
+        String telephone,
+        TypeEmployee typeEmployee
 ) implements UserResponseDTO {
 
     public static EmployeeResponseDTO fromEntity(Employee employee) {
@@ -17,7 +19,8 @@ public record EmployeeResponseDTO(
                 employee.getName(),
                 employee.getCPF(),
                 employee.getEmail(),
-                employee.getTelephone()
+                employee.getTelephone(),
+                employee.getTypeEmployee()
         );
     }
 }

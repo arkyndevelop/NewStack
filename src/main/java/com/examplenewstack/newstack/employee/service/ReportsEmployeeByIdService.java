@@ -30,7 +30,8 @@ public class ReportsEmployeeByIdService {
                 employee.get().getName(),
                 employee.get().getCPF(),
                 employee.get().getEmail(),
-                employee.get().getTelephone()
+                employee.get().getTelephone(),
+                employee.get().getTypeEmployee()
         );
     }
 }

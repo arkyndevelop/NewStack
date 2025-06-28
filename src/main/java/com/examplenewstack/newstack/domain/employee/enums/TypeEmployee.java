@@ -1,5 +1,8 @@
-package com.examplenewstack.newstack.employee;
+package com.examplenewstack.newstack.domain.employee.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum TypeEmployee {
     LIBRARIAN("ROLE_LIBRARIAN"),
     LIBRARY_ASSISTANT("ROLE_LIBRARY_ASSISTANT"),
@@ -11,7 +14,4 @@ public enum TypeEmployee {
         this.role = role;
     }
 
-    public String getRole() {
-        return role;
-    }
 }

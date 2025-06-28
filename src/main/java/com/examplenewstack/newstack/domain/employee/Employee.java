@@ -3,7 +3,6 @@ package com.examplenewstack.newstack.domain.employee;
 import com.examplenewstack.newstack.core.entity.User;
 import com.examplenewstack.newstack.domain.book.Book;
 import com.examplenewstack.newstack.domain.employee.enums.TypeEmployee;
-import com.examplenewstack.newstack.domain.loan.Loan;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +19,7 @@ import java.util.List;
 @Table(name = "employee")
 public class Employee extends User {
 
+    @Enumerated(EnumType.STRING)
     private TypeEmployee typeEmployee;
 
     //Relacionamento com book

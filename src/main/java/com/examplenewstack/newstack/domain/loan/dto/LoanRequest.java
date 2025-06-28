@@ -1,6 +1,11 @@
 package com.examplenewstack.newstack.domain.loan.dto;
 
+import com.examplenewstack.newstack.domain.book.Book;
+import com.examplenewstack.newstack.domain.client.Client;
 import com.examplenewstack.newstack.domain.loan.Loan;
+import com.examplenewstack.newstack.domain.loan.enums.StatusLoan;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 
@@ -23,13 +28,15 @@ public record LoanRequest(
         @NotNull
         int bookId
 ) {
-        public Loan toLoan(){
+        public Loan toLoan(Client client, Book book){
                 Loan loan = new Loan();
+
                 loan.setLoanDate(loanDate);
                 loan.setExpectedReturnDate(expectedReturnDate);
                 loan.setStatus(statusLoan);
                 loan.setClient(client);
                 loan.setBook(book);
+
                 return loan;
         }
 

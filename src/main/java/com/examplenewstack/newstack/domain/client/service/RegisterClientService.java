@@ -5,16 +5,19 @@ import com.examplenewstack.newstack.domain.client.Client;
 import com.examplenewstack.newstack.domain.client.dto.ClientRequestDTO;
 import com.examplenewstack.newstack.domain.client.exception.CustomersRegisteredDataException;
 import com.examplenewstack.newstack.domain.client.repository.ClientRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RegisterClientService {
 
     private final ClientRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
 
-    public RegisterClientService(ClientRepository repository) {
+    public RegisterClientService(ClientRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Client registerClient(
@@ -29,6 +32,14 @@ public class RegisterClientService {
         if (repository.existsByTelephone(request.telephone())) {
             throw new CustomersRegisteredDataException("telephone");
         }
-        return repository.save(request.toClient());
+
+        Client newClient = request.toClient();
+
+        String encodedPassword = passwordEncoder.encode(request.password());
+        newClient.setPassword(encodedPassword);
+        newClient.setRole("ROLE_CLIENT");
+
+
+        return repository.save(newClient);
     }
 }

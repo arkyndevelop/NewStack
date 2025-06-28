@@ -1,10 +1,10 @@
-package com.examplenewstack.newstack.employee.dto;
+package com.examplenewstack.newstack.domain.employee.dto;
 
 import com.examplenewstack.newstack.core.dto.UserResponseDTO;
-import com.examplenewstack.newstack.employee.Employee;
-import com.examplenewstack.newstack.employee.TypeEmployee;
+import com.examplenewstack.newstack.domain.employee.Employee;
+import com.examplenewstack.newstack.domain.employee.enums.TypeEmployee;
 
-public record EmployeeResponseDTO(
+public record EmployeeResponse(
         Integer id,
         String name,
         String CPF,
@@ -13,8 +13,8 @@ public record EmployeeResponseDTO(
         TypeEmployee typeEmployee
 ) implements UserResponseDTO {
 
-    public static EmployeeResponseDTO fromEntity(Employee employee) {
-        return new EmployeeResponseDTO(
+    public static EmployeeResponse fromEntity(Employee employee) {
+        return new EmployeeResponse(
                 employee.getId(),
                 employee.getName(),
                 employee.getCPF(),

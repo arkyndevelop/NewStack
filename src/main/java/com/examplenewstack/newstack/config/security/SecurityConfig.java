@@ -17,17 +17,24 @@ public class SecurityConfig {
         http
                 //.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/clients/register", "/login", "/CSS/*", "/JS/*", "/img/*").permitAll()
-                        .requestMatchers("/client/**").hasRole("CLIENT")
-                        .requestMatchers("/employee/**").hasRole("EMPLOYEE")
-                        .requestMatchers("*/admin/**").hasRole("ADMIN")
-                        //.requestMatchers("/employee/**").hasAnyRole("ADMIN", "EMPLOYEE")
+                        .requestMatchers("/", "/clients/register", "/login", "/CSS/*", "/JS/*", "/img/*")
+                            .permitAll()
+
+                        .requestMatchers("/client/**")
+                            .hasRole("CLIENT")
+
+                        .requestMatchers("/employee/**", "/books/reports")
+                            .hasRole("EMPLOYEE")
+
+                        .requestMatchers("/admin/**", "/books/**", "/employee/**")
+                            .hasRole("ADMIN")
+
                         .requestMatchers("/v1/home").authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/v1/home")
+                        .defaultSuccessUrl("/v1/home", true)
                         .permitAll()
                 )
                 .logout(logout -> logout

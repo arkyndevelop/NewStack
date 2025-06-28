@@ -1,8 +1,8 @@
-package com.examplenewstack.newstack.employee.dto;
+package com.examplenewstack.newstack.domain.employee.dto;
 
 import com.examplenewstack.newstack.core.dto.UserRequestDTO;
-import com.examplenewstack.newstack.employee.Employee;
-import com.examplenewstack.newstack.employee.TypeEmployee;
+import com.examplenewstack.newstack.domain.employee.Employee;
+import com.examplenewstack.newstack.domain.employee.enums.TypeEmployee;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
 
-public record EmployeeRequestDTO(
+public record EmployeeRequest(
         @NotBlank(message = "Nome não pode estar vazio!")
         @Size(min = 3, max = 60)
         String name,
@@ -40,7 +40,7 @@ public record EmployeeRequestDTO(
         TypeEmployee typeEmployee
 ) implements UserRequestDTO {
 
-    public Employee toUser() {
+    public Employee toEmployee() {
         Employee employee = new Employee();
 
         employee.setName(name);

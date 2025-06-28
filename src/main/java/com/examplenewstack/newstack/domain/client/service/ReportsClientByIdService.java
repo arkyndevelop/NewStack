@@ -19,7 +19,7 @@ public class ReportsClientByIdService {
     }
 
     public ClientResponseDTO showClientById(
-            Long id
+            int id
     ){
         Optional<Client> client = clientRepository.findById(id);
         if (client.isEmpty()) {

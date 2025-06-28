@@ -1,15 +1,17 @@
-package com.examplenewstack.newstack.domain.employee.dto;
+package com.examplenewstack.newstack.employee.dto;
 
 import com.examplenewstack.newstack.core.dto.UserRequestDTO;
-import com.examplenewstack.newstack.domain.employee.Employee;
-import com.examplenewstack.newstack.domain.employee.enums.TypeEmployee;
+import com.examplenewstack.newstack.employee.Employee;
+import com.examplenewstack.newstack.employee.TypeEmployee;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
 
-public record EmployeeRequest(
+public record EmployeeRequestDTO(
         @NotBlank(message = "Nome não pode estar vazio!")
         @Size(min = 3, max = 60)
         String name,
@@ -33,9 +35,9 @@ public record EmployeeRequest(
         @NotBlank(message = "Confirmação de senha não pode estar vazia!")
         String confirmPassword,
 
-        @NotNull(message = "O tipo de funcionário não pode ser nulo!")
-        TypeEmployee typeEmployee
 
+        @NotNull(message = "O tipo de funcionário não pode ser nulo!") @Enumerated(EnumType.STRING)
+        TypeEmployee typeEmployee
 ) implements UserRequestDTO {
 
     public Employee toUser() {

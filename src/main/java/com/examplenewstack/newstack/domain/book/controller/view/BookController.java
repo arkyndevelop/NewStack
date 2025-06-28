@@ -1,8 +1,16 @@
+<<<<<<<< HEAD:src/main/java/com/examplenewstack/newstack/domain/book/service/BookController.java
 package com.examplenewstack.newstack.domain.book.service;
 
 import org.springframework.ui.Model;
 import com.examplenewstack.newstack.domain.book.Book;
 import com.examplenewstack.newstack.domain.book.repository.BookRepository;
+========
+package com.examplenewstack.newstack.book.controller.view;
+
+import org.springframework.ui.Model;
+import com.examplenewstack.newstack.book.Book;
+import com.examplenewstack.newstack.book.repository.BookRepository;
+>>>>>>>> upstream/develop:src/main/java/com/examplenewstack/newstack/domain/book/controller/view/BookController.java
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

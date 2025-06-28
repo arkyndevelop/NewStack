@@ -1,23 +1,26 @@
-package com.examplenewstack.newstack.domain.employee.dto;
+package com.examplenewstack.newstack.employee.dto;
 
 import com.examplenewstack.newstack.core.dto.UserResponseDTO;
-import com.examplenewstack.newstack.domain.employee.Employee;
+import com.examplenewstack.newstack.employee.Employee;
+import com.examplenewstack.newstack.employee.TypeEmployee;
 
-public record EmployeeResponse(
+public record EmployeeResponseDTO(
         Integer id,
         String name,
         String CPF,
         String email,
-        String telephone
+        String telephone,
+        TypeEmployee typeEmployee
 ) implements UserResponseDTO {
 
-    public static EmployeeResponse fromEntity(Employee employee) {
-        return new EmployeeResponse(
+    public static EmployeeResponseDTO fromEntity(Employee employee) {
+        return new EmployeeResponseDTO(
                 employee.getId(),
                 employee.getName(),
                 employee.getCPF(),
                 employee.getEmail(),
-                employee.getTelephone()
+                employee.getTelephone(),
+                employee.getTypeEmployee()
         );
     }
 }

@@ -1,188 +1,438 @@
-/* Configurações globais */
+/* Estilos Universais */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(rgb(255, 255, 255), rgb(0, 0, 0));
-    min-height: 100vh;
-    width: 100%;
-     /* Adiciona padding ao body para espaçamento nas bordas */
+/* Contêiner da Barra de Navegação */
+.navbar {
+    background-color: #000000;
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-/* Estilos da barra de navegação (mantenha como está, se estiver satisfeito) */
-.corNav .navbar-dark {
-    background-color: rgb(2, 1, 1) !important;
-}
-
-.dropdown-toggle {
-    background-color: transparent;
-    border: none;
-}
-
-.dropdown-toggle:hover {
-    background-color: transparent;
-    border: none;
-}
-
-.loginOut {
-    color: rgb(255, 255, 255);
-    text-decoration: none;
-    font-size: 25px;
-}
-
-.loginOut:hover {
-    color: rgb(233, 0, 0);
-}
-
-.navbar-dark .navbar-nav .nav-link {
-    color: rgb(254, 254, 254);
-}
-
-.navbar-dark .navbar-nav .nav-link:hover,
-.navbar-dark .navbar-nav .btn-dark:hover {
-    color: rgb(233, 0, 0);
-}
-
-.dropdown-item:hover {
-    background-color: rgb(130, 130, 130);
-    border: 1px solid rgb(0, 0, 0);
-}
-
-.dropdown-menu .dropdown-item {
-    color: rgb(0, 0, 0);
-}
-
-.dropdown-menu .dropdown-item:active {
-    color: red;
-}
-
-.navbar-nav {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.nav-item {
-    margin-right: 10px;
-}
-
-/* Estilos do formulário */
-.formCenter {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 20px; /* Mantém o padding */
-}
-
-.formCenter form {
-    display: grid; /* Usando grid para o layout */
-    grid-template-columns: 1fr; /* Inicialmente uma coluna */
-    gap: 20px; /* Aumenta o espaçamento entre os itens do grid */
+.navbar-container {
     width: 90%;
-    max-width: 900px;
-    padding: 40px; /* Aumenta o padding interno do formulário */
-    border: 2px solid rgb(0, 0, 0);
-    border-radius: 30px;
-    background-color: rgb(137, 139, 139);
-    margin-top: 30px; /* Aumenta a margem superior */
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Permite que os itens quebrem para a próxima linha */
 }
 
-@media (min-width: 768px) {
-    .form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px; /* Aumenta o espaçamento entre os campos na mesma linha */
+/* Logotipo */
+.navbar-logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: rgb(14, 155, 243);
+}
+
+.navbar-logo span {
+    color: #ffffff;
+}
+
+/* Itens de Navegação */
+.navbar-links {
+    display: flex;
+    list-style: none;
+    /* transition: all 0.3s ease-in-out; Sem transição diretamente em 'display' para CSS-apenas */
+}
+
+.navbar-links li {
+    position: relative;
+    margin-left: 1.5rem;
+}
+
+.navbar-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 0;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-links a:hover {
+    color: #3498db;
+}
+
+/* Menu Suspenso (Dropdown) */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none; /* Oculto por padrão */
+    position: absolute;
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    z-index: 1;
+    top: 100%;
+    left: 0;
+}
+
+/* Exibe o dropdown ao passar o mouse para desktop */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    display: block;
+    border-bottom: 1px solid #eee;
+}
+
+.dropdown-content a:hover {
+    background-color: #f5f5f5;
+    color: #3498db;
+}
+
+/* Ícone do Dropdown */
+.dropdown-icon {
+    margin-left: 5px;
+    transition: transform 0.3s;
+}
+
+.dropdown:hover .dropdown-icon {
+    transform: rotate(180deg);
+}
+
+/* Barra de Busca */
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 0.3rem 0.8rem;
+    transition: background 0.3s;
+}
+
+.search-bar:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.search-bar input {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 0.3rem;
+    width: 180px;
+    outline: none;
+}
+
+.search-bar input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.search-icon {
+    color: white;
+    cursor: pointer;
+}
+
+/* Botões de Login e Cadastro */
+.login-btn,
+.register-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    white-space: nowrap; /* Evita que os botões quebrem individualmente */
+}
+
+.login-btn:hover,
+.register-btn:hover {
+    background-color: #2980b9;
+}
+
+/* Agrupamento de Botões para Flexbox */
+.navbar-actions {
+    display: flex;
+    gap: 1rem; /* Espaço entre os botões */
+    align-items: center;
+    flex-wrap: wrap; /* Permite que os botões quebrem a linha */
+    justify-content: flex-end; /* Alinha à direita em telas maiores */
+}
+
+/* Botão do Menu Mobile (ícone de hambúrguer) */
+.mobile-menu-btn {
+    display: none; /* Oculto no desktop */
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    order: 2; /* Garante que ele seja posicionado corretamente quando visível */
+    position: absolute; /* Posiciona absolutamente para quebrar o fluxo de .navbar-links */
+    right: 1rem; /* Alinhado à direita */
+    top: 1rem; /* Alinhado ao topo */
+}
+
+/* Oculta o checkbox real */
+.mobile-menu-checkbox {
+    display: none;
+}
+
+/* Início da configuração de responsividade */
+
+@media (max-width: 992px) { /* Ajuste o breakpoint conforme necessário */
+    .navbar-links {
+        margin-left: auto; /* Empurra os links de navegação para a direita */
+        margin-right: 1rem;
     }
 
-    .form-row .mb-1 {
+    .search-bar {
+        width: 100%; /* Barra de busca em largura total */
+        margin-top: 1rem;
+        order: 1; /* Coloca a barra de busca abaixo do logotipo e botão de menu */
+    }
+
+    .navbar-actions {
+        margin-top: 1rem; /* Adiciona algum espaço acima dos botões se a barra de busca estiver presente */
+        justify-content: center; /* Centraliza os botões quando eles podem quebrar a linha */
+        width: 100%; /* Ocupa a largura total para centralizar efetivamente */
+    }
+
+    .login-btn,
+    .register-btn {
+        padding: 0.4rem 1rem; /* Preenchimento ligeiramente menor para telas menores */
+    }
+}
+
+@media (max-width: 768px) { /* Ajuste o breakpoint conforme necessário */
+    .navbar-container {
+        flex-direction: column; /* Empilha os itens verticalmente */
+        align-items: flex-start; /* Alinha os itens ao início */
+    }
+
+    .navbar-logo {
+        margin-bottom: 1rem;
+        width: 100%;
+        text-align: center; /* Centraliza o logotipo */
+    }
+
+    .navbar-links {
+        display: none; /* Oculta os links de navegação por padrão no mobile */
+        flex-direction: column;
+        width: 100%;
+        background-color: #2c3e50;
+        position: absolute; /* Posiciona absolutamente para permitir que ele se expanda abaixo da barra de navegação */
+        top: 100%;
+        left: 0;
+        padding: 1rem 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        text-align: center; /* Centraliza os links */
+        /* transição removida, pois 'display' não pode ser transicionado */
+    }
+
+    /* Exibe os links da barra de navegação quando o checkbox é marcado */
+    .mobile-menu-checkbox:checked ~ .navbar-links {
+        display: flex; /* Mostra o menu */
+    }
+
+    .navbar-links li {
+        margin: 0.5rem 0;
         width: 100%;
     }
 
-    .formCenter form {
-        grid-template-columns: 1fr 1fr;
-        grid-template-areas:
-            "titulo autor"
-            "categoria categoria"
-            "dataPublicacao quantidade"
-            "disponibilidade ."
-            "botao botao";
-        gap: 20px; /* Aumenta o espaçamento entre as áreas do grid */
+    .navbar-links a {
+        padding: 0.8rem 0;
+        justify-content: center; /* Centraliza o texto do link */
+    }
+
+    .dropdown-content {
+        position: static; /* Altera o dropdown para ser estático no mobile */
+        box-shadow: none;
+        border-radius: 0;
+        background-color: #3a5068; /* Fundo ligeiramente diferente para o dropdown */
+        width: 100%;
+        display: none; /* Oculta o conteúdo por padrão no mobile */
+    }
+
+    /* Para acessibilidade, permite que o dropdown seja exibido no foco */
+    .dropdown a:focus + .dropdown-content,
+    .dropdown a:focus-within .dropdown-content {
+        display: block;
+    }
+
+    .search-bar {
+        width: calc(100% - 2rem); /* Ajusta a largura para considerar o preenchimento */
+        margin: 1rem auto; /* Centraliza a barra de busca */
+        order: unset; /* Redefine a ordem para telas menores */
+    }
+
+    .navbar-actions {
+        width: calc(100% - 2rem); /* Ajusta a largura para considerar o preenchimento */
+        margin: 1rem auto; /* Centraliza o grupo de botões */
+        justify-content: center; /* Centraliza os botões dentro de seu contêiner */
+    }
+
+    .login-btn,
+    .register-btn {
+        flex: 1 1 auto; /* Permite que os botões cresçam e diminuam */
+        min-width: 120px; /* Largura mínima antes de empilhar */
+        max-width: calc(50% - 0.5rem); /* Largura máxima para garantir que dois caibam lado a lado */
+    }
+
+    .mobile-menu-btn {
+        display: block; /* Exibe o botão de hambúrguer no mobile */
+        /* Posição já definida acima para mobile-menu-btn geral */
     }
 }
 
-.form-label {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 1.2rem;
-    color: rgb(5, 4, 4);
-    display: block;
-    margin-bottom: 8px; /* Aumenta a margem inferior da label */
+@media (max-width: 480px) { /* Telas ainda menores */
+    .navbar-logo {
+        font-size: 1.5rem;
+    }
+
+    .search-bar input {
+        width: 100px; /* Ajusta a largura do input para telas muito pequenas */
+    }
+
+    .login-btn,
+    .register-btn {
+        width: 100%; /* Torna os botões de largura total */
+        max-width: 100%; /* Override max-width to ensure full width */
+        margin: 0.5rem 0; /* Adiciona margem vertical quando empilhados */
+    }
 }
 
-.form-control {
-    font-size: 1rem;
-    padding: 12px; /* Aumenta o padding interno do input */
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
+/* ===== ESTILOS ESPECÍFICOS DA PÁGINA HOME ADM ===== */
+
+/* Layout Flexbox para página completa */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
-.form-select {
-    font-size: 1rem;
-    padding: 12px; /* Aumenta o padding do select */
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-}
-
-.botaoCentralizado {
+body {
     display: flex;
-    justify-content: flex-end;
-    padding-top: 30px; /* Aumenta o espaçamento acima do botão */
+    flex-direction: column;
+    background-color: #f8f9fa;
 }
 
-.btn-primary {
-    font-size: 1.2rem;
-    color: rgb(5, 5, 5);
-    background-color: rgba(255, 255, 255, 0.359);
-    border-color: rgb(2, 1, 1);
-    padding: 15px 30px; /* Aumenta o padding do botão */
-    border-radius: 8px;
-    cursor: pointer;
-    margin-left: auto; /* Empurra o botão para a direita na sua área */
-}
-
-.btn-primary:hover {
-    color: rgb(255, 255, 255);
-    background-color: rgb(0, 0, 0);
-    border-color: rgb(0, 0, 0);
-}
-
-/* Estilos do alerta de erro (mantenha como está, se estiver satisfeito) */
-.alerta {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #bbbbbb;
-    border: 1px solid #000000;
-    color: #ca0619;
-    padding: 20px;
-    border-radius: 20px;
+/* Container do Logo */
+.logo-container {
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+    margin: 40px 0 20px 0;
 }
 
-.alerta button {
-    padding: 8px 15px;
-    background-color: rgb(157, 157, 157);
-    color: rgb(0, 0, 0);
+.logo-container img {
+    height: 240px;
+    width: 350px;
+    max-width: 100%;
+}
+
+/* Conteúdo Principal */
+.main-content {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    flex: 1;
+}
+
+/* Botão de Logout */
+.logout-btn {
+    background-color: #e74c3c;
+    color: white;
     border: none;
-    border-radius: 2px;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    font-weight: 500;
     cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.logout-btn:hover {
+    background-color: #c0392b;
+    color: white;
+    text-decoration: none;
+}
+
+/* Estilos do Rodapé */
+.footer {
+    background-color: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: auto;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.footer-content {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.footer-logo img {
+    height: 25px;
+    margin-right: 10px;
+}
+
+.footer-info {
+    text-align: center;
+    flex: 1;
+    margin: 0 20px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 20px;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: #3498db;
+}
+
+/* Responsividade do rodapé */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .footer-info {
+        margin: 10px 0;
+    }
+    
+    .footer-links {
+        justify-content: center;
+    }
 }

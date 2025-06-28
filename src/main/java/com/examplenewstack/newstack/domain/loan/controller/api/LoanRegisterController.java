@@ -26,7 +26,7 @@ public class LoanRegisterController {
     public ResponseEntity<?> register(
             @RequestBody @Valid LoanRequest request
     ) {
-        Loan loan = service.register(request);
+        Loan loan = service.register(request, request.clientId(), request.bookId());
         return ResponseEntity.ok().body(loan);
     }
 }

@@ -14,6 +14,9 @@ public record LoanRequest(
         @Future(message = "Data de devolução deve ser futura!")
         LocalDateTime expectedReturnDate,
 
+        @NotNull @Enumerated(EnumType.STRING)
+        StatusLoan statusLoan,
+
         @NotNull
         int clientId,
 
@@ -24,6 +27,9 @@ public record LoanRequest(
                 Loan loan = new Loan();
                 loan.setLoanDate(loanDate);
                 loan.setExpectedReturnDate(expectedReturnDate);
+                loan.setStatus(statusLoan);
+                loan.setClient(client);
+                loan.setBook(book);
                 return loan;
         }
 

@@ -31,7 +31,8 @@ public class ReportsAllEmployeeService {
                         employee.getName(),
                         employee.getCPF(),
                         employee.getEmail(),
-                        employee.getTelephone()))
+                        employee.getTelephone(),
+                        employee.getTypeEmployee()))
                 .toList();
     }
 }

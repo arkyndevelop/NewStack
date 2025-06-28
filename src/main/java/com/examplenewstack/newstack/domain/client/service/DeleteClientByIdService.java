@@ -18,7 +18,7 @@ public class DeleteClientByIdService {
     }
 
     public ResponseEntity<Client> deleteById(
-            Long id
+            int id
     ){
         Optional<Client> client = clientRepository.findById(id);
 

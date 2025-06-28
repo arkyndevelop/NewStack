@@ -1,85 +1,112 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br" data-bs-theme="dark" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administrador</title>
-    <link href="../static/CSS/admMaster.css" rel="stylesheet">
+    <title>Painel do Administrador - NewStack</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/CSS/main.css"> <style>
+    .dashboard-card {
+        background-color: #343a40;
+        border: 1px solid #495057;
+        transition: transform 0.2s;
+    }
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .card-title {
+        color: #3498db;
+    }
+</style>
 </head>
-<body>
+
+<body class="bg-dark text-light">
 
 <header>
-    <nav class="navbar">
-        <div class="navbar-container">
-            <a href="/home" class="navbar-logo">New<span>Stack</span></a>
-
-            <ul class="navbar-links">
-
-                <li>
-                    <a href="/v1/home">Home</a>
-                </li>
-                <li class="dropdown">
-                    <a href="#">Livros <span class="dropdown-icon">▼</span></a>
-                    <div class="dropdown-content">
-                        <a href="/books/register">Cadastrar</a>
-                        <a href="#">Listar</a>
-                        <a href="#">Alterar</a>
-                        <a href="#">Excluir</a>
-                    </div>
-                </li>
-                <li class="dropdown">
-                    <a href="#">Clientes <span class="dropdown-icon">▼</span></a>
-                    <div class="dropdown-content">
-                        <a href="/client/register">Cadastrar</a>
-                        <a href="/reports">Listar</a>
-                        <a href="#">Alterar</a>
-                        <a href="#">Excluir</a>
-                    </div>
-                </li>
-                <li class="dropdown">
-                    <a href="#">Funcionários <span class="dropdown-icon">▼</span></a>
-                    <div class="dropdown-content">
-                        <a href="#">Cadastrar</a>
-                        <a href="#">Listar</a>
-                        <a href="#">Alterar</a>
-                        <a href="#">Excluir</a>
-                    </div>
-                </li>
-            </ul>
-
-            <div class="navbar-actions">
-                <a class="logout-btn" href="/v1/home">Sair</a>
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/v1/home">
+                <img th:src="@{/img/newstack.jpg}" alt="Logo NewStack" height="35" class="d-inline-block align-top">
+                NewStack
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/v1/home">Painel Principal</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Livros</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/books/register">Cadastrar Livro</a></li>
+                            <li><a class="dropdown-item" href="/books/reports">Listar Livros</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Clientes</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/clients/register">Cadastrar Cliente</a></li>
+                            <li><a class="dropdown-item" href="/clients/reports/all">Listar Clientes</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Funcionários</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/employee/registerEmployee">Cadastrar Funcionário</a></li>
+                            <li><a class="dropdown-item" href="/employee/show/all">Listar Funcionários</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <a class="btn btn-outline-danger" href="/logout">Sair</a>
             </div>
-
-            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
         </div>
     </nav>
 </header>
 
-<div class="logo-container">
-    <img th:src="@{/img/newstack.jpg}" alt="Logo NewStack"/>
-</div>
-
-<main class="main-content">
-    <!-- Conteúdo principal aqui -->
-</main>
-
-<footer class="footer">
-    <div class="footer-content">
-        <div class="footer-info">
-            <p>&copy; 2025 NewStack Library. Todos os direitos reservados.</p>
-            <p>Sistema de Gerenciamento de Biblioteca</p>
-        </div>
+<main class="container" style="padding-top: 80px;">
+    <div class="p-5 mb-4 bg-secondary rounded-3 text-center">
+        <h1 class="display-5 fw-bold">Painel de Controle do Administrador</h1>
+        <p class="fs-4">Gerencie todos os aspectos da biblioteca de forma centralizada.</p>
     </div>
 
-</footer>
+    <div class="row text-center g-4">
+        <div class="col-md-4">
+            <div class="card dashboard-card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Gerenciar Livros</h5>
+                    <p class="card-text">Adicione, edite, visualize e remova livros do catálogo.</p>
+                    <a href="/books/reports" class="btn btn-primary">Acessar</a>
+                </div>
+            </div>
+        </div>
 
-<script>
-    function toggleMobileMenu() {
-        const navbarLinks = document.querySelector('.navbar-links');
-        navbarLinks.style.display = navbarLinks.style.display === 'flex' ? 'none' : 'flex';
-    }
-</script>
+        <div class="col-md-4">
+            <div class="card dashboard-card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Gerenciar Clientes</h5>
+                    <p class="card-text">Consulte informações, histórico e status dos clientes.</p>
+                    <a href="/clients/reports/all" class="btn btn-primary">Acessar</a>
+                </div>
+            </div>
+        </div>
 
+        <div class="col-md-4">
+            <div class="card dashboard-card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Gerenciar Funcionários</h5>
+                    <p class="card-text">Adicione novos funcionários e administre suas permissões.</p>
+                    <a href="/employee/show/all" class="btn btn-primary">Acessar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

@@ -71,7 +71,7 @@ document.getElementById('registerEmployeeForm').addEventListener('submit', async
         telephone: document.getElementById('telephone').value.replace(/\D/g, ''),
         password: document.getElementById('password').value,
         confirmPassword: document.getElementById('confirmPassword').value,
-        typeEmployee: document.getElementById('typeEmployee').value
+        typeEmployee: document.getElementById('typeEmployee').value // Coleta o cargo
     };
 
     if (employeeData.password !== employeeData.confirmPassword) {
@@ -84,10 +84,17 @@ document.getElementById('registerEmployeeForm').addEventListener('submit', async
         return;
     }
 
+    // Envia para a API
     try {
+        const token = document.querySelector("meta[name='_csrf']").getAttribute("content");
+        const header = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+
         const response = await fetch('/employee/register', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                [header]: token
+            },
             body: JSON.stringify(employeeData)
         });
 
@@ -97,7 +104,7 @@ document.getElementById('registerEmployeeForm').addEventListener('submit', async
         }
 
         alert('Funcionário cadastrado com sucesso!');
-        window.location.href = '/v1/home'; // Redireciona para a home do admin
+        window.location.href = '/v1/home';
 
     } catch (error) {
         console.error('Erro no cadastro:', error);

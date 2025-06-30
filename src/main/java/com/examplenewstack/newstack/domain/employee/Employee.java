@@ -8,7 +8,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.Collection;
 import java.util.List;
 
 @Getter
@@ -19,6 +22,10 @@ import java.util.List;
 @Table(name = "employee")
 public class Employee extends User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     @Enumerated(EnumType.STRING)
     private TypeEmployee typeEmployee;
 
@@ -27,7 +34,11 @@ public class Employee extends User {
     private List<Book> books;
 
     @Override
-    public User toUser() {
-        return super.toUser();
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.typeEmployee == null) {
+            return List.of();
+        }
+        return List.of(new SimpleGrantedAuthority(this.typeEmployee.getRole()));
     }
+
 }

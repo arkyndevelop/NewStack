@@ -40,7 +40,9 @@
 
                     <form th:action="@{'/clients/delete/' + ${client.id}}" method="post" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este cliente?');">
                         <input type="hidden" name="_method" value="delete" />
-                        <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+                        <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                            <button class="btn btn-sm btn-danger">Excluir</button>
+                        </div>
                     </form>
                 </td>
             </tr>

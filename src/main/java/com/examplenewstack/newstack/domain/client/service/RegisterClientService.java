@@ -37,8 +37,6 @@ public class RegisterClientService {
 
         String encodedPassword = passwordEncoder.encode(request.password());
         newClient.setPassword(encodedPassword);
-        newClient.setRole("ROLE_CLIENT");
-
 
         return repository.save(newClient);
     }

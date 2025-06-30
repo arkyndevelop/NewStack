@@ -2,7 +2,6 @@ package com.examplenewstack.newstack.domain.loan;
 
 import com.examplenewstack.newstack.domain.book.Book;
 import com.examplenewstack.newstack.domain.client.Client;
-import com.examplenewstack.newstack.domain.employee.Employee;
 import com.examplenewstack.newstack.domain.loan.enums.StatusLoan;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

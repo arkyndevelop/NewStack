@@ -37,9 +37,7 @@ public class RegisterEmployeeService {
 
         Employee newEmployee = employeeDTO.toEmployee();
 
-        // Codifica a senha recebida do formulário
         String encodedPassword = passwordEncoder.encode(employeeDTO.password());
-        // Define a senha JÁ CODIFICADA no objeto antes de salvar
         newEmployee.setPassword(encodedPassword);
 
         return repository.save(newEmployee);

@@ -6,19 +6,27 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.time.Instant;
+import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "admin_master")
+@AllArgsConstructor
+@NoArgsConstructor
 public class AdminMaster extends User {
 
-    public AdminMaster(Integer id, String name, String CPF, String email, String telephone, String password, Instant dateRegister, String role) {
-        super(id, name, CPF, email, telephone, password, dateRegister, role);
-    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    public AdminMaster() {
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
     }
 }

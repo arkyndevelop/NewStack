@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.domain.loan.controller.api;
+package com.examplenewstack.newstack.domain.loan.controller;
 
 import com.examplenewstack.newstack.domain.loan.service.ReportAllService;
 import io.swagger.v3.oas.annotations.tags.Tag;

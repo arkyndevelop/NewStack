@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.config.security;
+package com.examplenewstack.newstack.infra.service;
 
 import com.examplenewstack.newstack.domain.admin.AdminMaster;
 import com.examplenewstack.newstack.domain.admin.repository.AdminRepository;
@@ -32,29 +32,17 @@ public class CustomUserDetailsService implements UserDetailsService{
     ) throws UsernameNotFoundException {
         Client client = clientRepository.findByCPF(identifier);
         if (client != null){
-            return new User(
-                    client.getCPF(),
-                    client.getPassword(),
-                    AuthorityUtils.createAuthorityList("ROLE_CLIENT")
-            );
+            return client;
         }
 
         Employee employee = employeeRepository.findByCPF(identifier);
         if (employee != null){
-            return new User(
-                    employee.getCPF(),
-                    employee.getPassword(),
-                    AuthorityUtils.createAuthorityList("ROLE_EMPLOYEE")
-            );
+            return employee;
         }
 
         AdminMaster adminMaster = adminRepository.findByCPF(identifier);
         if (adminMaster != null){
-            return new User(
-                    adminMaster.getCPF(),
-                    adminMaster.getPassword(),
-                    AuthorityUtils.createAuthorityList("ROLE_ADMIN")
-            );
+            return adminMaster;
         }
 
         throw new UsernameNotFoundException("Usuário não encontrado com o identificado: " + identifier);

@@ -9,6 +9,7 @@ public record LoanResponse(
         LocalDateTime loanDate,
         LocalDateTime expectedReturnDate,
         LocalDateTime actualReturnDate,
+
         String statusLoan,
 
         Integer clientId,

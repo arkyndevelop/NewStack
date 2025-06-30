@@ -7,7 +7,7 @@ function maskCPF(value) {
     // Remove todos os caracteres que não são dígitos
     value = value.replace(/\D/g, '');
 
-    // Aplica a máscara de CPF passo a passo para uma melhor experiência de digitação
+    // Aplica a máscara de CPF passo a passo
     value = value.replace(/(\d{3})(\d)/, '$1.$2');
     value = value.replace(/(\d{3})(\d)/, '$1.$2');
     value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
@@ -30,13 +30,13 @@ async function handleRegisterSubmit(event) {
     const telephone = form.querySelector('#telephone').value;
     const password = form.querySelector('#password').value;
     const confirmPassword = form.querySelector('#confirmPassword').value;
-    const cleanCPF = rawCPF.replace(/\D/g, ''); // Remove a máscara
 
     // Validações de frontend para feedback rápido ao usuário
     if (!name || !rawCPF || !email || !telephone || !password) {
         alert('Todos os campos são obrigatórios!');
         return;
     }
+    const cleanCPF = rawCPF.replace(/\D/g, ''); // Remove a máscara
     if (cleanCPF.length !== 11) {
         alert("CPF inválido! O CPF deve conter 11 dígitos.");
         return;
@@ -46,21 +46,16 @@ async function handleRegisterSubmit(event) {
         return;
     }
 
-    // --- 2. Preparação dos Dados e do Token CSRF ---
+    // --- 2. Preparação dos Dados ---
     const userData = { name, CPF: cleanCPF, email, telephone, password };
 
     try {
-        // Lê o token e o nome do cabeçalho das meta tags no HTML
-        const csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
-        const csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
-
-        // --- 3. Envio para a API com o Token CSRF ---
+        // --- 3. Envio para a API (sem cabeçalho CSRF) ---
         const response = await fetch('/clients/register', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                // Inclui o token CSRF no cabeçalho da requisição
-                [csrfHeader]: csrfToken
+                'Content-Type': 'application/json'
+                // O cabeçalho CSRF foi removido daqui
             },
             body: JSON.stringify(userData)
         });
@@ -85,5 +80,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const registerForm = document.getElementById('registerClientForm');
     if (registerForm) {
         registerForm.addEventListener('submit', handleRegisterSubmit);
+    }
+
+    // Adiciona o listener para a máscara de CPF
+    const cpfInput = document.getElementById('CPF');
+    if(cpfInput){
+        cpfInput.addEventListener('input', (e) => {
+            e.target.value = maskCPF(e.target.value);
+        });
     }
 });

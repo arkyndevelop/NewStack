@@ -1,15 +1,13 @@
-package com.examplenewstack.newstack.controllers;
+package com.examplenewstack.newstack.pages.controllers;
 
+import com.examplenewstack.newstack.core.entity.User; // Importe a sua classe User
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.Collection;
 
 @Controller
 @RequestMapping("/v1")
@@ -18,32 +16,43 @@ public class HomeController {
     @GetMapping("/home")
     public String homeRedirect(HttpServletRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Collection authorities = authentication.getAuthorities();
 
-        // Adicionando logs para depuração. Verifique o console da sua aplicação!
-        System.out.println("Usuário autenticado: " + authentication.getName());
-        System.out.println("Permissões encontradas: " + authorities);
-
-        // Lógica de redirecionamento com prioridade
-        if (authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
-            System.out.println("Redirecionando para /homeAdm");
-            return "redirect:/v1/home/admin"; // Usando redirect para URL específica
-        }
-        if (authorities.contains(new SimpleGrantedAuthority("ROLE_EMPLOYEE"))) {
-            System.out.println("Redirecionando para /homeEmployee");
-            return "redirect:/v1/home/employee";
-        }
-        if (authorities.contains(new SimpleGrantedAuthority("ROLE_CLIENT"))) {
-            System.out.println("Redirecionando para /homeClient");
-            return "redirect:/v1/home/client";
+        // Se não houver autenticação, redireciona para o login
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return "redirect:/login?error=unauthenticated";
         }
 
-        // Se, por algum motivo, não tiver nenhuma role, desloga o usuário
+        Object principal = authentication.getPrincipal();
+
+        // Verificamos se o principal é uma instância da sua classe User
+        if (principal instanceof User) {
+            User user = (User) principal;
+            String role = user.getRole();
+
+            System.out.println("Usuário autenticado: " + user.getName());
+            System.out.println("Permissão encontrada: " + role);
+
+            // Lógica de redirecionamento baseada na string da role
+            if ("ADMIN".equals(role)) {
+                System.out.println("Redirecionando para /homeAdm");
+                return "redirect:/v1/home/admin";
+            }
+            if ("EMPLOYEE".equals(role)) {
+                System.out.println("Redirecionando para /homeEmployee");
+                return "redirect:/v1/home/employee";
+            }
+            if ("CLIENT".equals(role)) {
+                System.out.println("Redirecionando para /homeClient");
+                return "redirect:/v1/home/client";
+            }
+        }
+
+        // Se, por algum motivo, não tiver nenhuma role ou o principal não for um User, desloga.
         request.getSession().invalidate();
         return "redirect:/login?error=unauthorized";
     }
 
-    // Criamos endpoints separados para cada home page
+    // Os endpoints para cada home page permanecem os mesmos
     @GetMapping("/home/admin")
     public ModelAndView showAdminHome() {
         return new ModelAndView("homeAdm");
@@ -51,7 +60,11 @@ public class HomeController {
 
     @GetMapping("/home/employee")
     public ModelAndView showEmployeeHome() {
-        return new ModelAndView("homeEmployee");
+        User user = new User();
+        String role = user.getRole();
+        if (role.equals("ROLE_EMPLOYEE")) return new ModelAndView("homeEmployee");
+
+        return new ModelAndView("redirect:/v1/home");
     }
 
     @GetMapping("/home/client")

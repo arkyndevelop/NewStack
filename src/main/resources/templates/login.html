@@ -1,13 +1,9 @@
-
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html lang="pt-br" data-bs-theme="dark" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!--    <meta name="_csrf" th:content="${_csrf.token}"/>-->
-<!--    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
 
     <link href="/CSS/navForm.css" rel="stylesheet">
     <link href="/CSS/form.css" rel="stylesheet">
@@ -40,17 +36,15 @@
     <div class="login-container">
         <h2>Faça Login</h2>
         <p>Bem-vindo de volta!</p>
-        <form th:action="@{/login}" method="POST">
+        <form id="loginForm">
             <div class="input-group">
                 <label for="username">CPF</label>
-                <input type="text" id="username" name="username" placeholder="000.000.000-00"  required>
+                <input type="text" id="username" name="username" placeholder="000.000.000-00" required>
             </div>
             <div class="input-group">
                 <label for="password">Senha</label>
                 <input type="password" id="password" class="password" name="password" placeholder="********" required>
-                <label>
-                    <input type="checkbox" onclick=" password.type = this.checked ? 'text' : 'password'">
-                </label>
+
             </div>
             <div class="options">
                 <div class="remember-me">
@@ -60,10 +54,12 @@
             </div>
             <button type="submit" class="submit-btn">Entrar</button>
         </form>
+        <script src="/JS/auth.js"></script>
 
         <p class="register-link">Não tem uma conta? <a th:href="@{/clients/register}">Cadastre-se</a></p>
     </div>
 </main>
-</body>
 
+<script src="/JS/login.js"></script>
+</body>
 </html>

@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.loan;
+package com.examplenewstack.newstack.domain.loan.enums;
 
 public enum StatusLoan {
     RESERVADO("RESERVADO"),

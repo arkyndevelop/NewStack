@@ -4,13 +4,16 @@ import com.examplenewstack.newstack.domain.admin.AdminMaster;
 import com.examplenewstack.newstack.domain.admin.dto.AdminRequest;
 import com.examplenewstack.newstack.domain.admin.repository.AdminRepository;
 import com.examplenewstack.newstack.domain.client.exception.CustomersRegisteredDataException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class RegisterAdmService {
 
     private final AdminRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
-    public RegisterAdmService(AdminRepository repository) {
+    public RegisterAdmService(AdminRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public AdminMaster registerClient(
@@ -25,6 +28,11 @@ public class RegisterAdmService {
         if (repository.existsByTelephone(request.telephone())) {
             throw new CustomersRegisteredDataException("telephone");
         }
-        return repository.save(request.toAdm());
+        AdminMaster newAdmin = request.toAdm();
+
+        String encodedPassword = passwordEncoder.encode(request.password());
+        newAdmin.setPassword(encodedPassword);
+
+        return repository.save(newAdmin);
     }
 }

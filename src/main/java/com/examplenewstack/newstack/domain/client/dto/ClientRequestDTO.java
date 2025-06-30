@@ -27,9 +27,6 @@ public record ClientRequestDTO(
         @Size(min = 8, max = 85)
         String password
 
-//      AddressRequest address,
-//      LoanRequest loan
-
 ) implements UserRequestDTO {
 
     public Client toClient() {
@@ -39,10 +36,7 @@ public record ClientRequestDTO(
         client.setEmail(email);
         client.setTelephone(telephone);
         client.setPassword(password);
-
-//        client.setAddress((address != null) ? address.toAddress() : null);
-//        client.setLoans((loan() == null) ? (List<Loan>) loan().toLoan() : null);
-
+        client.setRole("CLIENT");
         return client;
     }
 }

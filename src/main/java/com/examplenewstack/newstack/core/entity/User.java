@@ -5,20 +5,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
 @MappedSuperclass
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+public class User implements UserDetails {
 
     @Column(nullable = false,length = 60)
     private String name;
@@ -41,15 +43,33 @@ public class User {
     @Column
     private String role;
 
-    public User toUser(){
-        User user = new User();
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + this.role));
+    }
 
-        user.setName(this.name);
-        user.setCPF(this.CPF);
-        user.setEmail(this.email);
-        user.setTelephone(this.telephone);
-        user.setPassword(this.password);
+    @Override
+    public String getUsername() {
+        return this.CPF;
+    }
 
-        return user;
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
     }
 }

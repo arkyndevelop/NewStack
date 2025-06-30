@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.domain.loan.controller.api;
+package com.examplenewstack.newstack.domain.loan.controller;
 
 import com.examplenewstack.newstack.domain.loan.Loan;
 import com.examplenewstack.newstack.domain.loan.dto.LoanRequest;

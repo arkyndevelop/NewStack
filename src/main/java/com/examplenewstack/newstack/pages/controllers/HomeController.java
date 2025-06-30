@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.controllers.home;
+package com.examplenewstack.newstack.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;

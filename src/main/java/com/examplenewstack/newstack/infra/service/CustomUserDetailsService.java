@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.config.security;
+package com.examplenewstack.newstack.infra.security;
 
 import com.examplenewstack.newstack.domain.admin.AdminMaster;
 import com.examplenewstack.newstack.domain.admin.repository.AdminRepository;

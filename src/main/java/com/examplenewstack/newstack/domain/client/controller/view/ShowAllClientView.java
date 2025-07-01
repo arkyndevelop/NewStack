@@ -1,7 +1,6 @@
 package com.examplenewstack.newstack.domain.client.controller.view;
 
-import com.examplenewstack.newstack.domain.client.dto.ClientResponseDTO;
-import com.examplenewstack.newstack.domain.client.service.ReportsAllClientService;
+import com.examplenewstack.newstack.domain.client.dto.ClientResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +21,7 @@ public class ShowAllClientView {
     @GetMapping("/reports/all")
     public ModelAndView showAllClients(){
         // 1. Busca a lista de clientes do serviço
-        List<ClientResponseDTO> clientList = reportsAllClientService.findAllClients();
+        List<ClientResponse> clientList = reportsAllClientService.findAllClients();
 
         // 2. Cria o objeto ModelAndView, apontando para o arquivo HTML
         ModelAndView modelAndView = new ModelAndView("reportClient");

@@ -6,7 +6,7 @@ import jakarta.validation.constraints.*;
 
 import org.hibernate.validator.constraints.br.CPF;
 
-public record ClientRequestDTO(
+public record ClientRequest(
         @NotBlank(message = "Nome não pode estar vazio!")
         @Size(min = 3, max = 60)
         String name,

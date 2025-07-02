@@ -19,29 +19,29 @@ public class ClientCrudController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> clientRegister(@RequestBody @Valid ClientRequest clientRequest) {
+    public ResponseEntity<?> clientRegisterController(@RequestBody @Valid ClientRequest clientRequest) {
         return ResponseEntity.ok(clientCrudService.registerClient(clientRequest));
     }
 
     @GetMapping("/reports/all")
-    public ResponseEntity<?> reportsAllClients(){
+    public ResponseEntity<?> reportsAllClientsController(){
         return ResponseEntity.ok().body(clientCrudService.findAllClients());
     }
 
     @GetMapping("/reportsBy/{id}")
-    public ResponseEntity<?> reportsClientById(@PathVariable int id){
+    public ResponseEntity<?> reportsClientByIdController(@PathVariable int id){
         return ResponseEntity.ok().body(clientCrudService.showClientById(id));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateClient(@RequestBody ClientRequest clientRequest, @PathVariable int id) {
+    public ResponseEntity<?> updateClientController(@RequestBody ClientRequest clientRequest, @PathVariable int id) {
 
         clientCrudService.updateClient(clientRequest, id);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/delete/all")
-    public ResponseEntity<?> deleteAllClients(){
+    public ResponseEntity<?> deleteAllClientsController(){
 
         clientCrudService.deleteAllClients();
         return ResponseEntity.ok().build();
@@ -50,7 +50,7 @@ public class ClientCrudController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable int id) {
-        return ResponseEntity.ok().body(clientCrudService.deleteById(id));
+    public ResponseEntity<?> deleteByIdController(@PathVariable int id) {
+        return ResponseEntity.ok().body(clientCrudService.deleteByIdService(id));
     }
 }

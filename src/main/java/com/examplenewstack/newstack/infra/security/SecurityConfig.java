@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,25 +28,35 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/clients/register", "/login", "/auth/**","/CSS/*", "/JS/*", "/img/*")
+                        .requestMatchers("/", "/clients/register", "/employees/register","/login", "/auth/**","/CSS/*", "/JS/*", "/img/*")
                             .permitAll()
 
                         .requestMatchers("/v1/home/admin").hasRole("ADMIN")
-                        .requestMatchers("/v1/home/employee").hasRole("EMPLOYEE")
+                        //.requestMatchers("/v1/home/employee").hasRole("EMPLOYEE")
                         .requestMatchers("/v1/home/client").hasRole("CLIENT")
                         .requestMatchers("/v1/home/**").authenticated()
 
                         .requestMatchers("/client/**").hasRole("CLIENT")
-                        .requestMatchers("/employee/**", "/books/reports").hasRole("EMPLOYEE")
+                        .requestMatchers("/books/**").hasRole("EMPLOYEE")
                         .requestMatchers("/admin/**", "/books/**").hasRole("ADMIN")
 
-                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**").permitAll()
+                        .requestMatchers("/swagger-ui/", "//v3/api-docs/" ).permitAll()
                         .anyRequest().authenticated()
+
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
+//    Utilizar esse metodo somente para testar Swagger
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.anyRequest()
+//                        .permitAll())
+//                .csrf(AbstractHttpConfigurer::disable);
+//        return http.build();
+//    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {

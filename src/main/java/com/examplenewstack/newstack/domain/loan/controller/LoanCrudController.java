@@ -2,7 +2,7 @@ package com.examplenewstack.newstack.domain.loan.controller;
 
 import com.examplenewstack.newstack.domain.loan.Loan;
 import com.examplenewstack.newstack.domain.loan.dto.LoanRequest;
-import com.examplenewstack.newstack.domain.loan.service.EmployeeCrudService;
+import com.examplenewstack.newstack.domain.loan.service.LoanCrudService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Empréstimos")
 public class LoanCrudController {
 
-    private final EmployeeCrudService service;
+    private final LoanCrudService service;
 
-    public LoanCrudController(EmployeeCrudService service) {
+    public LoanCrudController(LoanCrudService service) {
         this.service = service;
     }
 

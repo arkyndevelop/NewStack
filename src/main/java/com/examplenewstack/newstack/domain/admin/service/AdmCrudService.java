@@ -5,20 +5,20 @@ import com.examplenewstack.newstack.domain.admin.dto.AdminRequest;
 import com.examplenewstack.newstack.domain.admin.repository.AdminRepository;
 import com.examplenewstack.newstack.domain.client.exception.CustomersRegisteredDataException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
-public class RegisterAdmService {
+@Service
+public class AdmCrudService {
 
     private final AdminRepository repository;
     private final PasswordEncoder passwordEncoder;
 
-    public RegisterAdmService(AdminRepository repository, PasswordEncoder passwordEncoder) {
+    public AdmCrudService(AdminRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public AdminMaster registerClient(
-            AdminRequest request
-    ){
+    public AdminMaster registerAdm(AdminRequest request){
         if (repository.existsByCPF(request.CPF())) {
             throw new CustomersRegisteredDataException("CPF");
         }
@@ -32,6 +32,7 @@ public class RegisterAdmService {
 
         String encodedPassword = passwordEncoder.encode(request.password());
         newAdmin.setPassword(encodedPassword);
+        newAdmin.setRole("ADMIN");
 
         return repository.save(newAdmin);
     }

@@ -6,8 +6,6 @@ import com.examplenewstack.newstack.domain.client.Client;
 import com.examplenewstack.newstack.domain.client.repository.ClientRepository;
 import com.examplenewstack.newstack.domain.employee.Employee;
 import com.examplenewstack.newstack.domain.employee.repository.EmployeeRepository;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

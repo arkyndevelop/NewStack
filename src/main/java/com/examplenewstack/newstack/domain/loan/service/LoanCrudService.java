@@ -16,13 +16,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class EmployeeCrudService {
+public class LoanCrudService {
 
     private final LoanRepository repository;
     private final ClientRepository clientRepository;
     private final BookRepository bookRepository;
 
-    public EmployeeCrudService(LoanRepository repository, ClientRepository clientRepository, BookRepository bookRepository) {
+    public LoanCrudService(LoanRepository repository, ClientRepository clientRepository, BookRepository bookRepository) {
         this.repository = repository;
         this.clientRepository = clientRepository;
         this.bookRepository = bookRepository;

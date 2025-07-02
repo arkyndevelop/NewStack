@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.config.swagger;
+package com.examplenewstack.newstack.config.swag;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookCrudService {
@@ -166,8 +167,53 @@ public class BookCrudService {
                 .build();
     }
 
+    //Função responsável por fazer o empréstimo do livro
+    public Boolean borrowBook(int id, int quant)
+    {
+        Optional<Book>bookID=this.bookRepository.findById(id);
+        if(bookID.isPresent())
+        {
+            Book book=bookID.get();
+            if(book.getDisponibility_quantity()>=quant && quant>0)
+            {
+                book.setDisponibility_quantity(book.getDisponibility_quantity()-quant);
+                if(book.getDisponibility_quantity()==0)
+                {
+                    book.setDisponibility(false);
+                }
+                this.bookRepository.save(book);
+                return true;
+            }
+            else
+            {
+                throw new NoBooksFoundException("Quantidade insuficiente disponível para emprestimo");
+            }
+        }
+        throw new NoBooksFoundException();
+    }
 
-
-
-
+    //Função responsável por fazer a devolução do livro
+    public Boolean returnBook(int id, int quant)
+    {
+        Optional<Book>bookID=this.bookRepository.findById(id);
+        if(bookID.isPresent())
+        {
+            Book book=bookID.get();
+            if((book.getDisponibility_quantity()+quant) <= book.getTotal_quantity() && quant > 0)
+            {
+                book.setDisponibility_quantity(book.getDisponibility_quantity()+quant);
+                if(book.getDisponibility_quantity() > 0)
+                {
+                    book.setDisponibility(true);
+                }
+                this.bookRepository.save(book);
+                return true;
+            }
+            else
+            {
+                throw new NoBooksFoundException("Quantidade inválida ou excede a quantidade total");
+            }
+        }
+        throw new NoBooksFoundException();
+    }
 }

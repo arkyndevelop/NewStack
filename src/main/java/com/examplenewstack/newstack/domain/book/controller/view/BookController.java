@@ -24,7 +24,7 @@ public class BookController {
     @GetMapping("/book")
     public String mostrarFormularioCadastro(Model model) {
         model.addAttribute("book", new Book());
-        return "registerBook"; // <-- nome do arquivo HTML sem extensão
+        return "registerBook";
     }
 
     // Recebe o POST do formulário

@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookCrudService {
@@ -33,9 +34,10 @@ public class BookCrudService {
     //Função responsavel por registrar um livro
     public BookResponse register(
             BookRequest bookDTO,
+            String isbn,
             int collectionID,
             int employeeID
-    ){
+    ) {
         Collection collection = collectionRepository.findById(collectionID)
                 .orElseThrow();
 
@@ -45,7 +47,7 @@ public class BookCrudService {
         bookRepository.save(bookDTO.tobook(collection, employeeFound));
 
         return new BookResponse(
-                0,
+                0, // Modificar e corrigir
                 bookDTO.title(),
                 bookDTO.ISBN(),
                 bookDTO.category(),
@@ -65,6 +67,9 @@ public class BookCrudService {
     //Função responsavel por mostrar todos os livros
     public List<BookResponse> reportAllBooks() {
         List<Book> findBooks = bookRepository.findAll();
+        if (findBooks.isEmpty()) {
+            throw new NoBooksFoundException();
+        }
         return findBooks
                 .stream()
                 .map(book -> new BookResponse(
@@ -86,6 +91,7 @@ public class BookCrudService {
                 ))
                 .toList();
     }
+
     //Função responsavel por mostrar os livros pelo ID
     public BookResponse findByID(int bookID) {
         Book bookFound = bookRepository.findById(bookID)
@@ -145,9 +151,9 @@ public class BookCrudService {
 
 
     //Função responsavel por deletar todos os livros
-    public void deleteAll(){
+    public void deleteAll() {
 
-        if(bookRepository.count() == 0){
+        if (bookRepository.count() == 0) {
             throw new NoBooksFoundException();
         }
         bookRepository.deleteAll();
@@ -164,5 +170,24 @@ public class BookCrudService {
         return ResponseEntity
                 .ok()
                 .build();
+    }
+
+    //Função responsável por fazer o empréstimo do livro
+    public Boolean borrowBook(int id, int quant) {
+        Optional<Book> bookID = this.bookRepository.findById(id);
+        if (bookID.isPresent()) {
+            Book book = bookID.get();
+            if (book.getDisponibility_quantity() >= quant && quant > 0) {
+                book.setDisponibility_quantity(book.getDisponibility_quantity() - quant);
+                if (book.getDisponibility_quantity() == 0) {
+                    book.setDisponibility(false);
+                }
+                this.bookRepository.save(book);
+                return true;
+            } else {
+                throw new NoBooksFoundException("Quantidade insuficiente disponível para empréstimo");
+            }
+        }
+        throw new NoBooksFoundException();
     }
 }

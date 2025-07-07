@@ -1,9 +1,11 @@
 package com.examplenewstack.newstack.domain.loan.enums;
 
+
+
+
 public enum StatusLoan {
     RESERVADO("RESERVADO"),
     EMPRESTADO("EMPRESTADO"),
-    RENOVADO("RENOVADO"),
     DEVOLVIDO("DEVOLVIDO"),
     ATRASADO("ATRASADO"),
     PERDIDO("PERDIDO"),

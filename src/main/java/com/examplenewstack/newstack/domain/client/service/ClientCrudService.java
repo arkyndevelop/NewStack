@@ -3,6 +3,7 @@ package com.examplenewstack.newstack.domain.client.service;
 import com.examplenewstack.newstack.domain.client.Client;
 import com.examplenewstack.newstack.domain.client.dto.ClientRequest;
 import com.examplenewstack.newstack.domain.client.dto.ClientResponse;
+import com.examplenewstack.newstack.domain.client.exception.ClientsRegisteredDataException;
 import com.examplenewstack.newstack.domain.client.exception.CustomersRegisteredDataException;
 import com.examplenewstack.newstack.domain.client.exception.NoCustomersFoundByIdException;
 import com.examplenewstack.newstack.domain.client.exception.NoCustomersFoundException;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -28,7 +30,7 @@ public class ClientCrudService {
 
     public Client registerClient(ClientRequest request){
         if (repository.existsByCPF(request.CPF())) {
-            throw new CustomersRegisteredDataException("CPF");
+            throw new ClientsRegisteredDataException("cpf");
         }
         if (repository.existsByEmail(request.email())) {
             throw new CustomersRegisteredDataException("email");
@@ -83,7 +85,7 @@ public class ClientCrudService {
         Optional<Client> clientExists = repository.findById(id);
 
         if (clientExists.isEmpty()) {
-            throw new NoEmployeersFoundByIdException();
+            throw new NoCustomersFoundByIdException();
         }
         Client client = repository.getReferenceById(id);
 

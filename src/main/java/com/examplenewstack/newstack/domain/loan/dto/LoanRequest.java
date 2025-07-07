@@ -19,16 +19,13 @@ public record LoanRequest(
         @Future(message = "Data de devolução deve ser futura!")
         LocalDateTime expectedReturnDate,
 
-        @NotNull @Enumerated(EnumType.STRING)
-        StatusLoan statusLoan,
-
         @NotNull
         int clientId,
 
         @NotNull
         int bookId
 ) {
-        public Loan toLoan(Client client, Book book){
+        public Loan toLoan(Client client, Book book, StatusLoan statusLoan){
                 Loan loan = new Loan();
 
                 loan.setLoanDate(loanDate);

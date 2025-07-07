@@ -31,10 +31,6 @@ public class EmployeeCrudService {
         if(repository.existsByCPF(employeeDTO.CPF())){
             throw new EmployeersRegisteredDataException("cpf");
         }
-
-        if(repository.existsByCPF(employeeDTO.CPF())){
-            throw new EmployeersRegisteredDataException("cpf");
-        }
         if (repository.existsByEmail(employeeDTO.email())) {
             throw new EmployeersRegisteredDataException("email");
         }
@@ -46,6 +42,7 @@ public class EmployeeCrudService {
 
         String encodedPassword = passwordEncoder.encode(employeeDTO.password());
         newEmployee.setPassword(encodedPassword);
+        newEmployee.setRole("EMPLOYEE");
 
         return repository.save(newEmployee);
     }

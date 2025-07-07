@@ -11,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @RequestMapping("/auth")
@@ -46,7 +47,7 @@ public class LoginAuthenticationController {
     }
 
     @GetMapping("/logout")
-    public String logout(HttpServletResponse response) {
+    public ModelAndView logout(HttpServletResponse response) {
         // Cria um cookie com o mesmo nome, mas com valor nulo e tempo de vida 0 para removê-lo
         Cookie cookie = new Cookie("jwt_token", null);
         cookie.setPath("/");
@@ -57,6 +58,6 @@ public class LoginAuthenticationController {
         // Limpa o contexto de segurança
         SecurityContextHolder.clearContext();
 
-        return "redirect:/login?logout";
+        return new ModelAndView("redirect:/v1/login?logout");
     }
 }

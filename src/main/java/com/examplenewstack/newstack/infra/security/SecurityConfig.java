@@ -28,21 +28,32 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/clients/register", "/employees/register","/login", "/auth/**","/CSS/*", "/JS/*", "/img/*")
-                            .permitAll()
+                        // Permite acesso público a estas rotas
+                        .requestMatchers("/", "/v1/login", "/auth/**","/CSS/**", "/JS/**", "/img/**")
+                        .permitAll()
 
-                        .requestMatchers("/v1/home/admin").hasRole("ADMIN")
-                        //.requestMatchers("/v1/home/employee").hasRole("EMPLOYEE")
-                        .requestMatchers("/v1/home/client").hasRole("CLIENT")
-                        .requestMatchers("/v1/home/**").authenticated()
+                        // Permite que usuários anônimos e autenticados acessem o registro de clientes
+                        .requestMatchers("/v1/clients/register", "/clients/register").permitAll()
 
-                        .requestMatchers("/client/**").hasRole("CLIENT")
-                        .requestMatchers("/books/**").hasRole("EMPLOYEE")
-                        .requestMatchers("/admin/**", "/books/**").hasRole("ADMIN")
+                        // Regras de acesso para o ADMIN
+                        .requestMatchers("/v1/home/admin", "/admin/**").hasRole("ADMIN")
 
-                        .requestMatchers("/swagger-ui/", "//v3/api-docs/" ).permitAll()
+                        // Regras de acesso para o CLIENT
+                        .requestMatchers("/v1/home/client", "/v1/clients/profile").hasRole("CLIENT")
+
+                        // Regras de acesso para funcionários
+                        .requestMatchers("/v1/home/employee", "/employee/**").hasAnyRole("LIBRARIAN", "LIBRARY_ASSISTANT", "RECEPTIONIST", "EMPLOYEE")
+
+                        // Regra para ADMIN gerenciar livros, clientes e funcionários
+                        .requestMatchers("/books/**", "/v1/clients/**", "/v1/employees/**").hasAnyRole("ADMIN", "LIBRARIAN", "LIBRARY_ASSISTANT", "RECEPTIONIST", "EMPLOYEE")
+
+                        .requestMatchers("/v1/clients/profile").hasAnyRole("CLIENT", "ADMIN", "LIBRARIAN", "LIBRARY_ASSISTANT", "RECEPTIONIST", "EMPLOYEE")
+
+                        // Permite acesso ao Swagger
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**" ).permitAll()
+
+                        // Qualquer outra requisição precisa de autenticação
                         .anyRequest().authenticated()
-
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
 

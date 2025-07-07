@@ -1,148 +1,138 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html lang="pt-br" data-bs-theme="dark" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bem-vindo à NewStack</title>
+    <title>Minha Conta - NewStack</title>
 
-    <!-- Bootstrap + seus estilos -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Seus estilos personalizados -->
-    <link rel="stylesheet" href="/CSS/login.css">
-    <link rel="stylesheet" href="/CSS/navBar.css">
-    <link rel="stylesheet" href="/CSS/navForm.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link th:href="@{/CSS/navBar.css}" rel="stylesheet">
 
     <style>
+        /* Seus estilos CSS personalizados aqui */
         body {
-            background-color: #2c3e50;
-            color: white;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            padding-top: 70px;
         }
 
-        .hero-section {
-            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9)),
-            url('/img/library-background.jpg') center/cover no-repeat;
-            padding: 100px 20px 80px;
+        main {
+            flex: 1;
+        }
+
+        /* Cabeçalho de boas-vindas */
+        .welcome-header {
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+            padding: 3rem;
+        }
+
+        .welcome-header h1 {
+            color: #2c3e50; /* Tom de azul escuro para o título principal */
+        }
+
+        .welcome-header .fw-bold span {
+            color: #0d6efd; /* Azul vibrante para o nome do cliente */
+        }
+
+        /* Cartões de funcionalidades */
+        .feature-card {
+            background-color: #ffffff;
+            border: 1px solid #e9ecef;
+            border-radius: 0.75rem; /* Bordas mais suaves */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
             text-align: center;
+            padding: 2rem;
         }
 
-        .hero-section h1 {
-            color: #ffffff;
+        .feature-card:hover {
+            transform: translateY(-8px); /* Efeito de elevação sutil */
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08); /* Sombra mais pronunciada */
         }
 
-        .hero-section p {
-            color: #dcdcdc;
+        .feature-card .icon-container {
+            font-size: 3rem; /* Ícones maiores e mais destacados */
+            margin-bottom: 1rem;
         }
 
-        .btn-primary {
-            background-color: #3498db;
-            border: none;
+        .feature-card h2 {
+            font-weight: 600; /* Títulos dos cartões em negrito */
+            margin-bottom: 0.75rem;
         }
 
-        .btn-primary:hover {
-            background-color: #2980b9;
+        .feature-card p {
+            color: #6c757d; /* Cor mais suave para a descrição */
+            flex-grow: 1; /* Garante que o botão fique na parte inferior */
         }
 
-        .action-card {
-            background-color: #34495e;
-            border: 1px solid #3c5a72;
-            color: white;
-            transition: transform 0.2s ease-in-out;
-        }
+        /* Cores dos ícones para cada cartão */
+        .icon-profile { color: #0d6efd; } /* Azul */
+        .icon-books { color: #198754; } /* Verde */
+        .icon-reserve { color: #ffc107; } /* Amarelo */
+        .icon-about { color: #0dcaf0; } /* Ciano */
 
-        .action-card:hover {
-            transform: translateY(-3px);
-            border-color: #3498db;
-        }
-
-        .card-title {
-            color: #3498db;
-            font-weight: bold;
-        }
-
-        .btn-outline-primary {
-            color: #3498db;
-            border-color: #3498db;
-        }
-
-        .btn-outline-primary:hover {
-            background-color: #3498db;
-            color: white;
-        }
-
-        .btn-outline-danger {
-            border-color: #e74c3c;
-            color: #e74c3c;
-        }
-
-        .btn-outline-danger:hover {
-            background-color: #e74c3c;
-            color: white;
-        }
     </style>
 </head>
-
 <body>
-<header>
-    <nav class="navbar navbar-expand-lg">
-        <div class="navbar-container">
-            <a class="navbar-logo" href="/v1/home">
-                New<span>Stack</span>
-            </a>
-            <ul class="navbarform">
-                <li><a href="/v1/home" class="active">Início</a></li>
-                <li><a href="#">Navegar na Biblioteca</a></li>
-                <li><a href="/clients/profiler">Meu Perfil</a></li>
-            </ul>
-            <ul>
-                <a class="btn btn-outline-danger" href="/auth/logout">Sair</a>
-            </ul>
-        </div>
-    </nav>
-</header>
 
-<main class="container-fluid p-0">
-    <div class="hero-section">
-        <h1 class="display-5 fw-bold">Explore um universo de conhecimento</h1>
-        <p class="lead">Encontre seu próximo livro favorito em nosso acervo.</p>
-        <a href="#" class="btn btn-primary btn-lg">Ver Catálogo Completo</a>
+<header th:insert="~{fragments/header :: header}"></header>
+
+<main class="container my-5">
+    <div class="p-5 mb-5 rounded-3 welcome-header">
+        <div class="container-fluid py-4">
+            <h1 class="display-5 fw-bold">Olá, <span th:text="${clientName}">Cliente</span>!</h1>
+            <p class="col-md-10 fs-5">Bem-vindo(a) ao seu painel na NewStack. Aqui você pode gerenciar seu perfil, explorar nosso acervo e muito mais.</p>
+        </div>
     </div>
 
-    <div class="container py-5">
-        <div class="row text-center g-4">
-            <div class="col-md-6">
-                <div class="card action-card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Meu Perfil</h5>
-                        <p class="card-text">Veja e atualize suas informações de cadastro.</p>
-                        <a href="/clients/profiler" class="btn btn-outline-primary">Acessar Perfil</a>
-                    </div>
-                </div>
+    <div class="row align-items-md-stretch">
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="feature-card">
+                <div class="icon-container icon-profile"><i class="fas fa-user-circle"></i></div>
+                <h2>Meu Perfil</h2>
+                <p>Veja e edite suas informações pessoais.</p>
+                <a class="btn btn-primary mt-auto" th:href="@{/v1/clients/profile}">Acessar Perfil</a>
             </div>
+        </div>
 
-            <div class="col-md-6">
-                <div class="card action-card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Meus Empréstimos</h5>
-                        <p class="card-text">Consulte o histórico de seus empréstimos e datas de devolução.</p>
-                        <a href="/loans/my-loans" class="btn btn-outline-primary">Ver Empréstimos</a>
-                    </div>
-                </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="feature-card">
+                <div class="icon-container icon-books"><i class="fas fa-book-open-reader"></i></div>
+                <h2>Nosso Acervo</h2>
+                <p>Explore nossa coleção de livros de todos os gêneros.</p>
+                <a class="btn btn-success mt-auto" th:href="@{/v1/books/reports}">Ver Livros</a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="feature-card">
+                <div class="icon-container icon-reserve"><i class="fas fa-calendar-check"></i></div>
+                <h2>Reservar Livro</h2>
+                <p>Reserve seus títulos favoritos (Em breve).</p>
+                <button class="btn btn-warning mt-auto" disabled>Reservar</button>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="feature-card">
+                <div class="icon-container icon-about"><i class="fas fa-info-circle"></i></div>
+                <h2>Sobre o Portal</h2>
+                <p>Conheça mais sobre o projeto NewStack.</p>
+                <a class="btn btn-info mt-auto" href="#">Saber Mais</a>
             </div>
         </div>
     </div>
 </main>
-<script>
-    // Sempre que a tela carregar
-    document.addEventListener('DOMContentLoaded', () => {
-        fetchData('/api/clients/me') // essa função já está no seu script auth.js
-            .then(user => {
-                document.getElementById('username').innerText = user.name;
-            });
-    });
-</script>
 
-<script src="/JS/auth.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

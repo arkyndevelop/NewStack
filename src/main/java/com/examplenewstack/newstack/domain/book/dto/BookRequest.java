@@ -8,13 +8,13 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.ISBN;
 
-public record BookRequestDTO(
+public record BookRequest(
         @NotBlank(message = "O titulo não pode ser vazio!")
         @Size(min = 3, max = 40)
         String title,
 
-        @ISBN
-        @NotBlank(message = "O ISBN não pode estar vazio!")
+        //@ISBN
+        //@NotBlank(message = "O ISBN não pode estar vazio!")
         @Size(min = 13, max = 17)
         String ISBN,
 

@@ -1,317 +1,41 @@
-/* Estilos Universais */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+/* ================================================= */
+/* ARQUIVO UNIFICADO PARA ESTILOS DA BARRA DE NAVEGAÇÃO */
+/* ================================================= */
 
-/* Contêiner da Barra de Navegação */
-.navbar {
-    background-color: #2c3e50;
-    color: white;
-    padding: 1rem 0;
+/* Estrutura Base da Navbar */
+nav.navbar {
+    padding: 0.5rem 1rem;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    position: sticky;
+    position: fixed; /* Alterado de 'sticky' para 'fixed' para consistência */
     top: 0;
-    z-index: 100;
+    width: 100%;
+    z-index: 1030;
 }
 
-.navbar-container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap; /* Permite que os itens quebrem para a próxima linha */
+.navbar-brand img {
+    height: 35px;
 }
 
-/* Logotipo */
-.navbar-logo {
-    font-size: 1.8rem;
-    font-weight: bold;
-    text-decoration: none;
-    color: white;
+/* Cores Dinâmicas por Role (com !important para garantir prioridade) */
+nav.navbar.navbar-default {
+    background-color: #0d6efd !important; /* Azul para Clientes */
 }
 
-.navbar-logo span {
-    color: #3498db;
+nav.navbar.navbar-employee {
+    background-color: #198754 !important; /* Verde para Funcionários */
 }
 
-/* Itens de Navegação */
-.navbar-links {
-    display: flex;
-    list-style: none;
-    /* transition: all 0.3s ease-in-out; Sem transição diretamente em 'display' para CSS-apenas */
+nav.navbar.navbar-admin {
+    background-color: #dc3545 !important; /* Vermelho para Admin */
 }
 
-.navbar-links li {
-    position: relative;
-    margin-left: 1.5rem;
+/* Estilos para o botão de Sair */
+nav.navbar .btn-outline-light {
+    border-color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.75);
 }
 
-.navbar-links a {
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
-    padding: 0.5rem 0;
-    transition: color 0.3s;
-    display: flex;
-    align-items: center;
-}
-
-.navbar-links a:hover {
-    color: #3498db;
-}
-
-/* Menu Suspenso (Dropdown) */
-.dropdown {
-    position: relative;
-}
-
-.dropdown-content {
-    display: none; /* Oculto por padrão */
-    position: absolute;
-    background-color: white;
-    min-width: 200px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-    border-radius: 5px;
-    z-index: 1;
-    top: 100%;
-    left: 0;
-}
-
-/* Exibe o dropdown ao passar o mouse para desktop */
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.dropdown-content a {
-    color: #333;
-    padding: 12px 16px;
-    display: block;
-    border-bottom: 1px solid #eee;
-}
-
-.dropdown-content a:hover {
-    background-color: #f5f5f5;
-    color: #3498db;
-}
-
-/* Ícone do Dropdown */
-.dropdown-icon {
-    margin-left: 5px;
-    transition: transform 0.3s;
-}
-
-.dropdown:hover .dropdown-icon {
-    transform: rotate(180deg);
-}
-
-/* Barra de Busca */
-.search-bar {
-    display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 0.3rem 0.8rem;
-    transition: background 0.3s;
-}
-
-.search-bar:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.search-bar input {
-    background: transparent;
-    border: none;
-    color: white;
-    padding: 0.3rem;
-    width: 180px;
-    outline: none;
-}
-
-.search-bar input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-.search-icon {
-    color: white;
-    cursor: pointer;
-}
-
-/* Botões de Login e Cadastro */
-.login-btn,
-.register-btn {
-    background-color: #3498db;
-    color: white;
-    border: none;
-    padding: 0.5rem 1.2rem;
-    border-radius: 20px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    white-space: nowrap; /* Evita que os botões quebrem individualmente */
-}
-
-.login-btn:hover,
-.register-btn:hover {
-    background-color: #2980b9;
-}
-
-/* Agrupamento de Botões para Flexbox */
-.navbar-actions {
-    display: flex;
-    gap: 1rem; /* Espaço entre os botões */
-    align-items: center;
-    flex-wrap: wrap; /* Permite que os botões quebrem a linha */
-    justify-content: flex-end; /* Alinha à direita em telas maiores */
-}
-
-/* Botão do Menu Mobile (ícone de hambúrguer) */
-.mobile-menu-btn {
-    display: none; /* Oculto no desktop */
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-    order: 2; /* Garante que ele seja posicionado corretamente quando visível */
-    position: absolute; /* Posiciona absolutamente para quebrar o fluxo de .navbar-links */
-    right: 1rem; /* Alinhado à direita */
-    top: 1rem; /* Alinhado ao topo */
-}
-
-/* Oculta o checkbox real */
-.mobile-menu-checkbox {
-    display: none;
-}
-
-
-
-/* Início da configuração de responsividade */
-
-
-@media (max-width: 992px) { /* Ajuste o breakpoint conforme necessário */
-    .navbar-links {
-        margin-left: auto; /* Empurra os links de navegação para a direita */
-        margin-right: 1rem;
-    }
-
-    .search-bar {
-        width: 100%; /* Barra de busca em largura total */
-        margin-top: 1rem;
-        order: 1; /* Coloca a barra de busca abaixo do logotipo e botão de menu */
-    }
-
-    .navbar-actions {
-        margin-top: 1rem; /* Adiciona algum espaço acima dos botões se a barra de busca estiver presente */
-        justify-content: center; /* Centraliza os botões quando eles podem quebrar a linha */
-        width: 100%; /* Ocupa a largura total para centralizar efetivamente */
-    }
-
-    .login-btn,
-    .register-btn {
-        padding: 0.4rem 1rem; /* Preenchimento ligeiramente menor para telas menores */
-    }
-}
-
-@media (max-width: 768px) { /* Ajuste o breakpoint conforme necessário */
-    .navbar-container {
-        flex-direction: column; /* Empilha os itens verticalmente */
-        align-items: flex-start; /* Alinha os itens ao início */
-    }
-
-    .navbar-logo {
-        margin-bottom: 1rem;
-        width: 100%;
-        text-align: center; /* Centraliza o logotipo */
-    }
-
-    .navbar-links {
-        display: none; /* Oculta os links de navegação por padrão no mobile */
-        flex-direction: column;
-        width: 100%;
-        background-color: #2c3e50;
-        position: absolute; /* Posiciona absolutamente para permitir que ele se expanda abaixo da barra de navegação */
-        top: 100%;
-        left: 0;
-        padding: 1rem 0;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        text-align: center; /* Centraliza os links */
-        /* transição removida, pois 'display' não pode ser transicionado */
-    }
-
-    /* Exibe os links da barra de navegação quando o checkbox é marcado */
-    .mobile-menu-checkbox:checked ~ .navbar-links {
-        display: flex; /* Mostra o menu */
-    }
-
-    .navbar-links li {
-        margin: 0.5rem 0;
-        width: 100%;
-    }
-
-    .navbar-links a {
-        padding: 0.8rem 0;
-        justify-content: center; /* Centraliza o texto do link */
-    }
-
-    .dropdown-content {
-        position: static; /* Altera o dropdown para ser estático no mobile */
-        box-shadow: none;
-        border-radius: 0;
-        background-color: #3a5068; /* Fundo ligeiramente diferente para o dropdown */
-        width: 100%;
-        display: none; /* Oculta o conteúdo por padrão no mobile */
-    }
-
-    /* Para acessibilidade, permite que o dropdown seja exibido no foco */
-    .dropdown a:focus + .dropdown-content,
-    .dropdown a:focus-within .dropdown-content {
-        display: block;
-    }
-
-
-    .search-bar {
-        width: calc(100% - 2rem); /* Ajusta a largura para considerar o preenchimento */
-        margin: 1rem auto; /* Centraliza a barra de busca */
-        order: unset; /* Redefine a ordem para telas menores */
-    }
-
-    .navbar-actions {
-        width: calc(100% - 2rem); /* Ajusta a largura para considerar o preenchimento */
-        margin: 1rem auto; /* Centraliza o grupo de botões */
-        justify-content: center; /* Centraliza os botões dentro de seu contêiner */
-    }
-
-    .login-btn,
-    .register-btn {
-        flex: 1 1 auto; /* Permite que os botões cresçam e diminuam */
-        min-width: 120px; /* Largura mínima antes de empilhar */
-        max-width: calc(50% - 0.5rem); /* Largura máxima para garantir que dois caibam lado a lado */
-    }
-
-    .mobile-menu-btn {
-        display: block; /* Exibe o botão de hambúrguer no mobile */
-        /* Posição já definida acima para mobile-menu-btn geral */
-    }
-}
-
-@media (max-width: 480px) { /* Telas ainda menores */
-    .navbar-logo {
-        font-size: 1.5rem;
-    }
-
-    .search-bar input {
-        width: 100px; /* Ajusta a largura do input para telas muito pequenas */
-    }
-
-    .login-btn,
-    .register-btn {
-        width: 100%; /* Torna os botões de largura total */
-        max-width: 100%; /* Override max-width to ensure full width */
-        margin: 0.5rem 0; /* Adiciona margem vertical quando empilhados */
-    }
+nav.navbar .btn-outline-light:hover {
+    background-color: #ffffff;
+    color: #343a40;
 }

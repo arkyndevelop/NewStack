@@ -5,7 +5,13 @@ import com.examplenewstack.newstack.domain.client.service.ClientCrudService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/clients")
@@ -20,7 +26,25 @@ public class ClientCrudController {
 
     @PostMapping("/register")
     public ResponseEntity<?> clientRegisterController(@RequestBody @Valid ClientRequest clientRequest) {
-        return ResponseEntity.ok(clientCrudService.registerClient(clientRequest));
+        clientCrudService.registerClient(clientRequest);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String redirectUrl = "/v1/login"; // URL padrão para anônimos
+
+        if (authentication != null && authentication.isAuthenticated()) {
+            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+            boolean isAdminOrEmployee = authorities.stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .anyMatch(role -> role.equals("ROLE_ADMIN") || role.startsWith("ROLE_"));
+
+            // Se for admin ou funcionário, redireciona para a lista de clientes
+            if (isAdminOrEmployee) {
+                redirectUrl = "/v1/clients/report";
+            }
+        }
+
+        // Retorna um JSON com a URL de redirecionamento
+        return ResponseEntity.ok(Map.of("redirectUrl", redirectUrl));
     }
 
     @GetMapping("/reports/all")

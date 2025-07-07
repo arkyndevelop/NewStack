@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-<body>
+<header th:fragment="header" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm"
+         th:classappend="${#authorization.expression('hasRole(''ADMIN'')') ? 'navbar-admin' :
+                          (#authorization.expression('hasAnyRole(''LIBRARIAN'', ''LIBRARY_ASSISTANT'', ''RECEPTIONIST'')') ? 'navbar-employee' : 'navbar-default')}">
 
-<header th:fragment="header">
-    <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top shadow-sm">
         <div class="container-fluid">
             <a class="navbar-brand" th:href="@{/v1/home}">
                 <img th:src="@{/img/newstack.jpg}" alt="Logo NewStack" height="35" class="d-inline-block align-top">
@@ -17,18 +16,18 @@
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/v1/home}">Painel Principal</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/clients/reports/all}">Clientes</a>
+                    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN', 'LIBRARY_ASSISTANT', 'RECEPTIONIST')">
+                        <a class="nav-link" th:href="@{/v1/clients/report}">Clientes</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/employee/show/all}">Funcionários</a>
+                    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN', 'LIBRARY_ASSISTANT', 'RECEPTIONIST')">
+                        <a class="nav-link" th:href="@{/v1/employees/reports}">Funcionários</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN', 'LIBRARY_ASSISTANT', 'RECEPTIONIST')">
+                        <a class="nav-link" th:href="@{/v1/books/reports}">Livros</a>
                     </li>
                 </ul>
-                <a class="btn btn-outline-danger" th:href="@{/logout}">Sair</a>
+                <a class="btn btn-outline-light" th:href="@{/auth/logout}">Sair</a>
             </div>
         </div>
     </nav>
 </header>
-
-</body>
-</html>

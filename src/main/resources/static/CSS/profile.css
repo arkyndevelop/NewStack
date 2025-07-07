@@ -1,0 +1,110 @@
+/* ============================================== */
+/* ESTILOS PARA A PÁGINA DE PERFIL (TEMA CLARO)   */
+/* ============================================== */
+
+/*
+  Este estilo assume que a fonte 'Poppins' e a cor de fundo
+  já foram definidas no body da página HTML ou em um CSS global.
+*/
+
+.profile-card {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
+    padding: 2.5rem 3rem;
+    max-width: 700px;
+    margin: 2rem auto;
+    border-top: 7px solid #0d6efd; /* Destaque azul da marca no topo */
+}
+
+.profile-card h2 {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 2.5rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-card h2 .fa-user-circle {
+    color: #0d6efd;
+    margin-right: 0.75rem;
+}
+
+.profile-field {
+    margin-bottom: 1.75rem;
+    position: relative;
+    padding-left: 1rem;
+    border-left: 3px solid #e9ecef; /* Borda sutil para cada campo */
+}
+
+.profile-field label {
+    font-weight: 500;
+    color: #6c757d; /* Cinza para os rótulos */
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 0.1rem;
+}
+
+.profile-field span {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #212529; /* Cor principal para os dados */
+    display: block;
+}
+
+.profile-actions {
+    text-align: center;
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Estilos para os botões dentro do card de perfil */
+.profile-actions .btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+
+/* --- RESPONSIVIDADE --- */
+
+@media (max-width: 768px) {
+    .profile-card {
+        padding: 2rem;
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .profile-card {
+        padding: 1.5rem;
+        border-left-width: 0;
+        border-top-width: 5px;
+    }
+    .profile-card h2 {
+        font-size: 1.5rem;
+    }
+    .profile-field {
+        padding-left: 0;
+        border-left: none;
+        border-bottom: 1px solid #e9ecef;
+        padding-bottom: 1rem;
+    }
+    .profile-field span {
+        font-size: 1rem;
+    }
+    .profile-actions {
+        flex-direction: column;
+    }
+    .profile-actions .btn {
+        width: 100%;
+    }
+}

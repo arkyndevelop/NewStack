@@ -107,7 +107,7 @@ public class ClientCrudService {
         repository.deleteAll();
     }
 
-    public ResponseEntity<Client> deleteById(int id){
+    public ResponseEntity<Client> deleteByIdService(int id){
         Optional<Client> client = repository.findById(id);
 
         if (!client.isPresent()) {

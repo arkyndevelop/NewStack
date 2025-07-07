@@ -1,10 +1,10 @@
 package com.examplenewstack.newstack.domain.book.controller.api;
 
-import com.examplenewstack.newstack.domain.book.dto.BookRequestDTO;
+import com.examplenewstack.newstack.domain.book.Book;
+import com.examplenewstack.newstack.domain.book.dto.BookRequest;
+import com.examplenewstack.newstack.domain.book.repository.BookRepository;
 import com.examplenewstack.newstack.domain.book.service.BookCrudService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,55 +13,30 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Livros")
 public class BookCrudController {
 
-    private final BookCrudService bookCrudService;
+    private final BookCrudService service;
+    private final BookRepository repository;
 
-    public BookCrudController(BookCrudService bookCrudService) {
-        this.bookCrudService = bookCrudService;
+    public BookCrudController(BookCrudService service, BookRepository repository) {
+        this.service = service;
+        this.repository = repository;
     }
 
 
-    //Controller responsavel pelo endpoint de registar um livro
+    //Controller responsável pelo endpoint de registar um livro
     @PostMapping("/register")
-    public ResponseEntity<?> registerBook(
-            @RequestBody @Valid BookRequestDTO bookDTO
-    ) {
-        return ResponseEntity.ok().body(bookCrudService.register(bookDTO, bookDTO.ISBN(), bookDTO.collectionId(), bookDTO.employeeId()));
-    }
-
-    //Função responsável por realizar um empréstimo
-    @PostMapping("/borrow/{id}")
-    public ResponseEntity<String> borrowBook(@PathVariable int id, int quant)
-    {
-        boolean sucess = this.bookCrudService.borrowBook(id,quant);
-        if(sucess)
-        {
-            return ResponseEntity.status(HttpStatus.OK).body("Livro emprestado com sucesso !");
-        }
-        else
-        {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Livro não está disponível para empréstimo");
-        }
-    }
-
-    //Função responsável por realizar uma devolução
-    @PostMapping("/return/{id}")
-    public ResponseEntity<String> returnBook(@PathVariable int id, int quant)
-    {
-        boolean sucess = this.bookCrudService.returnBook(id,quant);
-        if(sucess)
-        {
-            return ResponseEntity.status(HttpStatus.OK).body("Livro devolvido com sucesso !");
-        }
-        else
-        {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("não foi possível devolver o livro");
+    public ResponseEntity<String> cadastrar(@ModelAttribute Book book) {
+        try {
+            repository.save(book);
+            return ResponseEntity.ok("Livro salvo com sucesso");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erro ao salvar livro: " + e.getMessage());
         }
     }
 
     //Função responsavel pelo endpoint de mostrar todos os livros
     @GetMapping("/reports/all")
     public ResponseEntity<?> reportAll() {
-        return ResponseEntity.ok().body(bookCrudService.reportAllBooks());
+        return ResponseEntity.ok().body(service.reportAllBooks());
     }
 
 
@@ -70,17 +45,17 @@ public class BookCrudController {
     public ResponseEntity<?> report(
             @PathVariable int id
     ) {
-        return ResponseEntity.ok().body(bookCrudService.findByID(id));
+        return ResponseEntity.ok().body(service.findByID(id));
     }
 
     //Função responsavel por atualizar um livro pelo ID
     @PutMapping("/update/{bookISBN}")
     public ResponseEntity<?> update(
-            @RequestBody BookRequestDTO requestDTO,
+            @RequestBody BookRequest requestDTO,
             @PathVariable String bookISBN
     ) {
 
-        bookCrudService.updateBook(requestDTO, bookISBN);
+        service.updateBook(requestDTO, bookISBN);
         return ResponseEntity.ok().build();
     }
 
@@ -88,7 +63,7 @@ public class BookCrudController {
     //Função por deletar todos os livros
     @DeleteMapping("/delete/all")
     public ResponseEntity<?> deleteAll() {
-        bookCrudService.deleteAll();
+        service.deleteAll();
         return ResponseEntity.ok().build();
     }
 
@@ -97,6 +72,8 @@ public class BookCrudController {
     public ResponseEntity<?> delete(
             @PathVariable int id
     ) {
-        return ResponseEntity.ok().body(bookCrudService.deleteByID(id));
+        return ResponseEntity.ok().body(service.deleteByID(id));
     }
+
+
 }

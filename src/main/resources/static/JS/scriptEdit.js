@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('editForm');
 
             // Define a ação do formulário com o CPF correto
-            form.action = `/clientes/update/${cpf}`;
+            form.action = `/v1/clients/update/${cpf}`;
 
 
             const name = row.children[1].textContent;

@@ -1,8 +1,11 @@
 package com.examplenewstack.newstack.domain.client.controller.view;
 
 
+import com.examplenewstack.newstack.core.entity.User;
 import com.examplenewstack.newstack.domain.client.dto.ClientResponse;
 import com.examplenewstack.newstack.domain.client.service.ClientCrudService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,11 +25,11 @@ public class ClientCrudView {
 
     @GetMapping("/register")
     public ModelAndView clientRegisterView(){
-        return new ModelAndView("reportClient");
+        return new ModelAndView("registerClient");
     }
 
-    @GetMapping("/reports/all")
-    public ModelAndView showAllClients(){
+    @GetMapping("/report")
+    public ModelAndView showClientById(){
         // 1. Busca a lista de clientes do serviço
         List<ClientResponse> clientList = service.findAllClients();
 
@@ -40,14 +43,17 @@ public class ClientCrudView {
         return modelAndView;
     }
 
-    @GetMapping("/report")
-    public ModelAndView showClientById(){
-        return new ModelAndView("reportClient");
-    }
+    @GetMapping("/profile")
+    public ModelAndView showMyProfile() {
+        ModelAndView mav = new ModelAndView("profileClient");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
 
-    @GetMapping("/update")
-    public ModelAndView updateClients(){
-        return new ModelAndView("reportClient");
+        // Passa o objeto do usuário logado para a página de perfil
+        if (principal instanceof User) {
+            mav.addObject("client", principal);
+        }
+        return mav;
     }
 
     @GetMapping("/delete/all")

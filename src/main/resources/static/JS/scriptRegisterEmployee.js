@@ -1,79 +1,55 @@
-function maskCPF(value) {
-    value = value.replace(/\D/g, '');
-    value = value.replace(/(\d{3})(\d)/, '$1.$2');
-    value = value.replace(/(\d{3})(\d)/, '$1.$2');
-    value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-    return value;
-}
+// NewStack/src/main/resources/static/JS/scriptRegisterEmployee.js
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Máscara para CPF
+    // Função para aplicar a máscara de CPF
+    const applyCpfMask = (input) => {
+        let value = input.value.replace(/\D/g, '');
+        value = value.replace(/(\d{3})(\d)/, '$1.$2');
+        value = value.replace(/(\d{3})(\d)/, '$1.$2');
+        value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+        input.value = value;
+    };
+
+    // Função para aplicar a máscara de telefone
+    const applyTelephoneMask = (input) => {
+        let value = input.value.replace(/\D/g, '');
+        if (value.length <= 10) {
+            value = value.replace(/(\d{2})(\d)/, '($1) $2');
+            value = value.replace(/(\d{4})(\d)/, '$1-$2');
+        } else {
+            value = value.replace(/(\d{2})(\d)/, '($1) $2');
+            value = value.replace(/(\d{5})(\d)/, '$1-$2');
+        }
+        input.value = value;
+    };
+
+    // Aplica as máscaras aos inputs
     const cpfInput = document.getElementById('CPF');
     if (cpfInput) {
-        cpfInput.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            value = value.replace(/(\d{3})(\d)/, '$1.$2');
-            value = value.replace(/(\d{3})(\d)/, '$1.$2');
-            value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-            e.target.value = value;
-        });
+        cpfInput.addEventListener('input', () => applyCpfMask(cpfInput));
     }
 
-    // Máscara para telefone
     const telephoneInput = document.getElementById('telephone');
     if (telephoneInput) {
-        telephoneInput.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length <= 10) {
-                value = value.replace(/(\d{2})(\d)/, '($1) $2');
-                value = value.replace(/(\d{4})(\d)/, '$1-$2');
-            } else {
-                value = value.replace(/(\d{2})(\d)/, '($1) $2');
-                value = value.replace(/(\d{5})(\d)/, '$1-$2');
-            }
-            e.target.value = value;
-        });
-    }
-
-    // Validação de senha
-    const confirmPasswordInput = document.getElementById('confirmPassword');
-    if (confirmPasswordInput) {
-        confirmPasswordInput.addEventListener('input', function(e) {
-            const senha = document.getElementById('password').value;
-            const confirmarSenha = e.target.value;
-            
-            if (senha !== confirmarSenha) {
-                e.target.setCustomValidity('As senhas não coincidem');
-            } else {
-                e.target.setCustomValidity('');
-            }
-        });
+        telephoneInput.addEventListener('input', () => applyTelephoneMask(telephoneInput));
     }
 });
 
-function toggleMobileMenu() {
-    const navbarLinks = document.querySelector('.navbar-links');
-    if (navbarLinks) {
-        navbarLinks.style.display = navbarLinks.style.display === 'flex' ? 'none' : 'flex';
-    }
-}
-
+// Adiciona o listener para o envio do formulário
 document.getElementById('registerEmployeeForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    const rawCPF = document.getElementById('CPF').value;
-    const cleanCPF = rawCPF.replace(/\D/g, '');
-
     const employeeData = {
         name: document.getElementById('name').value,
-        CPF: cleanCPF,
+        CPF: document.getElementById('CPF').value.replace(/\D/g, ''),
         email: document.getElementById('email').value,
         telephone: document.getElementById('telephone').value.replace(/\D/g, ''),
         password: document.getElementById('password').value,
         confirmPassword: document.getElementById('confirmPassword').value,
-        typeEmployee: document.getElementById('typeEmployee').value // Coleta o cargo
+        typeEmployee: document.getElementById('typeEmployee').value
     };
 
+    // Validação da senha
     if (employeeData.password !== employeeData.confirmPassword) {
         alert("As senhas não coincidem!");
         return;
@@ -86,14 +62,10 @@ document.getElementById('registerEmployeeForm').addEventListener('submit', async
 
     // Envia para a API
     try {
-        const token = document.querySelector("meta[name='_csrf']").getAttribute("content");
-        const header = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
-
-        const response = await fetch('/employee/register', {
+        const response = await fetch('/employees/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                [header]: token
             },
             body: JSON.stringify(employeeData)
         });

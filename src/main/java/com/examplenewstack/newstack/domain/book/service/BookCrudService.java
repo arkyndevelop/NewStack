@@ -1,8 +1,8 @@
 package com.examplenewstack.newstack.domain.book.service;
 
 import com.examplenewstack.newstack.domain.book.Book;
-import com.examplenewstack.newstack.domain.book.dto.BookRequestDTO;
-import com.examplenewstack.newstack.domain.book.dto.BookResponseDTO;
+import com.examplenewstack.newstack.domain.book.dto.BookRequest;
+import com.examplenewstack.newstack.domain.book.dto.BookResponse;
 import com.examplenewstack.newstack.domain.book.exception.NoBooksFoundByISBNException;
 import com.examplenewstack.newstack.domain.book.exception.NoBooksFoundByIdException;
 import com.examplenewstack.newstack.domain.book.exception.NoBooksFoundException;
@@ -32,12 +32,12 @@ public class BookCrudService {
 
 
     //Função responsavel por registrar um livro
-    public BookResponseDTO register(
-            BookRequestDTO bookDTO,
+    public BookResponse register(
+            BookRequest bookDTO,
             String isbn,
             int collectionID,
             int employeeID
-    ){
+    ) {
         Collection collection = collectionRepository.findById(collectionID)
                 .orElseThrow();
 
@@ -46,7 +46,8 @@ public class BookCrudService {
 
         bookRepository.save(bookDTO.tobook(collection, employeeFound));
 
-        return new BookResponseDTO(
+        return new BookResponse(
+                0, // Modificar e corrigir
                 bookDTO.title(),
                 bookDTO.ISBN(),
                 bookDTO.category(),
@@ -64,14 +65,15 @@ public class BookCrudService {
     }
 
     //Função responsavel por mostrar todos os livros
-    public List<BookResponseDTO> reportAllBooks() {
+    public List<BookResponse> reportAllBooks() {
         List<Book> findBooks = bookRepository.findAll();
         if (findBooks.isEmpty()) {
             throw new NoBooksFoundException();
         }
         return findBooks
                 .stream()
-                .map(book -> new BookResponseDTO(
+                .map(book -> new BookResponse(
+                        book.getId(),
                         book.getTitle(),
                         book.getISBN(),
                         book.getCategory(),
@@ -89,12 +91,14 @@ public class BookCrudService {
                 ))
                 .toList();
     }
+
     //Função responsavel por mostrar os livros pelo ID
-    public BookResponseDTO findByID(int bookID) {
+    public BookResponse findByID(int bookID) {
         Book bookFound = bookRepository.findById(bookID)
                 .orElseThrow(NoBooksFoundByIdException::new);
 
-        return new BookResponseDTO(
+        return new BookResponse(
+                bookFound.getId(),
                 bookFound.getTitle(),
                 bookFound.getISBN(),
                 bookFound.getCategory(),
@@ -112,7 +116,7 @@ public class BookCrudService {
     }
 
     //Função responsavel por atualizar um livro pelo ID
-    public ResponseEntity<BookResponseDTO> updateBook(BookRequestDTO request, String bookISBN) {
+    public ResponseEntity<BookResponse> updateBook(BookRequest request, String bookISBN) {
         Book bookExists = bookRepository.findByISBN(bookISBN)
                 .orElseThrow(NoBooksFoundByISBNException::new);
 
@@ -127,7 +131,8 @@ public class BookCrudService {
 
         Book updateBook = bookRepository.save(bookExists);
         return ResponseEntity
-                .ok(new BookResponseDTO(
+                .ok(new BookResponse(
+                        bookExists.getId(),
                         bookExists.getTitle(),
                         bookExists.getISBN(),
                         bookExists.getCategory(),
@@ -146,9 +151,9 @@ public class BookCrudService {
 
 
     //Função responsavel por deletar todos os livros
-    public void deleteAll(){
+    public void deleteAll() {
 
-        if(bookRepository.count() == 0){
+        if (bookRepository.count() == 0) {
             throw new NoBooksFoundException();
         }
         bookRepository.deleteAll();
@@ -168,50 +173,19 @@ public class BookCrudService {
     }
 
     //Função responsável por fazer o empréstimo do livro
-    public Boolean borrowBook(int id, int quant)
-    {
-        Optional<Book>bookID=this.bookRepository.findById(id);
-        if(bookID.isPresent())
-        {
-            Book book=bookID.get();
-            if(book.getDisponibility_quantity()>=quant && quant>0)
-            {
-                book.setDisponibility_quantity(book.getDisponibility_quantity()-quant);
-                if(book.getDisponibility_quantity()==0)
-                {
+    public Boolean borrowBook(int id, int quant) {
+        Optional<Book> bookID = this.bookRepository.findById(id);
+        if (bookID.isPresent()) {
+            Book book = bookID.get();
+            if (book.getDisponibility_quantity() >= quant && quant > 0) {
+                book.setDisponibility_quantity(book.getDisponibility_quantity() - quant);
+                if (book.getDisponibility_quantity() == 0) {
                     book.setDisponibility(false);
                 }
                 this.bookRepository.save(book);
                 return true;
-            }
-            else
-            {
-                throw new NoBooksFoundException("Quantidade insuficiente disponível para emprestimo");
-            }
-        }
-        throw new NoBooksFoundException();
-    }
-
-    //Função responsável por fazer a devolução do livro
-    public Boolean returnBook(int id, int quant)
-    {
-        Optional<Book>bookID=this.bookRepository.findById(id);
-        if(bookID.isPresent())
-        {
-            Book book=bookID.get();
-            if((book.getDisponibility_quantity()+quant) <= book.getTotal_quantity() && quant > 0)
-            {
-                book.setDisponibility_quantity(book.getDisponibility_quantity()+quant);
-                if(book.getDisponibility_quantity() > 0)
-                {
-                    book.setDisponibility(true);
-                }
-                this.bookRepository.save(book);
-                return true;
-            }
-            else
-            {
-                throw new NoBooksFoundException("Quantidade inválida ou excede a quantidade total");
+            } else {
+                throw new NoBooksFoundException("Quantidade insuficiente disponível para empréstimo");
             }
         }
         throw new NoBooksFoundException();

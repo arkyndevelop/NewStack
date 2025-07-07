@@ -1,67 +1,129 @@
-<!DOCTYPE html>
-<html lang="pt-BR" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relatório de Livros - NewStack</title>
+    <title>Acervo de Livros - NewStack</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/CSS/navForm.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <link th:href="@{/CSS/navBar.css}" rel="stylesheet">
+
+    <style>
+        .card-img-top {
+            width: 100%;
+            height: 250px; /* Altura fixa para as imagens */
+            object-fit: cover; /* Garante que a imagem cubra o espaço sem distorcer */
+        }
+        .card {
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: scale(1.03);
+        }
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body class="bg-dark text-light">
 
 <header>
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/v1/home">NewStack</a>
-        </div>
-    </nav>
+    <header th:insert="~{fragments/header :: header}"></header>
 </header>
 
 <main class="container" style="padding-top: 80px;">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Relatório de Livros</h1>
-        <a href="/books/register" class="btn btn-primary">Adicionar Livro</a>
+        <h1>Nosso Acervo</h1>
+        <a href="/v1/books/register" class="btn btn-primary"
+           sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN', 'LIBRARY_ASSISTANT', 'RECEPTIONIST')">
+            Adicionar Novo Livro
+        </a>
     </div>
 
-    <div class="table-responsive">
-        <table class="table table-striped table-dark table-hover">
-            <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Título</th>
-                <th scope="col">ISBN</th>
-                <th scope="col">Categoria</th>
-                <th scope="col">Disponível</th>
-                <th scope="col">Qtd. Total</th>
-                <th scope="col">Ações</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="book : ${bookList}">
-                <td th:text="${book.id}">1</td>
-                <td th:text="${book.title}">Título do Livro</td>
-                <td th:text="${book.ISBN}">978-3-16-148410-0</td>
-                <td th:text="${book.category}">Ficção</td>
-                <td>
-                    <span th:if="${book.disponibility}" class="badge bg-success">Sim</span>
-                    <span th:unless="${book.disponibility}" class="badge bg-danger">Não</span>
-                </td>
-                <td th:text="${book.totalQuantity}">10</td>
-                <td>
-                    <button class="btn btn-sm btn-info">Editar</button>
-                    <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
-                        <button class="btn btn-sm btn-danger">Excluir</button>
+    <div class="row">
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4" th:each="book : ${bookList}">
+            <div class="card h-100 bg-secondary text-light">
+                <img th:src="${book.thumbnailUrl}" class="card-img-top" alt="Capa do Livro"
+                     onerror="this.onerror=null;this.src='https://via.placeholder.com/150x250.png?text=Sem+Imagem';">
+                <div class="card-body">
+                    <div>
+                        <h5 class="card-title" th:text="${book.title}">Título do Livro</h5>
+                        <p class="card-text small" th:text="${book.author}">Autor</p>
                     </div>
-                </td>
-            </tr>
-            <tr th:if="${#lists.isEmpty(bookList)}">
-                <td colspan="7" class="text-center">Nenhum livro cadastrado.</td>
-            </tr>
-            </tbody>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <span th:if="${book.disponibility}" class="badge bg-success">Disponível</span>
+                        <span th:unless="${book.disponibility}" class="badge bg-danger">Indisponível</span>
+                        <div class="btn-group">
+                            <button class="btn btn-dark btn-sm dropdown-toggle" type="button" th:id="'dropdownMenuButton' + ${book.id}" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-dark" th:aria-labelledby="'dropdownMenuButton' + ${book.id}">
+                                <li>
+                                    <a class="dropdown-item btn-edit" href="#"
+                                       th:attr="data-book-id=${book.id}, data-book-isbn=${book.ISBN}, data-book-title=${book.title}, data-book-quantity=${book.totalQuantity}"
+                                       data-bs-toggle="modal" data-bs-target="#editBookModal">
+                                        Editar
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item btn-delete" href="#" th:attr="data-book-id=${book.id}">
+                                        Excluir
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${#lists.isEmpty(bookList)}">
+            <p>Nenhum livro cadastrado no momento.</p>
+        </div>
+
+        <table th:unless="${#lists.isEmpty(bookList)}">
         </table>
     </div>
 </main>
 
+<div class="modal fade" id="editBookModal" tabindex="-1" aria-labelledby="editBookModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-light">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editBookModalLabel">Editar Livro</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editBookForm" method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="editBookId" name="id">
+                    <div class="mb-3">
+                        <label for="editTitle" class="form-label">Título</label>
+                        <input type="text" class="form-control" id="editTitle" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editISBN" class="form-label">ISBN</label>
+                        <input type="text" class="form-control" id="editISBN" name="ISBN" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editTotalQuantity" class="form-label">Quantidade Total</label>
+                        <input type="number" class="form-control" id="editTotalQuantity" name="total_quantity" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/reportBook.js"></script>
 </body>
 </html>

@@ -61,7 +61,8 @@ public class ClientCrudService {
                         client.getName(),
                         client.getCPF(),
                         client.getEmail(),
-                        client.getTelephone()))
+                        client.getTelephone(),
+                        client.getDateRegister())) // Adicione a data de registro aqui
                 .toList();
     }
 
@@ -75,7 +76,8 @@ public class ClientCrudService {
                 client.get().getName(),
                 client.get().getCPF(),
                 client.get().getEmail(),
-                client.get().getTelephone()
+                client.get().getTelephone(),
+                client.get().getDateRegister() // Adicione a data de registro aqui também
         );
     }
 

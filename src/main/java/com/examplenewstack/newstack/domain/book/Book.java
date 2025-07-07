@@ -34,8 +34,8 @@
         @Column(nullable = false,length = 1000)
         private String author;
 
-        @Column(nullable = false, length = 17)
-        private String ISBN;
+    @Column(length = 17)
+    private String ISBN;
 
         @Column(nullable = false, length = 100)
         private String category;

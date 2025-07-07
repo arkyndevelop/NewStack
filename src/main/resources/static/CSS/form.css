@@ -56,6 +56,68 @@ body {
     text-align: left; /* Alinha o label e o input à esquerda */
 }
 
+/* Container para o campo de senha com botão de máscara */
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-container input {
+    width: 100%; /* Ocupa a largura total do container */
+    padding: 0.8rem 1rem; /* Espaçamento interno do input */
+    padding-right: 3rem; /* Espaço extra à direita para o botão */
+    border: 1px solid #ddd; /* Borda suave */
+    border-radius: 5px; /* Cantos arredondados */
+    font-size: 1rem; /* Tamanho da fonte do input */
+    color: #333; /* Cor do texto digitado */
+    transition: border-color 0.3s ease; /* Transição suave na borda */
+}
+
+.password-toggle {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    /* Garante que o botão ocupe toda a altura do input */
+}
+
+.password-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para tema escuro */
+[data-bs-theme="dark"] .password-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-bs-theme="dark"] .password-icon {
+    filter: invert(1);
+}
+
+.password-icon {
+    font-style: normal;
+    font-size: 1.2rem;
+    opacity: 1;
+    color: #555;
+    transition: opacity 0.3s ease, color 0.3s;
+    pointer-events: none;
+    /* Garante que só o botão receba o clique, não o ícone */
+}
+
+.password-toggle:hover .password-icon {
+    opacity: 1;
+}
+
 .input-group label {
     display: block; /* Garante que o label ocupe sua própria linha */
     font-size: 0.9rem; /* Tamanho da fonte do label */
@@ -185,6 +247,19 @@ body {
 
     .input-group input {
         padding: 0.7rem 0.8rem; /* Ajusta o padding dos inputs */
+    }
+    
+    .password-container input {
+        padding-right: 2.5rem; /* Reduz o espaço para o botão em telas pequenas */
+    }
+    
+    .password-toggle {
+        right: 0.3rem;
+        padding: 0.4rem;
+    }
+    
+    .password-icon {
+        font-size: 1rem;
     }
 
     .submit-btn {
@@ -328,4 +403,47 @@ body {
     .form-row .input-group {
         min-width: 100%;
     }
+}
+
+
+/* Tema Padrão (Anônimo - Azul) */
+.theme-anonymous .login-container {
+    border-top: 5px solid #3498db;
+}
+.theme-anonymous .submit-btn {
+    background-color: #3498db;
+}
+.theme-anonymous .submit-btn:hover {
+    background-color: #2980b9;
+}
+.theme-anonymous h2 {
+    color: #3498db;
+}
+
+/* Tema Administrador (Vermelho) */
+.theme-admin .login-container {
+    border-top: 5px solid #e74c3c;
+}
+.theme-admin .submit-btn {
+    background-color: #e74c3c;
+}
+.theme-admin .submit-btn:hover {
+    background-color: #c0392b;
+}
+.theme-admin h2 {
+    color: #e74c3c;
+}
+
+/* Tema Funcionário (Verde) */
+.theme-employee .login-container {
+    border-top: 5px solid #27ae60;
+}
+.theme-employee .submit-btn {
+    background-color: #27ae60;
+}
+.theme-employee .submit-btn:hover {
+    background-color: #229954;
+}
+.theme-employee h2 {
+    color: #27ae60;
 }

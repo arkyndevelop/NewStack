@@ -8,6 +8,8 @@ import com.examplenewstack.newstack.domain.employee.exception.EmployeersSamePass
 import com.examplenewstack.newstack.domain.employee.exception.NoEmployeersFoundByIdException;
 import com.examplenewstack.newstack.domain.employee.exception.NoEmployeersFoundException;
 import com.examplenewstack.newstack.domain.employee.repository.EmployeeRepository;
+import com.examplenewstack.newstack.domain.loan.dto.LoanNotificationDTO;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,23 +24,25 @@ public class EmployeeCrudService {
     private final EmployeeRepository repository;
     private final PasswordEncoder passwordEncoder;
 
-    public EmployeeCrudService(EmployeeRepository repository, PasswordEncoder passwordEncoder) {
+
+    public EmployeeCrudService(EmployeeRepository repository, PasswordEncoder passwordEncoder ) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
+
     }
 
     public Employee registerEmployee(EmployeeRequest employeeDTO) {
-        if(repository.existsByCPF(employeeDTO.CPF())){
+        if (repository.existsByCPF(employeeDTO.CPF())) {
             throw new EmployeersRegisteredDataException("cpf");
         }
 
-        if(repository.existsByCPF(employeeDTO.CPF())){
+        if (repository.existsByCPF(employeeDTO.CPF())) {
             throw new EmployeersRegisteredDataException("cpf");
         }
         if (repository.existsByEmail(employeeDTO.email())) {
             throw new EmployeersRegisteredDataException("email");
         }
-        if(repository.existsByTelephone(employeeDTO.telephone())){
+        if (repository.existsByTelephone(employeeDTO.telephone())) {
             throw new EmployeersRegisteredDataException("telephone");
         }
 

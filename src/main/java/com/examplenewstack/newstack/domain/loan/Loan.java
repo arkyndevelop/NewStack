@@ -3,6 +3,7 @@ package com.examplenewstack.newstack.domain.loan;
 import com.examplenewstack.newstack.domain.book.Book;
 import com.examplenewstack.newstack.domain.client.Client;
 import com.examplenewstack.newstack.domain.loan.enums.StatusLoan;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,10 +41,13 @@ public class Loan {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = false)
+    @JsonBackReference("client-loan")
     private Client client;
 
     //Relacionamento com a tabela book 1:n
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", nullable = false)
+    @JsonBackReference("book-loan")
+
     private Book book;
 }

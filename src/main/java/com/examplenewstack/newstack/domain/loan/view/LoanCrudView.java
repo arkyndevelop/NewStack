@@ -1,5 +1,6 @@
 package com.examplenewstack.newstack.domain.loan.view;
 
+import com.examplenewstack.newstack.domain.book.Book;
 import com.examplenewstack.newstack.domain.book.service.BookCrudService;
 import com.examplenewstack.newstack.domain.client.Client;
 import com.examplenewstack.newstack.domain.client.service.ClientCrudService;
@@ -7,8 +8,10 @@ import com.examplenewstack.newstack.domain.loan.dto.LoanRequest;
 import com.examplenewstack.newstack.domain.loan.dto.LoanResponse;
 import com.examplenewstack.newstack.domain.loan.service.LoanCrudService;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -59,16 +62,25 @@ public class LoanCrudView {
     }
 
     @GetMapping("/register")
-    public ModelAndView showRegisterLoanForm() {
-        ModelAndView mav = new ModelAndView("registerLoan");
-        try {
-            // Adiciona a lista de todos os clientes e livros ao modelo
-            mav.addObject("clients", clientCrudService.findAllClients());
-            mav.addObject("books", bookCrudService.reportAllBooks());
-            mav.addObject("loanRequest", new LoanRequest(null, null, 0, 0)); // Objeto para o form
-        } catch (Exception e) {
-            mav.addObject("error", "Não foi possível carregar os dados para o formulário.");
+    public String showRegisterLoanForm(Model model, Authentication authentication) {
+        // Obter todos os livros (com a disponibilidade já calculada no service)
+        List<Book> books = bookCrudService.reportAllBooks(); // Metodo que retorna Books com availableCopies
+        model.addAttribute("books", books);
+        // model.addAttribute("loanRequest", new LoanRequest()); // Se estiver usando um objeto de formulário
+
+        // Lógica condicional baseada na role do usuário
+        if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_CLIENT"))) {
+            // Se for um CLIENT, pegue o cliente logado
+            String username = authentication.getName(); // Assumindo que o username é o identificador do cliente
+            Client loggedInClient = clientCrudService.findByUsername(username); // Ou findByEmail, findById, etc.
+            if (loggedInClient != null) {
+                model.addAttribute("loggedInClient", loggedInClient);
+            } else {
+                model.addAttribute("error", "Não foi possível encontrar as informações do seu perfil de cliente.");
+            }
+        } else {
+            // Para ADMIN, LIBRARIAN, etc., liste todos os clientes
+            List<Client> clients = clientCrudService.findAllClients();
+            model.addAttribute("clients", clients);
         }
-        return mav;
-    }
 }

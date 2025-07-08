@@ -1,0 +1,106 @@
+body {
+    background-color: #141414;
+    color: #e5e5e5;
+    font-family: sans-serif;
+}
+
+h2 {
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.genre-row h3 {
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.book-item {
+    transition: transform 0.3s ease;
+}
+
+.book-item:hover {
+    transform: scale(1.05);
+}
+
+.card-img-top {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* Para manter a proporção da imagem */
+}
+
+.card-body {
+    padding: 10px;
+}
+
+.card-title {
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.genre-row {
+    margin-bottom: 30px;
+}body {
+    font-family: sans-serif;
+    background-color: #f8f9fa; /* Um fundo claro */
+}
+
+.shelf {
+    margin-bottom: 30px;
+}
+
+.shelf h2 {
+    color: #343a40; /* Texto escuro para os títulos das prateleiras */
+    margin-bottom: 15px;
+    border-bottom: 1px solid #dee2e6; /* Linha sutil abaixo do título */
+    padding-bottom: 5px;
+}
+
+.book-row {
+    display: flex;
+    flex-wrap: nowrap; /* Impede a quebra de linha */
+    overflow-x: auto; /* Adiciona rolagem horizontal se necessário */
+    padding-bottom: 15px; /* Espaço para a barra de rolagem não cobrir os livros */
+    margin-bottom: 15px; /* Espaço entre as linhas de livros */
+}
+
+.book-item {
+    flex: 0 0 auto; /* Não encolhe nem estica, mantém a largura automática */
+    width: 150px; /* Largura aproximada da capa do livro */
+    margin-right: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave para destacar */
+    border-radius: 5px;
+    overflow: hidden; /* Garante que a imagem e o texto fiquem dentro do item */
+    background-color: #fff; /* Fundo branco para o item do livro */
+}
+
+.book-item:last-child {
+    margin-right: 0; /* Remove a margem do último item */
+}
+
+.book-item img {
+    width: 100%;
+    height: auto;
+    display: block; /* Remove espaço extra abaixo da imagem */
+}
+
+.book-info {
+    padding: 10px;
+    text-align: center;
+}
+
+.book-title {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    color: #343a40;
+    font-weight: bold;
+}
+
+.book-author {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+/* Estilos para a navegação */
+.nav-link {
+    padding: 0.5rem 1rem;
+}

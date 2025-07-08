@@ -1,0 +1,41 @@
+/* ================================================= */
+/* ARQUIVO UNIFICADO PARA ESTILOS DA BARRA DE NAVEGAÇÃO */
+/* ================================================= */
+
+/* Estrutura Base da Navbar */
+nav.navbar {
+    padding: 0.5rem 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: fixed; /* Alterado de 'sticky' para 'fixed' para consistência */
+    top: 0;
+    width: 100%;
+    z-index: 1030;
+}
+
+.navbar-brand img {
+    height: 35px;
+}
+
+/* Cores Dinâmicas por Role (com !important para garantir prioridade) */
+nav.navbar.navbar-default {
+    background-color: #0d6efd !important; /* Azul para Clientes */
+}
+
+nav.navbar.navbar-employee {
+    background-color: #198754 !important; /* Verde para Funcionários */
+}
+
+nav.navbar.navbar-admin {
+    background-color: #dc3545 !important; /* Vermelho para Admin */
+}
+
+/* Estilos para o botão de Sair */
+nav.navbar .btn-outline-light {
+    border-color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.75);
+}
+
+nav.navbar .btn-outline-light:hover {
+    background-color: #ffffff;
+    color: #343a40;
+}

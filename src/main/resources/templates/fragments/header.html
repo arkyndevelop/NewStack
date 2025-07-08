@@ -1,0 +1,40 @@
+<header th:fragment="header" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm"
+         th:classappend="${#authorization.expression('hasRole(''ADMIN'')') ? 'navbar-admin' :
+                          (#authorization.expression('hasAnyRole(''LIBRARIAN'', ''LIBRARY_ASSISTANT'', ''RECEPTIONIST'')') ? 'navbar-employee' : 'navbar-default')}">
+
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/v1/home}">
+                <img th:src="@{/img/newstack.jpg}" alt="Logo NewStack" height="35" class="d-inline-block align-top">
+                NewStack
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/v1/home}">Painel Principal</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN', 'LIBRARY_ASSISTANT', 'RECEPTIONIST')">
+                        <a class="nav-link" th:href="@{/v1/clients/report}">Clientes</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN', 'LIBRARY_ASSISTANT', 'RECEPTIONIST')">
+                        <a class="nav-link" th:href="@{/v1/employees/reports}">Funcionários</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN', 'LIBRARY_ASSISTANT', 'RECEPTIONIST')">
+                        <a class="nav-link" th:href="@{/v1/books/reports}">Livros</a>
+                    </li>
+
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <a class="nav-link" th:href="@{/v1/loans/reports}">
+                            <span sec:authorize="hasRole('CLIENT')">Meus Empréstimos</span>
+                            <span sec:authorize="!hasRole('CLIENT')">Empréstimos</span>
+                        </a>
+                    </li>
+                </ul>
+                <a class="btn btn-outline-light" th:href="@{/auth/logout}">Sair</a>
+            </div>
+        </div>
+    </nav>
+</header>

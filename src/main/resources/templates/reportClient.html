@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Clientes - NewStack</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link th:href="@{/CSS/navBar.css}" rel="stylesheet">
+    <style>
+        body { padding-top: 80px; }
+    </style>
+</head>
+<body class="bg-body-tertiary">
+
+<header th:insert="~{fragments/header :: header}"></header>
+
+<main class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Relatório de Clientes</h1>
+        <a th:href="@{/v1/clients/register}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Registrar Novo Cliente
+        </a>
+    </div>
+
+    <table class="table table-striped table-dark">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">CPF</th>
+            <th scope="col">Email</th>
+            <th scope="col">Telefone</th>
+            <th scope="col">Data Registro</th>
+            <th scope="col">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="client, iterStat : ${clientList}">
+            <td th:text="${iterStat.count}"></td>
+            <td th:text="${client.name}"></td>
+            <td th:text="${client.CPF}"></td>
+            <td th:text="${client.email}"></td>
+            <td th:text="${client.telephone}"></td>
+            <td th:text="${#temporals.format(client.dateRegister, 'dd/MM/yyyy HH:mm')}"></td>
+            <td>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-light">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Editar Cliente</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editForm" method="post" action="">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="editCpf" class="form-label">CPF</label>
+                        <input type="text" class="form-control bg-secondary text-light" id="editCpf" name="CPF" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editName" class="form-label">Nome</label>
+                        <input type="text" class="form-control bg-secondary text-light" id="editName" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control bg-secondary text-light" id="editEmail" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editTelephone" class="form-label">Telefone</label>
+                        <input type="text" class="form-control bg-secondary text-light" id="editTelephone" name="telephone" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/JS/scriptDelete.js}"></script>
+<script th:src="@{/JS/scriptEdit.js}"></script>
+
+</body>
+</html>

@@ -1,8 +1,14 @@
 html,body{
-    height: 100%;
+
+    border: 5px;
 }
 
 .form-container{
     max-width: 350px;
     padding: 1rem;
+}
+
+main{
+    text-align: center;
+    font-size: small;
 }

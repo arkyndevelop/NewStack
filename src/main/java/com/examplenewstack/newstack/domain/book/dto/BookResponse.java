@@ -7,13 +7,9 @@ public record BookResponse(
         String category,
         String yearPublication,
 
-        boolean disponibility,
+        //boolean disponibility,
 
         int totalQuantity,
-        int disponibilityQuantity,
-
-        int collectionId,
-        int employeeId,
 
         String author,
         String description,

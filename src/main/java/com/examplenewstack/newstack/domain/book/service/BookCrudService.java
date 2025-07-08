@@ -44,7 +44,7 @@ public class BookCrudService {
         Employee employeeFound = employeeRepository.findById(employeeID)
                 .orElseThrow();
 
-        bookRepository.save(bookDTO.tobook(collection, employeeFound));
+        bookRepository.save(bookDTO.tobook());
 
         return new BookResponse(
                 0, // Modificar e corrigir
@@ -52,11 +52,7 @@ public class BookCrudService {
                 bookDTO.ISBN(),
                 bookDTO.category(),
                 bookDTO.year_publication(),
-                bookDTO.disponibility(),
                 bookDTO.total_quantity(),
-                bookDTO.disponibility_quantity(),
-                bookDTO.collectionId(),
-                bookDTO.employeeId(),
                 bookDTO.author(),
                 bookDTO.description(),
                 bookDTO.publisher(),
@@ -78,12 +74,7 @@ public class BookCrudService {
                         book.getISBN(),
                         book.getCategory(),
                         book.getYear_publication(),
-                        book.isDisponibility(),
                         book.getTotal_quantity(),
-                        book.getDisponibility_quantity(),
-                        book.getCollection().getId(),
-                        // Novos campos adicionados ao DTO para retornar mais informações do livro
-                        book.getEmployee().getId(),
                         book.getAuthor(),
                         book.getDescription(),
                         book.getPublisher(),
@@ -103,11 +94,7 @@ public class BookCrudService {
                 bookFound.getISBN(),
                 bookFound.getCategory(),
                 bookFound.getYear_publication(),
-                bookFound.isDisponibility(),
                 bookFound.getTotal_quantity(),
-                bookFound.getDisponibility_quantity(),
-                bookFound.getCollection().getId(),
-                bookFound.getEmployee().getId(),
                 bookFound.getAuthor(),
                 bookFound.getDescription(),
                 bookFound.getPublisher(),
@@ -125,9 +112,7 @@ public class BookCrudService {
         bookExists.setISBN(request.ISBN());
         bookExists.setCategory(request.category());
         bookExists.setYear_publication(request.year_publication());
-        bookExists.setDisponibility(request.disponibility());
         bookExists.setTotal_quantity(request.total_quantity()); // Não esquecer de atualizar a quantidade total
-        bookExists.setDisponibility_quantity(request.disponibility_quantity());
 
         Book updateBook = bookRepository.save(bookExists);
         return ResponseEntity
@@ -137,11 +122,7 @@ public class BookCrudService {
                         bookExists.getISBN(),
                         bookExists.getCategory(),
                         bookExists.getYear_publication(),
-                        bookExists.isDisponibility(),
                         bookExists.getTotal_quantity(),
-                        bookExists.getDisponibility_quantity(),
-                        bookExists.getCollection().getId(),
-                        bookExists.getEmployee().getId(),
                         bookExists.getAuthor(),
                         bookExists.getDescription(),
                         bookExists.getPublisher(),

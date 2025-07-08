@@ -46,7 +46,7 @@
         @Column(nullable = false,length = 255)
         private String publisher;
 
-        @Column(nullable = false,length = 1000)
+        @Column(nullable = false,length = 3000)
         private String thumbnailUrl;
 
         @Column(nullable = false)
@@ -68,11 +68,11 @@
         private Instant dateRegister = Instant.now();
 
         // Relacionamentos
-        @ManyToOne(fetch = FetchType.LAZY)
+        @ManyToOne(optional = true, fetch = FetchType.LAZY)
         @JoinColumn(name = "employee_id")
         private Employee employee;
 
-        @ManyToOne(fetch = FetchType.LAZY)
+        @ManyToOne(optional = true, fetch = FetchType.LAZY)
         @JoinColumn(name = "collection_id")
         private Collection collection;
 

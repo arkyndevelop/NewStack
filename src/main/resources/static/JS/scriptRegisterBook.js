@@ -1,139 +1,96 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("RegisterLivro_Form");
-    const tituloInput = document.getElementById("titulo");
-    const quantidadeInput = document.getElementById("quantExemplares");
-    const btnMenos = document.getElementById("btnMenos");
-    const btnMais = document.getElementById("btnMais");
-    const disponibilidadeSelect = document.getElementById("disponibilidade");
-    const indicadorDisp = document.getElementById("indicadorDisp");
+document.addEventListener('DOMContentLoaded', function () {
+    const titleInput = document.getElementById('title');
+    if (titleInput) {
+        // Evento 'blur' é acionado quando o usuário sai do campo
+        titleInput.addEventListener('blur', preencherFormularioComDadosDoGoogle);
+    }
 
-    // --- LÓGICA PARA OS BOTÕES DE QUANTIDADE ---
-    if (btnMenos && btnMais && quantidadeInput) {
-        btnMenos.addEventListener('click', () => {
-            let currentValue = parseInt(quantidadeInput.value) || 0;
-            if (currentValue > 0) {
-                quantidadeInput.value = currentValue - 1;
-            }
-        });
+    // Lógica para os botões de quantidade
+    const quantInput = document.getElementById('total_quantity');
+    const btnMais = document.getElementById('btnMais');
+    const btnMenos = document.getElementById('btnMenos');
 
+    if (btnMais) {
         btnMais.addEventListener('click', () => {
-            let currentValue = parseInt(quantidadeInput.value) || 0;
-            quantidadeInput.value = currentValue + 1;
+            quantInput.value = parseInt(quantInput.value, 10) + 1;
         });
     }
 
-    // --- LÓGICA PARA O INDICADOR DE DISPONIBILIDADE ---
-    if(disponibilidadeSelect && indicadorDisp) {
-        disponibilidadeSelect.addEventListener('change', function() {
-            if (this.value === 'false') {
-                indicadorDisp.classList.add('nao');
-            } else {
-                indicadorDisp.classList.remove('nao');
+    if (btnMenos) {
+        btnMenos.addEventListener('click', () => {
+            const currentValue = parseInt(quantInput.value, 10);
+            if (currentValue > 1) { // Evita quantidade menor que 1
+                quantInput.value = currentValue - 1;
             }
         });
     }
-
-    // --- LÓGICA PARA BUSCAR DADOS DO LIVRO (GOOGLE BOOKS API) ---
-    tituloInput.addEventListener("blur", async () => {
-        const titulo = tituloInput.value.trim();
-        if (!titulo) return;
-
-        try {
-            const response = await fetch(`/google-books/titulo/${encodeURIComponent(titulo)}`);
-            if (!response.ok) throw new Error("Livro não encontrado na API do Google.");
-            const data = await response.json();
-
-            // Preenche os campos do formulário
-            document.getElementById("autor").value = data.authors ? data.authors.join(', ') : "";
-            document.getElementById("isbn").value = data.industryIdentifiers ? data.industryIdentifiers.find(i => i.type === "ISBN_13")?.identifier || '' : '';
-            document.getElementById("descricao").value = data.description || "";
-            document.getElementById("editora").value = data.publisher || "";
-            document.getElementById("dataPublicacao").value = formatarData(data.publishedDate);
-            document.getElementById("categoria").value = data.categories ? data.categories.join(', ') : "";
-            document.getElementById("thumbnailUrl").value = data.imageLinks?.thumbnail || "";
-
-            if (data.imageLinks?.thumbnail) {
-                mostrarImagem(data.imageLinks.thumbnail);
-            } else {
-                removerImagem();
-            }
-        } catch (err) {
-            console.warn(err.message);
-        }
-    });
-
-    // --- LÓGICA PARA O SUBMIT DO FORMULÁRIO ---
-    form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-
-        const bookData = {
-            title: document.getElementById('titulo').value,
-            author: document.getElementById('autor').value,
-            ISBN: document.getElementById('isbn').value,
-            category: document.getElementById('categoria').value,
-            year_publication: document.getElementById('dataPublicacao').value,
-            publisher: document.getElementById('editora').value,
-            description: document.getElementById('descricao').value,
-            thumbnailUrl: document.getElementById('thumbnailUrl').value,
-            total_quantity: parseInt(document.getElementById('quantExemplares').value, 10),
-            disponibility_quantity: parseInt(document.getElementById('quantExemplares').value, 10),
-            disponibility: document.getElementById('disponibilidade').value === 'true',
-            collectionId: parseInt(document.getElementById('collectionId').value, 10),
-            employeeId: parseInt(document.getElementById('employeeId').value, 10)
-        };
-
-        try {
-            const response = await fetch(form.action, {
-                method: "POST",
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(bookData)
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({ message: 'Erro desconhecido. Verifique os dados e tente novamente.' }));
-                throw new Error(errorData.message);
-            }
-
-            alert('Livro cadastrado com sucesso!');
-            window.location.href = '/books/reports';
-        } catch (error) {
-            mostrarAlerta('Falha no cadastro: ' + error.message);
-        }
-    });
 });
 
-// Funções auxiliares
-function formatarData(dataStr) {
-    if (!dataStr) return "";
-    const partes = dataStr.split("-");
-    if (partes.length === 3) return dataStr;
-    if (partes.length === 2) return `${partes[0]}-${partes[1]}-01`;
-    if (partes.length === 1) return `${partes[0]}-01-01`;
-    return "";
-}
+async function preencherFormularioComDadosDoGoogle() {
+    const titulo = document.getElementById('title').value;
+    if (titulo.length < 3) {
+        // Não busca se o título for muito curto
+        return;
+    }
 
-function mostrarImagem(url) {
-    removerImagem();
-    const imglivro = document.getElementById("imglivro");
-    const img = document.createElement("img");
-    img.className = "image-preview";
-    img.src = url;
-    img.alt = "Capa do livro";
-    imglivro.appendChild(img);
-}
+    try {
+        const response = await fetch(`/google-books/titulo/${encodeURIComponent(titulo)}`);
+        if (!response.ok) {
+            const errorText = await response.text();
+            mostrarAlerta(`Erro ao buscar livro: ${errorText || response.statusText}`);
+            return;
+        }
 
-function removerImagem() {
-    const imgPreview = document.querySelector(".image-preview");
-    if (imgPreview) imgPreview.remove();
+        const data = await response.json();
+        if (data) {
+            // Preenche os campos do formulário com os dados da API
+            document.getElementById('author').value = data.authors ? data.authors.join(', ') : '';
+            document.getElementById('publisher').value = data.publisher || '';
+            document.getElementById('description').value = data.description || '';
+            document.getElementById('category').value = data.categories ? data.categories[0] : '';
+
+            // Lógica robusta para encontrar ISBN
+            let isbn = '';
+            if (data.industryIdentifiers && Array.isArray(data.industryIdentifiers)) {
+                const isbn13 = data.industryIdentifiers.find(i => i.type === "ISBN_13");
+                const isbn10 = data.industryIdentifiers.find(i => i.type === "ISBN_10");
+                if (isbn13) {
+                    isbn = isbn13.identifier;
+                } else if (isbn10) {
+                    isbn = isbn10.identifier;
+                }
+            }
+            document.getElementById('isbn').value = isbn;
+
+            // Formata e preenche o ano de publicação
+            if (data.publishedDate) {
+                // Extrai apenas o ano (os 4 primeiros caracteres)
+                document.getElementById('year_publication').value = data.publishedDate.substring(0, 4);
+            }
+
+            // Preenche a imagem e o campo oculto com a URL da thumbnail
+            const thumbnailUrl = data.imageLinks ? data.imageLinks.thumbnail : '';
+            document.getElementById('thumbnailUrl').value = thumbnailUrl;
+            const imgContainer = document.getElementById('imglivro');
+            imgContainer.innerHTML = thumbnailUrl ? `<img src="${thumbnailUrl}" alt="Capa do livro" style="max-width: 150px; border-radius: 5px;">` : '<span>Nenhuma imagem disponível</span>';
+
+        } else {
+            mostrarAlerta('Nenhum livro encontrado com este título.');
+        }
+
+    } catch (error) {
+        console.error('Falha na requisição:', error);
+        mostrarAlerta('Não foi possível conectar à API do Google Books.');
+    }
 }
 
 function mostrarAlerta(mensagem) {
-    const alerta = document.getElementById("alertaErro");
-    const msg = document.getElementById("mensagemErro");
-    msg.textContent = mensagem;
-    alerta.style.display = 'block';
-}
+    const alertaDiv = document.getElementById('alertaErro');
+    alertaDiv.textContent = mensagem;
+    alertaDiv.style.display = 'block';
 
-function fecharAlerta() {
-    document.getElementById('alertaErro').style.display = 'none';
+    // Esconde o alerta após 5 segundos
+    setTimeout(() => {
+        alertaDiv.style.display = 'none';
+    }, 5000);
 }

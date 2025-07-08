@@ -1,7 +1,7 @@
 package com.examplenewstack.newstack.domain.book.controller.view;
 
 import com.examplenewstack.newstack.domain.book.Book;
-import com.examplenewstack.newstack.domain.book.dto.BookResponse;
+import com.examplenewstack.newstack.domain.book.dto.BookAdminMasterResponse;
 import com.examplenewstack.newstack.domain.book.service.BookCrudService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +33,7 @@ public class BookCrudView {
     @GetMapping("/reports")
     public ModelAndView reportAllBooks() {
         // 1. Busca a lista de livros do serviço
-        List<BookResponse> bookList = bookCrudService.reportAllBooks();
+        List<BookAdminMasterResponse> bookList = bookCrudService.reportAllBooks();
 
         // 2. Cria o objeto ModelAndView, apontando para o arquivo HTML
         ModelAndView modelAndView = new ModelAndView("reportBooks");

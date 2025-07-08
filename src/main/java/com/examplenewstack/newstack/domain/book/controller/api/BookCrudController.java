@@ -24,8 +24,9 @@ public class BookCrudController {
 
     //Controller responsável pelo endpoint de registar um livro
     @PostMapping("/register")
-    public ResponseEntity<String> cadastrar(@ModelAttribute Book book) {
+    public ResponseEntity<String> cadastrar(@RequestBody BookRequest bookRequest) {
         try {
+            Book book=bookRequest.tobook();
             repository.save(book);
             return ResponseEntity.ok("Livro salvo com sucesso");
         } catch (Exception e) {

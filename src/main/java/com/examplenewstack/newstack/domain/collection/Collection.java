@@ -20,7 +20,7 @@ import java.util.List;
 public class Collection {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
     @Column(nullable = false)
     private int total_quantity;

@@ -33,8 +33,8 @@ public record BookRequest(
         @NotNull(message = "A quantidade de livros disponível não pode ser vazia!")
         int disponibility_quantity,
 
-        int collectionId,
-        int employeeId,
+        Integer collectionId,
+        Integer employeeId,
 
         String author,
         String description,
@@ -42,7 +42,7 @@ public record BookRequest(
         String thumbnailUrl
 
 ) {
-    public Book tobook(Collection collection, Employee employee) {
+    public Book tobook() {
         Book book = new Book();
 
         book.setTitle(title);
@@ -52,15 +52,26 @@ public record BookRequest(
         book.setDisponibility(disponibility);
         book.setTotal_quantity(total_quantity);
         book.setDisponibility_quantity(disponibility_quantity);
-
-        book.setEmployee(employee);
-        book.setCollection(collection);
-
-        // Novos campos
         book.setAuthor(author);
         book.setDescription(description);
         book.setPublisher(publisher);
         book.setThumbnailUrl(thumbnailUrl);
+
+        // Set employee
+        Employee employee = new Employee();
+        employee.setId(employeeId);
+        book.setEmployee(employee);
+
+        if (collectionId != null)
+        {
+            Collection collection = new Collection();
+            collection.setId(collectionId);
+            book.setCollection(collection);
+        }
+        else
+        {
+            book.setCollection(null);
+        }
 
         return book;
     }

@@ -2,7 +2,7 @@ package com.examplenewstack.newstack.domain.book.service;
 
 import com.examplenewstack.newstack.domain.book.Book;
 import com.examplenewstack.newstack.domain.book.dto.BookRequest;
-import com.examplenewstack.newstack.domain.book.dto.BookResponse;
+import com.examplenewstack.newstack.domain.book.dto.BookAdminMasterResponse;
 import com.examplenewstack.newstack.domain.book.exception.NoBooksFoundByISBNException;
 import com.examplenewstack.newstack.domain.book.exception.NoBooksFoundByIdException;
 import com.examplenewstack.newstack.domain.book.exception.NoBooksFoundException;
@@ -32,7 +32,7 @@ public class BookCrudService {
 
 
     //Função responsavel por registrar um livro
-    public BookResponse register(
+    public BookAdminMasterResponse register(
             BookRequest bookDTO,
             String isbn,
             int collectionID,
@@ -44,9 +44,9 @@ public class BookCrudService {
         Employee employeeFound = employeeRepository.findById(employeeID)
                 .orElseThrow();
 
-        bookRepository.save(bookDTO.tobook(collection, employeeFound));
+        bookRepository.save(bookDTO.tobook());
 
-        return new BookResponse(
+        return new BookAdminMasterResponse(
                 0, // Modificar e corrigir
                 bookDTO.title(),
                 bookDTO.ISBN(),
@@ -65,14 +65,14 @@ public class BookCrudService {
     }
 
     //Função responsavel por mostrar todos os livros
-    public List<BookResponse> reportAllBooks() {
+    public List<BookAdminMasterResponse> reportAllBooks() {
         List<Book> findBooks = bookRepository.findAll();
         if (findBooks.isEmpty()) {
             throw new NoBooksFoundException();
         }
         return findBooks
                 .stream()
-                .map(book -> new BookResponse(
+                .map(book -> new BookAdminMasterResponse(
                         book.getId(),
                         book.getTitle(),
                         book.getISBN(),
@@ -93,11 +93,11 @@ public class BookCrudService {
     }
 
     //Função responsavel por mostrar os livros pelo ID
-    public BookResponse findByID(int bookID) {
+    public BookAdminMasterResponse findByID(int bookID) {
         Book bookFound = bookRepository.findById(bookID)
                 .orElseThrow(NoBooksFoundByIdException::new);
 
-        return new BookResponse(
+        return new BookAdminMasterResponse(
                 bookFound.getId(),
                 bookFound.getTitle(),
                 bookFound.getISBN(),
@@ -116,7 +116,7 @@ public class BookCrudService {
     }
 
     //Função responsavel por atualizar um livro pelo ID
-    public ResponseEntity<BookResponse> updateBook(BookRequest request, String bookISBN) {
+    public ResponseEntity<BookAdminMasterResponse> updateBook(BookRequest request, String bookISBN) {
         Book bookExists = bookRepository.findByISBN(bookISBN)
                 .orElseThrow(NoBooksFoundByISBNException::new);
 
@@ -131,7 +131,7 @@ public class BookCrudService {
 
         Book updateBook = bookRepository.save(bookExists);
         return ResponseEntity
-                .ok(new BookResponse(
+                .ok(new BookAdminMasterResponse(
                         bookExists.getId(),
                         bookExists.getTitle(),
                         bookExists.getISBN(),

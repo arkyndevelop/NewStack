@@ -1,7 +1,7 @@
 package com.examplenewstack.newstack.domain.book.dto;
 
-public record BookResponse(
-        int id,
+public record BookAdminMasterResponse(
+        Integer id,
         String title,
         String ISBN,
         String category,
@@ -12,8 +12,8 @@ public record BookResponse(
         int totalQuantity,
         int disponibilityQuantity,
 
-        int collectionId,
-        int employeeId,
+        Integer collectionId,
+        Integer employeeId,
 
         String author,
         String description,

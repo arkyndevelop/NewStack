@@ -33,7 +33,7 @@ public class BookCrudController {
         }
     }
 
-    //Função responsavel pelo endpoint de mostrar todos os livros
+    //Função responsável pelo endpoint de mostrar todos os livros
     @GetMapping("/reports/all")
     public ResponseEntity<?> reportAll() {
         return ResponseEntity.ok().body(service.reportAllBooks());

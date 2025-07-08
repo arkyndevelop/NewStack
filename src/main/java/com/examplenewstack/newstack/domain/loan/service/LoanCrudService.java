@@ -131,36 +131,36 @@ public class LoanCrudService {
         );
     }
 
-    public List<LoanResponse> deleteAll() {
-        List<Loan> loanList = repository.findAll();
-        if (loanList.isEmpty()) {
-            throw new NoLoanFoundException();
-        }
-
-        for (Loan loan : loanList) {
-            if (loan.getStatus() == StatusLoan.EMPRESTADO) {
-                Book books = loan.getBook();
-
-                books.setDisponibility_quantity(books.getDisponibility_quantity() + 1);
-
-                bookRepository.save(books);
-
-            }
-        }
-
-        repository.deleteAll();
-
-        return loanList.stream()
-                .map(loan -> new LoanResponse(
-                        loan.getId(),
-                        loan.getLoanDate(),
-                        loan.getExpectedReturnDate(),
-                        loan.getActualReturnDate(),
-                        loan.getStatus().name(),
-                        loan.getClient().getId(),
-                        loan.getBook().getId()))
-                .toList();
-    }
+//    public List<LoanResponse> deleteAll() {
+//        List<Loan> loanList = repository.findAll();
+//        if (loanList.isEmpty()) {
+//            throw new NoLoanFoundException();
+//        }
+//
+//        for (Loan loan : loanList) {
+//            if (loan.getStatus() == StatusLoan.EMPRESTADO) {
+//                Book books = loan.getBook();
+//
+//                books.setDisponibility_quantity(books.getDisponibility_quantity() + 1);
+//
+//                bookRepository.save(books);
+//
+//            }
+//        }
+//
+//        repository.deleteAll();
+//
+//        return loanList.stream()
+//                .map(loan -> new LoanResponse(
+//                        loan.getId(),
+//                        loan.getLoanDate(),
+//                        loan.getExpectedReturnDate(),
+//                        loan.getActualReturnDate(),
+//                        loan.getStatus().name(),
+//                        loan.getClient().getId(),
+//                        loan.getBook().getId()))
+//                .toList();
+//    }
 
     public List<LoanResponse> deleteById(int id) {
 
@@ -195,5 +195,13 @@ public class LoanCrudService {
                 .toList();
 
 
+    }
+
+    public List<LoanResponse> reportByClientId(Integer clientId) {
+        List<Loan> loans = repository.findByClientId(clientId);
+        if (loans.isEmpty()) {
+            throw new NoLoanFoundException("Nenhum empréstimo encontrado para este cliente.");
+        }
+        return loans.stream().map(LoanResponse::fromEntity).toList();
     }
 }

@@ -1,5 +1,3 @@
-// src/main/resources/static/js/reportBook.js
-
 document.addEventListener('DOMContentLoaded', function() {
     const editBookModal = new bootstrap.Modal(document.getElementById('editBookModal'));
     const editBookForm = document.getElementById('editBookForm');

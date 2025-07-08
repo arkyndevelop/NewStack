@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -32,16 +33,19 @@ public class BookCrudView {
     // Mostra a tela com todos os livros
     @GetMapping("/reports")
     public ModelAndView reportAllBooks() {
-        // 1. Busca a lista de livros do serviço
-        List<BookResponse> bookList = bookCrudService.reportAllBooks();
-
-        // 2. Cria o objeto ModelAndView, apontando para o arquivo HTML
         ModelAndView modelAndView = new ModelAndView("reportBooks");
-
-        // 3. Adiciona a lista de clientes ao modelo com o nome "bookList"
-        modelAndView.addObject("bookList", bookList);
-
-        // 4. Retorna o modelo com os dados para a view
+        try {
+            // Busca a lista de livros do serviço
+            List<BookResponse> bookList = bookCrudService.reportAllBooks();
+            modelAndView.addObject("bookList", bookList);
+        } catch (Exception e) {
+            // Se ocorrer uma exceção (como a de 'nenhum livro encontrado'),
+            // adiciona uma lista vazia para a página ser renderizada
+            modelAndView.addObject("bookList", Collections.emptyList());
+            // Opcional: logar o erro ou adicionar uma mensagem específica
+            System.err.println("Erro ao buscar livros: " + e.getMessage());
+        }
         return modelAndView;
     }
+
 }

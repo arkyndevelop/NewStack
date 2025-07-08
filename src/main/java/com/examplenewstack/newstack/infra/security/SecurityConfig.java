@@ -47,7 +47,7 @@ public class SecurityConfig {
                         // Regra para ADMIN gerenciar livros, clientes e funcionários
                         .requestMatchers("/books/**", "/v1/clients/**", "/v1/employees/**").hasAnyRole("ADMIN", "LIBRARIAN", "LIBRARY_ASSISTANT", "RECEPTIONIST", "EMPLOYEE")
 
-                        .requestMatchers("/v1/clients/profile").hasAnyRole("CLIENT", "ADMIN", "LIBRARIAN", "LIBRARY_ASSISTANT", "RECEPTIONIST", "EMPLOYEE")
+                        .requestMatchers("/v1/clients/profile", "/v1/loans/**").hasAnyRole("CLIENT", "ADMIN", "LIBRARIAN", "LIBRARY_ASSISTANT", "RECEPTIONIST", "EMPLOYEE")
 
                         // Permite acesso ao Swagger
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**" ).permitAll()

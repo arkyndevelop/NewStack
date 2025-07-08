@@ -36,11 +36,11 @@ public class LoanCrudController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/delete/all")
-    public ResponseEntity<?> deleteAllController(){
-        service.deleteAll();
-        return ResponseEntity.ok().build();
-    }
+//    @DeleteMapping("/delete/all")
+//    public ResponseEntity<?> deleteAllController(){
+//        service.deleteAll();
+//        return ResponseEntity.ok().build();
+//    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteByIdController(@PathVariable int id){

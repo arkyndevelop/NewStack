@@ -4,7 +4,7 @@ import com.examplenewstack.newstack.domain.client.Client;
 import com.examplenewstack.newstack.core.dto.UserResponseDTO;
 import java.time.Instant; // Importe a classe Instant
 
-public record ClientResponse(
+public record ClientResponseProfile(
         Integer id,
         String name,
         String CPF,
@@ -13,10 +13,10 @@ public record ClientResponse(
         Instant dateRegister // Adicione este campo
 ) implements UserResponseDTO {
 
-    public static ClientResponse fromEntity(
+    public static ClientResponseProfile fromEntity(
             Client client
     ){
-        return new ClientResponse(
+        return new ClientResponseProfile(
                 client.getId(),
                 client.getName(),
                 client.getCPF(),

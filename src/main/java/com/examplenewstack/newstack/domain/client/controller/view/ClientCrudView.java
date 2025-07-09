@@ -2,7 +2,7 @@ package com.examplenewstack.newstack.domain.client.controller.view;
 
 
 import com.examplenewstack.newstack.core.entity.User;
-import com.examplenewstack.newstack.domain.client.dto.ClientResponse;
+import com.examplenewstack.newstack.domain.client.dto.ClientResponseProfile;
 import com.examplenewstack.newstack.domain.client.service.ClientCrudService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,7 +31,7 @@ public class ClientCrudView {
     @GetMapping("/report")
     public ModelAndView showClientById(){
         // 1. Busca a lista de clientes do serviço
-        List<ClientResponse> clientList = service.findAllClients();
+        List<ClientResponseProfile> clientList = service.findAllClients();
 
         // 2. Cria o objeto ModelAndView, apontando para o arquivo HTML
         ModelAndView modelAndView = new ModelAndView("reportClient");

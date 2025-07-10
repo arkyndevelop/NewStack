@@ -61,26 +61,27 @@ public class LoanCrudView {
         return mav;
     }
 
-    @GetMapping("/register")
-    public String showRegisterLoanForm(Model model, Authentication authentication) {
-        // Obter todos os livros (com a disponibilidade já calculada no service)
-        List<Book> books = bookCrudService.reportAllBooks(); // Metodo que retorna Books com availableCopies
-        model.addAttribute("books", books);
-        // model.addAttribute("loanRequest", new LoanRequest()); // Se estiver usando um objeto de formulário
-
-        // Lógica condicional baseada na role do usuário
-        if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_CLIENT"))) {
-            // Se for um CLIENT, pegue o cliente logado
-            String username = authentication.getName(); // Assumindo que o username é o identificador do cliente
-            Client loggedInClient = clientCrudService.findByUsername(username); // Ou findByEmail, findById, etc.
-            if (loggedInClient != null) {
-                model.addAttribute("loggedInClient", loggedInClient);
-            } else {
-                model.addAttribute("error", "Não foi possível encontrar as informações do seu perfil de cliente.");
-            }
-        } else {
-            // Para ADMIN, LIBRARIAN, etc., liste todos os clientes
-            List<Client> clients = clientCrudService.findAllClients();
-            model.addAttribute("clients", clients);
-        }
+//    @GetMapping("/register")
+//    public String showRegisterLoanForm(Model model, Authentication authentication) {
+//        // Obter todos os livros (com a disponibilidade já calculada no service)
+//        List<Book> books = bookCrudService.reportAllBooks(); // Metodo que retorna Books com availableCopies
+//        model.addAttribute("books", books);
+//        // model.addAttribute("loanRequest", new LoanRequest()); // Se estiver usando um objeto de formulário
+//
+//        // Lógica condicional baseada na role do usuário
+//        if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_CLIENT"))) {
+//            // Se for um CLIENT, pegue o cliente logado
+//            String username = authentication.getName(); // Assumindo que o username é o identificador do cliente
+//            Client loggedInClient = clientCrudService.findByUsername(username); // Ou findByEmail, findById, etc.
+//            if (loggedInClient != null) {
+//                model.addAttribute("loggedInClient", loggedInClient);
+//            } else {
+//                model.addAttribute("error", "Não foi possível encontrar as informações do seu perfil de cliente.");
+//            }
+//        } else {
+//            // Para ADMIN, LIBRARIAN, etc., liste todos os clientes
+//            List<Client> clients = clientCrudService.findAllClients();
+//            model.addAttribute("clients", clients);
+//        }
+//    }
 }

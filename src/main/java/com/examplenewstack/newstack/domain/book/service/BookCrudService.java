@@ -33,16 +33,13 @@ public class BookCrudService {
 
     //Função responsavel por registrar um livro
     public BookResponse register(
-            BookRequest bookDTO,
-            String isbn,
-            int collectionID,
-            int employeeID
+            BookRequest bookDTO
     ) {
-        Collection collection = collectionRepository.findById(collectionID)
-                .orElseThrow();
-
-        Employee employeeFound = employeeRepository.findById(employeeID)
-                .orElseThrow();
+//        Collection collection = collectionRepository.findById(collectionID)
+//                .orElseThrow();
+//
+//        Employee employeeFound = employeeRepository.findById(employeeID)
+//                .orElseThrow();
 
         bookRepository.save(bookDTO.tobook());
 

@@ -44,6 +44,22 @@
             <td th:text="${client.telephone}"></td>
             <td th:text="${#temporals.format(client.dateRegister, 'dd/MM/yyyy HH:mm')}"></td>
             <td>
+                <div class="dropdown">
+                  <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v"></i>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a class="dropdown-item" href="#" th:onclick="'viewClientDetails(' + ${client.id} + ')'">
+                      <i class="fas fa-eye me-2"></i>Ver Detalhes
+                    </a></li>
+                    <li><a class="dropdown-item" href="#" th:onclick="'updateClient(' + ${client.id} + ')'">
+                      <i class="fas fa-edit me-2"></i>Atualizar
+                    </a></li>
+                    <li><a class="dropdown-item" href="#" th:onclick="'deleteClient(' + ${client.id} + ')'">
+                      <i class="fas fa-trash me-2"></i>Deletar
+                    </a></li>
+                  </ul>
+                </div>
             </td>
         </tr>
         </tbody>

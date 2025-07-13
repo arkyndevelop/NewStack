@@ -1,12 +1,12 @@
 package com.examplenewstack.newstack.domain.loan.controller;
 
-import com.examplenewstack.newstack.domain.loan.Loan;
 import com.examplenewstack.newstack.domain.loan.dto.LoanRequest;
 import com.examplenewstack.newstack.domain.loan.service.LoanCrudService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @RestController
 @RequestMapping("/loans")
@@ -15,14 +15,20 @@ public class LoanCrudController {
 
     private final LoanCrudService service;
 
-    public LoanCrudController(LoanCrudService service) {
-        this.service = service;
+    public LoanCrudController(LoanCrudService loanService) {
+        this.service = loanService;
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerController(@RequestBody @Valid LoanRequest request) {
-        Loan loan = service.register(request, request.clientId(), request.bookId());
-        return ResponseEntity.ok().body(loan);
+    public String registerLoan(LoanRequest loanRequest, RedirectAttributes redirectAttributes) {
+        try {
+            service.register(loanRequest);
+            redirectAttributes.addFlashAttribute("successMessage", "Empréstimo registrado com sucesso!");
+            return "redirect:/v1/loans/reports"; // Redireciona para a tela de relatórios
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao registrar empréstimo: " + e.getMessage());
+            return "redirect:/v1/loans/register"; // Volta para a tela de registro em caso de erro
+        }
     }
 
     @GetMapping("/report/all")
@@ -30,11 +36,11 @@ public class LoanCrudController {
         return ResponseEntity.ok().body(service.reportAll());
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateController(@RequestBody @Valid LoanRequest request, @PathVariable int id) {
-        service.update(request, id);
-        return ResponseEntity.ok().build();
-    }
+//    @PutMapping("/update/{id}")
+//    public ResponseEntity<?> updateController(@RequestBody @Valid LoanRequest request, @PathVariable int id) {
+//        service.update(request, id);
+//        return ResponseEntity.ok().build();
+//    }
 
 //    @DeleteMapping("/delete/all")
 //    public ResponseEntity<?> deleteAllController(){

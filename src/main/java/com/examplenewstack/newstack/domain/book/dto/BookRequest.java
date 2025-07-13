@@ -21,7 +21,7 @@ public record BookRequest(
         String category,
 
         @NotNull(message = "O ano não pode ser vazio!")
-        String year_publication,
+        Integer year_publication,
 
         @NotNull(message = "A quantidade de livros não pode ser vazia!")
         int total_quantity,

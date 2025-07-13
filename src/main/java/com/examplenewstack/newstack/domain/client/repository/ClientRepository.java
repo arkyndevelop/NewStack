@@ -24,7 +24,7 @@ public interface ClientRepository extends JpaRepository<Client, Integer> {
     void deleteByCPF(@Param("cpf") String cpf);
 
 
-    boolean findByEmail(String email);
+    Client findByEmail(String email);
 
     boolean existsByCPF(String cpf);
 

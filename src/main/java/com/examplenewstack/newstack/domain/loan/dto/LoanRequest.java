@@ -1,40 +1,33 @@
 package com.examplenewstack.newstack.domain.loan.dto;
 
-import com.examplenewstack.newstack.domain.book.Book;
-import com.examplenewstack.newstack.domain.client.Client;
-import com.examplenewstack.newstack.domain.loan.Loan;
-import com.examplenewstack.newstack.domain.loan.enums.StatusLoan;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.NotNull;
+public class LoanRequest {
 
-import java.time.LocalDateTime;
+        private int clientId;
+        private int bookId;
+        private int loanTermDays; // Prazo do empréstimo (30, 60 ou 90 dias)
 
-public record LoanRequest(
-        @NotNull
-        LocalDateTime loanDate,
-
-        @NotNull(message = "Data de devolução obrigatória!")
-        @Future(message = "Data de devolução deve ser futura!")
-        LocalDateTime expectedReturnDate,
-
-        @NotNull
-        int clientId,
-
-        @NotNull
-        int bookId
-) {
-        public Loan toLoan(Client client, Book book, StatusLoan statusLoan){
-                Loan loan = new Loan();
-
-                loan.setLoanDate(loanDate);
-                loan.setExpectedReturnDate(expectedReturnDate);
-                loan.setStatus(statusLoan);
-                loan.setClient(client);
-                loan.setBook(book);
-
-                return loan;
+        // Getters e Setters
+        public int getClientId() {
+                return clientId;
         }
 
+        public void setClientId(int clientId) {
+                this.clientId = clientId;
+        }
+
+        public int getBookId() {
+                return bookId;
+        }
+
+        public void setBookId(int bookId) {
+                this.bookId = bookId;
+        }
+
+        public int getLoanTermDays() {
+                return loanTermDays;
+        }
+
+        public void setLoanTermDays(int loanTermDays) {
+                this.loanTermDays = loanTermDays;
+        }
 }

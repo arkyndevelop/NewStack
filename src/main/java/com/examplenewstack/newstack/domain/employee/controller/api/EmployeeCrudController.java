@@ -28,31 +28,31 @@ public class EmployeeCrudController {
 
     @GetMapping("/reports/all")
     public ResponseEntity<?> reports(){
-        return ResponseEntity.ok().body(service.reportsAllEmployee());
+        return ResponseEntity.ok().body(service.findAllEmployees());
     }
 
     @GetMapping("/reportsBy/{id}")
     public ResponseEntity<?> reportsEmployeeById(@PathVariable int id){
-        return ResponseEntity.ok().body(service.reportsEmployeeById(id));
+        return ResponseEntity.ok().body(service.getEmployeeProfileById(id));
     }
-
-    @DeleteMapping("/update/{id}")
-    public ResponseEntity<?> updateEmployee(@RequestBody @Valid EmployeeRequest request, @PathVariable int id) {
-
-        service.updateEmployee(request, id);
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/delete/all")
-    public ResponseEntity<?> deleteAllEmployees() {
-
-        service.deleteAllEmployee();
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/deleteEmployee/{id}")
-    public ResponseEntity<?> deleteByCPF(@PathVariable int id){
-        service.deleteEmployeeById(id);
-        return ResponseEntity.ok().build();
-    }
+//
+//    @DeleteMapping("/update/{id}")
+//    public ResponseEntity<?> updateEmployee(@RequestBody @Valid EmployeeRequest request, @PathVariable int id) {
+//
+//        service.updateEmployee(request, id);
+//        return ResponseEntity.ok().build();
+//    }
+//
+//    @DeleteMapping("/delete/all")
+//    public ResponseEntity<?> deleteAllEmployees() {
+//
+//        service.deleteAllEmployee();
+//        return ResponseEntity.ok().build();
+//    }
+//
+//    @DeleteMapping("/deleteEmployee/{id}")
+//    public ResponseEntity<?> deleteByCPF(@PathVariable int id){
+//        service.deleteEmployeeById(id);
+//        return ResponseEntity.ok().build();
+//    }
 }

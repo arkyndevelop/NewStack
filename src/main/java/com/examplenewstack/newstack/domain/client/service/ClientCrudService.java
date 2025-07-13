@@ -1,41 +1,45 @@
 package com.examplenewstack.newstack.domain.client.service;
 
+import com.examplenewstack.newstack.domain.address.Address;
 import com.examplenewstack.newstack.domain.client.Client;
+import com.examplenewstack.newstack.domain.client.dto.ClientProfileUpdateRequest;
 import com.examplenewstack.newstack.domain.client.dto.ClientRequest;
 import com.examplenewstack.newstack.domain.client.dto.ClientResponse;
+import com.examplenewstack.newstack.domain.client.dto.ClientResponseProfileDetails;
 import com.examplenewstack.newstack.domain.client.exception.ClientsRegisteredDataException;
 import com.examplenewstack.newstack.domain.client.exception.CustomersRegisteredDataException;
 import com.examplenewstack.newstack.domain.client.exception.NoCustomersFoundByIdException;
-import com.examplenewstack.newstack.domain.client.exception.NoCustomersFoundException;
 import com.examplenewstack.newstack.domain.client.repository.ClientRepository;
-import com.examplenewstack.newstack.domain.employee.exception.NoEmployeersFoundByIdException;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientCrudService {
 
-    private final ClientRepository repository;
+    private final ClientRepository clientRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public ClientCrudService(ClientRepository repository, PasswordEncoder passwordEncoder) {
-        this.repository = repository;
+    public ClientCrudService(ClientRepository clientRepository, PasswordEncoder passwordEncoder) {
+        this.clientRepository = clientRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     public Client registerClient(ClientRequest request){
-        if (repository.existsByCPF(request.CPF())) {
+        if (clientRepository.existsByCPF(request.CPF())) {
             throw new ClientsRegisteredDataException("cpf");
         }
-        if (repository.existsByEmail(request.email())) {
+        if (clientRepository.existsByEmail(request.email())) {
             throw new CustomersRegisteredDataException("email");
         }
-        if (repository.existsByTelephone(request.telephone())) {
+        if (clientRepository.existsByTelephone(request.telephone())) {
             throw new CustomersRegisteredDataException("telephone");
         }
 
@@ -44,78 +48,113 @@ public class ClientCrudService {
         String encodedPassword = passwordEncoder.encode(request.password());
         newClient.setPassword(encodedPassword);
 
-        return repository.save(newClient);
+        return clientRepository.save(newClient);
     }
 
+    /**
+     * Retorna uma lista simplificada de todos os clientes para uso administrativo.
+     */
+    @Transactional(readOnly = true)
     public List<ClientResponse> findAllClients() {
-        List<Client> clientList = repository.findAll();
-
-        if (clientList.isEmpty()) {
-            throw new NoCustomersFoundException("Erro: Nenhum cliente cadastrado!");
-        }
-
-        return clientList
-                .stream()
-                .map( client -> new ClientResponse(
-                        client.getId(),
-                        client.getName(),
-                        client.getCPF(),
-                        client.getEmail(),
-                        client.getTelephone(),
-                        client.getDateRegister())) // Adicione a data de registro aqui
-                .toList();
+        return clientRepository.findAll().stream()
+                .map(ClientResponse::fromEntity)
+                .collect(Collectors.toList());
     }
 
-    public ClientResponse showClientById(int id){
-        Optional<Client> client = repository.findById(id);
-        if (client.isEmpty()) {
-            throw  new NoEmployeersFoundByIdException();
-        }
-        return new ClientResponse(
-                client.get().getId(),
-                client.get().getName(),
-                client.get().getCPF(),
-                client.get().getEmail(),
-                client.get().getTelephone(),
-                client.get().getDateRegister() // Adicione a data de registro aqui também
-        );
+    /**
+     * Busca os detalhes completos do perfil de um cliente pelo ID. (Uso administrativo)
+     */
+    @Transactional(readOnly = true)
+    public ClientResponseProfileDetails getClientProfileById(int id) {
+        Client client = clientRepository.findById(id)
+                .orElseThrow(() -> new NoCustomersFoundByIdException());
+        return ClientResponseProfileDetails.fromEntity(client);
     }
 
-    public ResponseEntity<Client> updateClient(ClientRequest clientRequest, int id) {
-        Optional<Client> clientExists = repository.findById(id);
+    /**
+     * Busca os detalhes completos do perfil do cliente autenticado.
+     */
 
-        if (clientExists.isEmpty()) {
-            throw new NoCustomersFoundByIdException();
+    public ClientResponseProfileDetails getAuthenticatedClientProfile() {
+        // Pega o objeto do usuário logado no contexto de segurança.
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication.getPrincipal() instanceof Client client)) {
+            throw new IllegalStateException("O usuário autenticado não é um cliente válido.");
         }
-        Client client = repository.getReferenceById(id);
 
-        client.setName(clientRequest.name());
-        client.setCPF(clientRequest.CPF());
-        client.setEmail(clientRequest.email());
-        client.setTelephone(clientRequest.telephone());
-
-
-        Client updateClients = repository.save(client);
-        return ResponseEntity.ok(updateClients);
+        // Usa o método de fábrica corrigido para criar o DTO com o ID.
+        return ClientResponseProfileDetails.fromEntity(client);
     }
 
-    public void deleteAllClients() {
+    /**
+     * Atualiza os dados de um cliente com base em um ID, usando um DTO completo. (Uso administrativo)
+     */
+    @Transactional
+    public void updateClientByAdmin(int id, ClientRequest clientRequest) {
+        Client client = clientRepository.findById(id)
+                .orElseThrow(() -> new NoCustomersFoundByIdException());
 
-        List<Client> existingClients = this.repository.findAll();
-        if (existingClients.isEmpty()) {
+        // CORREÇÃO: Chama o metodo auxiliar correto para o DTO de admin
+        updateClientDataFromAdmin(client, clientRequest);
 
-            throw new NoCustomersFoundException("Erro: Nenhum cliente cadastrado!");
-        }
-        repository.deleteAll();
+        clientRepository.save(client);
     }
 
-    public ResponseEntity<Client> deleteByIdService(int id){
-        Optional<Client> client = repository.findById(id);
+    /**
+     * Atualiza os dados do perfil do cliente autenticado.
+     * Utiliza o ClientProfileUpdateRequest, que contém dados de endereço.
+     */
+    @Transactional
+    public void updateAuthenticatedClientProfile(ClientProfileUpdateRequest profileRequest) {
+        Client client = getAuthenticatedClient();
+        updateClientDataFromProfile(client, profileRequest);
+        clientRepository.save(client);
+    }
 
-        if (!client.isPresent()) {
-            throw new NoCustomersFoundByIdException();
+    // --- MÉTODOS PRIVADOS AUXILIARES ---
+
+    private Client getAuthenticatedClient() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || !(authentication.getPrincipal() instanceof Client)) {
+            throw new IllegalStateException("O usuário não está autenticado ou o principal não é uma instância de Cliente.");
         }
-        repository.deleteById(id);
-        return ResponseEntity.ok().build();
+        return (Client) authentication.getPrincipal();
+    }
+
+    /**
+     * CORRIGIDO: Metodo auxiliar para atualizar a entidade Client a partir do DTO de admin (ClientRequest).
+     * Este DTO não contém informações de endereço.
+     */
+    private void updateClientDataFromAdmin(Client client, ClientRequest request) {
+        client.setName(request.name());
+        client.setTelephone(request.telephone());
+        client.setEmail(request.email());
+        // A lógica de atualização de endereço foi REMOVIDA daqui, pois o DTO não a suporta.
+    }
+
+    /**
+     * Metodo auxiliar para atualizar a entidade Client a partir do DTO de perfil do usuário (ClientProfileUpdateRequest).
+     */
+    private void updateClientDataFromProfile(Client client, ClientProfileUpdateRequest request) {
+        client.setName(request.name());
+        client.setTelephone(request.telephone());
+
+        // A lógica de endereço permanece aqui, pois este DTO contém os dados necessários.
+        if (request.address() != null) {
+            Address address = client.getAddress();
+            if (address == null) {
+                address = new Address();
+                client.setAddress(address);
+            }
+            var addressRequest = request.address();
+            address.setStreet(addressRequest.street());
+            address.setNumber_house(addressRequest.number_house());
+            address.setNeighborhood(addressRequest.neighborhood());
+            address.setCep(addressRequest.cep());
+            address.setCity(addressRequest.city());
+            address.setState(addressRequest.state());
+            address.setComplement(addressRequest.complement());
+            address.setCountry(addressRequest.country());
+        }
     }
 }

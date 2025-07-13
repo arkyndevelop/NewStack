@@ -1,93 +1,80 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registrar Empréstimo - NewStack</title>
+  <title>Registrar Empréstimo</title>
+  <link rel="stylesheet" th:href="@{/CSS/navBar.css}">
+  <link rel="stylesheet" th:href="@{/CSS/registros.css}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link th:href="@{/CSS/navBar.css}" rel="stylesheet">
-  <link th:href="@{/CSS/form.css}" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
   <style>
-    body { padding-top: 80px; }
-    /* Adicionando um pouco mais de espaçamento entre os grupos de input */
-    .input-group {
-      margin-bottom: 1.5rem; /* Aumenta o espaçamento entre os campos */
-    }
-    /* Estilo para os botões de seleção de data */
-    .date-options .btn {
-      margin-right: 0.5rem;
-      margin-bottom: 0.5rem; /* Para responsividade em telas menores */
-    }
-    /* Centralizar o conteúdo dentro do login-container */
-    .login-container {
-      text-align: center;
-    }
-    .login-form {
-      text-align: left; /* Alinha os campos do formulário à esquerda dentro do container */
-    }
+    body { padding-top: 80px; background-color: #f4f7f6; }
   </style>
 </head>
-<body class="bg-light">
+<body>
 
 <header th:insert="~{fragments/header :: header}"></header>
 
-<main class="login-page">
-  <div class="login-container" style="max-width: 600px;">
-    <h2>Registrar Novo Empréstimo</h2>
-    <p>Selecione o cliente, o livro e a data de devolução para o empréstimo.</p>
+<main class="container my-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4 p-md-5">
+          <div class="text-center mb-4">
+            <h1 class="h3 fw-bold text-primary"><i class="bi bi-journal-plus"></i> Registrar Novo Empréstimo</h1>
+            <p class="text-muted">Selecione o livro e o prazo de devolução.</p>
+          </div>
 
-    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+          <form th:action="@{/v1/loans/register}" method="post" class="mt-4">
 
-    <form id="registerLoanForm" class="login-form" th:unless="${error}">
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Cliente</label>
 
-      <div class="input-group" sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN', 'LIBRARY_ASSISTANT', 'RECEPTIONIST')">
-        <label for="clientId">Cliente</label>
-        <select id="clientId" name="clientId" class="form-select" required>
-          <option value="" disabled selected>Selecione um cliente...</option>
-          <option th:each="client : ${clients}" th:value="${client.id()}" th:text="${client.name()}"></option>
-        </select>
-      </div>
+              <div th:if="${isClient}">
+                <input type="text" class="form-control" th:value="${loggedInClient.name}" disabled />
+                <input type="hidden" name="clientId" th:value="${loggedInClient.id}" />
+              </div>
 
-      <div class="input-group" sec:authorize="hasRole('CLIENT')">
-        <label for="clientIdDisplay">Cliente</label>
-        <input type="text" id="clientIdDisplay" class="form-control"
-               th:value="${loggedInClient != null ? loggedInClient.name() : ''}" disabled>
-        <input type="hidden" id="clientId" name="clientId"
-               th:value="${loggedInClient != null ? loggedInClient.id() : ''}">
-      </div>
+              <div th:unless="${isClient}">
+                <select name="clientId" class="form-select" required>
+                  <option value="" disabled selected>-- Selecione o cliente --</option>
+                  <option th:each="client : ${clients}" th:value="${client.id}" th:text="${client.name}"></option>
+                </select>
+              </div>
+            </div>
 
-      <div class="input-group">
-        <label for="bookId">Livro</label>
-        <select id="bookId" name="bookId" class="form-select" required>
-          <option value="" disabled selected>Selecione um livro...</option>
-          <option th:each="book : ${books}" th:value="${book.id()}" th:text="${book.title()} + ' (' + ${book.availableCopies} + ' disponíveis)'"
-                  th:attr="data-available-copies=${book.availableCopies}"
-                  th:disabled="${book.availableCopies <= 0}">
-          </option>
-        </select>
-        <small class="form-text text-muted" id="bookAvailabilityHint">Selecione um livro para ver a disponibilidade.</small>
-      </div>
+            <div class="mb-3">
+              <label for="bookId" class="form-label fw-semibold">Livro</label>
+              <select id="bookId" name="bookId" class="form-select" required>
+                <option value="" disabled selected>-- Selecione o livro --</option>
+                <option th:each="book : ${books}"
+                        th:value="${book.id}"
+                        th:text="${book.title + ' (Disponível: ' + book.disponibilityQuantity + ')'}"
+                        th:disabled="${book.disponibilityQuantity == 0}">
+                </option>
+              </select>
+            </div>
 
-      <div class="input-group">
-        <label>Data de Devolução Prevista</label>
-        <input type="hidden" id="expectedReturnDate" name="expectedReturnDate" class="form-control" required>
-        <div class="date-options d-flex flex-wrap justify-content-start">
-          <button type="button" class="btn btn-outline-primary" data-days="30">30 Dias</button>
-          <button type="button" class="btn btn-outline-primary" data-days="60">60 Dias</button>
-          <button type="button" class="btn btn-outline-primary" data-days="90">90 Dias</button>
+            <div class="mb-4">
+              <label for="loanTermDays" class="form-label fw-semibold">Prazo de Devolução</label>
+              <select id="loanTermDays" name="loanTermDays" class="form-select" required>
+                <option value="30" selected>30 dias</option>
+                <option value="60">60 dias</option>
+                <option value="90">90 dias</option>
+              </select>
+            </div>
+
+            <div class="d-grid gap-2 mt-4">
+              <button type="submit" class="btn btn-primary btn-lg">Registrar</button>
+              <a th:href="@{/v1/home}" class="btn btn-secondary">Cancelar</a>
+            </div>
+          </form>
         </div>
       </div>
-
-      <div class="form-actions">
-        <a th:href="@{/v1/loans/reports}" class="btn btn-secondary">Cancelar</a>
-        <button type="submit" class="submit-btn">Registrar Empréstimo</button>
-      </div>
-    </form>
+    </div>
   </div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script th:src="@{/JS/registerLoan.js}"></script>
-
 </body>
 </html>

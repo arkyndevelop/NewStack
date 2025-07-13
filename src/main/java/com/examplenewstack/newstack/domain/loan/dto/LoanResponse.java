@@ -2,29 +2,30 @@ package com.examplenewstack.newstack.domain.loan.dto;
 
 import com.examplenewstack.newstack.domain.loan.Loan;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/**
+ * DTO completo para exibir informações de empréstimos nos relatórios.
+ */
 public record LoanResponse(
-        Integer loanID,
+        int id,
         LocalDateTime loanDate,
         LocalDateTime expectedReturnDate,
         LocalDateTime actualReturnDate,
-
-        String statusLoan,
-
-        Integer clientId,
-        Integer bookId
-){
-    public static LoanResponse fromEntity(Loan loan){
+        String status,
+        String clientName,
+        String bookTitle
+) {
+    public static LoanResponse fromEntity(Loan loan) {
         return new LoanResponse(
                 loan.getId(),
                 loan.getLoanDate(),
                 loan.getExpectedReturnDate(),
                 loan.getActualReturnDate(),
                 loan.getStatus().name(),
-                loan.getClient().getId(),
-                loan.getBook().getId()
+                loan.getClient().getName(), // Pega o nome do cliente
+                loan.getBook().getTitle()    // Pega o título do livro
         );
     }
-
 }

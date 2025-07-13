@@ -11,92 +11,67 @@ import com.examplenewstack.newstack.domain.collection.Collection;
 import com.examplenewstack.newstack.domain.collection.repository.CollectionRepository;
 import com.examplenewstack.newstack.domain.employee.Employee;
 import com.examplenewstack.newstack.domain.employee.repository.EmployeeRepository;
+import com.examplenewstack.newstack.domain.loan.repository.LoanRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BookCrudService {
 
     private final BookRepository bookRepository;
+    private final LoanRepository loanRepository;
     private final CollectionRepository collectionRepository;
     private final EmployeeRepository employeeRepository;
 
-    public BookCrudService(BookRepository bookRepository, CollectionRepository collectionRepository, EmployeeRepository employeeRepository, EmployeeRepository employeeRepositor) {
+    public BookCrudService(BookRepository bookRepository, CollectionRepository collectionRepository, EmployeeRepository employeeRepository, EmployeeRepository employeeRepositor, LoanRepository loanRepository) {
         this.bookRepository = bookRepository;
         this.collectionRepository = collectionRepository;
         this.employeeRepository = employeeRepository;
+        this.loanRepository = loanRepository;
     }
 
 
     //Função responsavel por registrar um livro
-    public BookResponse register(
-            BookRequest bookDTO
-    ) {
-//        Collection collection = collectionRepository.findById(collectionID)
-//                .orElseThrow();
-//
-//        Employee employeeFound = employeeRepository.findById(employeeID)
-//                .orElseThrow();
-
-        bookRepository.save(bookDTO.tobook());
-
-        return new BookResponse(
-                0, // Modificar e corrigir
-                bookDTO.title(),
-                bookDTO.ISBN(),
-                bookDTO.category(),
-                bookDTO.year_publication(),
-                bookDTO.total_quantity(),
-                bookDTO.author(),
-                bookDTO.description(),
-                bookDTO.publisher(),
-                bookDTO.thumbnailUrl()
-        );
+    @Transactional
+    public Book register(BookRequest bookRequest) {
+        Book newBook = bookRequest.tobook();
+        // Ao criar um novo livro, a quantidade disponível é igual à total.
+        newBook.setDisponibility_quantity(newBook.getTotal_quantity());
+        return bookRepository.save(newBook);
     }
 
-    //Função responsavel por mostrar todos os livros
+    @Transactional(readOnly = false) // Necessário para permitir a escrita (correção)
     public List<BookResponse> reportAllBooks() {
-        List<Book> findBooks = bookRepository.findAll();
-        if (findBooks.isEmpty()) {
-            throw new NoBooksFoundException();
-        }
-        return findBooks
-                .stream()
-                .map(book -> new BookResponse(
-                        book.getId(),
-                        book.getTitle(),
-                        book.getISBN(),
-                        book.getCategory(),
-                        book.getYear_publication(),
-                        book.getTotal_quantity(),
-                        book.getAuthor(),
-                        book.getDescription(),
-                        book.getPublisher(),
-                        book.getThumbnailUrl()
-                ))
-                .toList();
+        List<Book> allBooks = bookRepository.findAll();
+
+        return allBooks.stream().map(book -> {
+            // 1. CALCULA a quantidade que DEVERIA estar disponível
+            int activeLoans = loanRepository.countByBookAndActualReturnDateIsNull(book);
+            int correctQuantity = book.getTotal_quantity() - activeLoans;
+
+            // 2. VERIFICA se o valor no banco está desatualizado
+            if (book.getDisponibility_quantity() != correctQuantity) {
+                // 3. CORRIGE o valor no banco de dados
+                book.setDisponibility_quantity(correctQuantity);
+                bookRepository.save(book); // Salva a correção
+            }
+
+            // 4. RETORNA o DTO com o valor agora correto e atualizado
+            return BookResponse.fromEntity(book);
+        }).collect(Collectors.toList());
     }
 
     //Função responsavel por mostrar os livros pelo ID
     public BookResponse findByID(int bookID) {
-        Book bookFound = bookRepository.findById(bookID)
+        Book book = bookRepository.findById(bookID)
                 .orElseThrow(NoBooksFoundByIdException::new);
 
-        return new BookResponse(
-                bookFound.getId(),
-                bookFound.getTitle(),
-                bookFound.getISBN(),
-                bookFound.getCategory(),
-                bookFound.getYear_publication(),
-                bookFound.getTotal_quantity(),
-                bookFound.getAuthor(),
-                bookFound.getDescription(),
-                bookFound.getPublisher(),
-                bookFound.getThumbnailUrl()
-        );
+        return BookResponse.fromEntity(book);
     }
 
     //Função responsavel por atualizar um livro pelo ID
@@ -113,18 +88,7 @@ public class BookCrudService {
 
         Book updateBook = bookRepository.save(bookExists);
         return ResponseEntity
-                .ok(new BookResponse(
-                        bookExists.getId(),
-                        bookExists.getTitle(),
-                        bookExists.getISBN(),
-                        bookExists.getCategory(),
-                        bookExists.getYear_publication(),
-                        bookExists.getTotal_quantity(),
-                        bookExists.getAuthor(),
-                        bookExists.getDescription(),
-                        bookExists.getPublisher(),
-                        bookExists.getThumbnailUrl()
-                ));
+                .ok(BookResponse.fromEntity(updateBook));
     }
 
 

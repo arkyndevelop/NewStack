@@ -1,136 +1,131 @@
 package com.examplenewstack.newstack.domain.client.controller.view;
 
-import com.examplenewstack.newstack.core.entity.User;
-import com.examplenewstack.newstack.domain.client.Client;
+import com.examplenewstack.newstack.domain.client.dto.ClientProfileUpdateRequest;
 import com.examplenewstack.newstack.domain.client.dto.ClientRequest;
 import com.examplenewstack.newstack.domain.client.dto.ClientResponse;
 import com.examplenewstack.newstack.domain.client.dto.ClientResponseProfileDetails;
+import com.examplenewstack.newstack.domain.client.exception.ClientsRegisteredDataException;
 import com.examplenewstack.newstack.domain.client.service.ClientCrudService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
+/**
+ * Controller responsável por servir as páginas (Views) relacionadas ao Cliente.
+ */
 @Controller
 @RequestMapping("/v1/clients")
 public class ClientCrudView {
 
-    private final ClientCrudService service;
+    private final ClientCrudService clientService;
 
-    public ClientCrudView(ClientCrudService service) {
-        this.service = service;
+    @Autowired
+    public ClientCrudView(ClientCrudService clientService) {
+        this.clientService = clientService;
     }
 
-    // Página de cadastro
+    /**
+     * Exibe a página de cadastro de cliente.
+     */
     @GetMapping("/register")
-    public ModelAndView clientRegisterView() {
+    public ModelAndView showRegisterView() {
+        // Apenas retorna a view do formulário de cadastro.
         return new ModelAndView("registerClient");
     }
 
-    // Relatório de todos os clientes
-    @GetMapping("/report")
-    public ModelAndView showClientById() {
-        List<ClientResponse> clientList = service.findAllClients();
-        ModelAndView modelAndView = new ModelAndView("reportClient");
-        modelAndView.addObject("clientList", clientList);
-        return modelAndView;
-    }
-
-    // Exibe perfil do cliente logado
-    @GetMapping("/profile")
-    public ModelAndView showMyProfile(@RequestParam(value = "message", required = false) String message,
-                                      @RequestParam(value = "error", required = false) String error) {
-        ModelAndView mav = new ModelAndView("profileClient");
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
-
-        if (principal instanceof User) {
-            mav.addObject("client", principal);
-        }
-
-        if (message != null) {
-            mav.addObject("message", message);
-        }
-
-        if (error != null) {
-            mav.addObject("error", error);
-        }
-
-        return mav;
-    }
-
-    // Atualiza o perfil do cliente
-    @PostMapping("/profile")
-    public ModelAndView updateClientProfile(@ModelAttribute("client") Client updatedClient) {
-        ModelAndView mav = new ModelAndView("profileClient");
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
-
+    /**
+     * Processa a submissão do formulário de registro de um novo cliente.
+     */
+    @PostMapping("/register")
+    public String handleRegistration(@ModelAttribute ClientRequest clientRequest, RedirectAttributes redirectAttributes) {
         try {
-            if (principal instanceof Client) {
-                Client currentClient = (Client) principal;
-                currentClient.setName(updatedClient.getName());
-                currentClient.setEmail(updatedClient.getEmail());
-                currentClient.setTelephone(updatedClient.getTelephone());
-
-                if (updatedClient.getAddress() != null) {
-                    if (currentClient.getAddress() == null) {
-                        currentClient.setAddress(new com.examplenewstack.newstack.domain.address.Address());
-                    }
-                    currentClient.getAddress().setStreet(updatedClient.getAddress().getStreet());
-                    currentClient.getAddress().setNumber_house(updatedClient.getAddress().getNumber_house());
-                    currentClient.getAddress().setNeighborhood(updatedClient.getAddress().getNeighborhood());
-                    currentClient.getAddress().setCep(updatedClient.getAddress().getCep());
-                    currentClient.getAddress().setCity(updatedClient.getAddress().getCity());
-                    currentClient.getAddress().setState(updatedClient.getAddress().getState());
-                    currentClient.getAddress().setComplement(updatedClient.getAddress().getComplement());
-                }
-
-                ClientRequest req = new ClientRequest(
-                        currentClient.getName(),
-                        currentClient.getCPF(),
-                        currentClient.getEmail(),
-                        currentClient.getTelephone(),
-                        currentClient.getPassword()
-                );
-
-
-                //Metodo para usar para ver perfil de client com detalhes
-                ClientResponseProfileDetails reqDetails = new ClientResponseProfileDetails(
-                        currentClient.getName(),
-                        currentClient.getCPF(),
-                        currentClient.getEmail(),
-                        currentClient.getTelephone(),
-                        currentClient.getDateRegister(),
-                        currentClient.getAddress()
-                );
-
-                service.updateClient(req, currentClient.getId());
-                mav.addObject("client", currentClient);
-                mav.addObject("message", "Cliente atualizado com sucesso!");
-            } else {
-                mav.addObject("error", "Usuário não autenticado.");
-            }
-        } catch (Exception e) {
-            mav.addObject("client", principal);
-            mav.addObject("error", "Erro ao atualizar cliente: " + e.getMessage());
+            clientService.registerClient(clientRequest);
+            // Em caso de sucesso, envia uma mensagem para a página de login.
+            redirectAttributes.addFlashAttribute("message", "Cadastro realizado com sucesso! Faça o login.");
+            return "redirect:/v1/login";
+        } catch (ClientsRegisteredDataException e) {
+            // Em caso de erro (ex: CPF duplicado), devolve para a pág. de registro com a mensagem de erro.
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/v1/clients/register";
         }
+    }
 
+    /**
+     * Exibe a página de relatório com todos os clientes.
+     */
+    @GetMapping("/report")
+    public ModelAndView showClientsReport() {
+        List<ClientResponse> clientList = clientService.findAllClients();
+        ModelAndView mav = new ModelAndView("reportClient");
+        mav.addObject("clientList", clientList);
         return mav;
     }
 
-    // (Apenas View placeholders) - Remover todos os clientes
-    @GetMapping("/delete/all")
-    public ModelAndView deleteAll() {
-        return new ModelAndView("reportClient");
+    /**
+     * Exibe a página de perfil do cliente que está logado.
+     */
+    @GetMapping("/profile")
+    public ModelAndView showMyProfile() {
+        ClientResponseProfileDetails clientDetails = clientService.getAuthenticatedClientProfile();
+        ModelAndView mav = new ModelAndView("profileClient");
+        mav.addObject("client", clientDetails);
+        return mav;
     }
 
-    // (Apenas View placeholders) - Remover cliente por ID
-    @GetMapping("/deleteById")
-    public ModelAndView deleteById() {
-        return new ModelAndView("reportClient");
+    /**
+     * Exibe a página de perfil de um cliente específico pelo ID (para uso administrativo).
+     */
+    @GetMapping("/profile/{id}")
+    public ModelAndView showClientProfileById(@PathVariable("id") int id) {
+        ClientResponseProfileDetails clientDetails = clientService.getClientProfileById(id);
+        ModelAndView mav = new ModelAndView("profileClient");
+        mav.addObject("client", clientDetails);
+        return mav;
+    }
+
+    /**
+     * Exibe o formulário de edição de um cliente (para uso administrativo).
+     */
+    @GetMapping("/edit/{id}")
+    public ModelAndView showEditForm(@PathVariable("id") int id) {
+        ClientResponseProfileDetails clientDetails = clientService.getClientProfileById(id);
+        ModelAndView mav = new ModelAndView("editClient");
+        mav.addObject("client", clientDetails);
+        return mav;
+    }
+
+    /**
+     * Processa a atualização de um cliente feita por um administrador.
+     */
+    @PostMapping("/edit/{id}")
+    public String handleAdminUpdate(@PathVariable("id") int id,
+                                    @ModelAttribute ClientRequest clientRequest,
+                                    RedirectAttributes redirectAttributes) {
+        try {
+            clientService.updateClientByAdmin(id, clientRequest);
+            redirectAttributes.addFlashAttribute("message", "Cliente atualizado com sucesso!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Erro ao atualizar cliente: " + e.getMessage());
+        }
+        return "redirect:/v1/clients/report";
+    }
+
+    /**
+     * Processa a atualização do próprio perfil pelo cliente logado.
+     * Utiliza o DTO seguro 'ClientProfileUpdateRequest'.
+     */
+    @PostMapping("/profile/update")
+    public String handleProfileUpdate(@ModelAttribute ClientProfileUpdateRequest profileRequest, RedirectAttributes redirectAttributes) {
+        try {
+            clientService.updateAuthenticatedClientProfile(profileRequest);
+            redirectAttributes.addFlashAttribute("message", "Perfil atualizado com sucesso!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Erro ao atualizar perfil: " + e.getMessage());
+        }
+        return "redirect:/v1/clients/profile";
     }
 }

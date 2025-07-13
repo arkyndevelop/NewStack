@@ -3,6 +3,7 @@ package com.examplenewstack.newstack.infra.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,52 +23,67 @@ public class SecurityConfig {
     @Autowired
     SecurityFilter securityFilter;
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-//        http
-//                .csrf(csrf -> csrf.disable())
-//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .authorizeHttpRequests(authorize -> authorize
-//                        // Permite acesso público a estas rotas
-//                        .requestMatchers("/", "/v1/login", "/auth/**","/CSS/**", "/JS/**", "/img/**")
-//                        .permitAll()
-//
-//                        // Permite que usuários anônimos e autenticados acessem o registro de clientes
-//                        .requestMatchers("/v1/clients/register", "/clients/register").permitAll()
-//
-//                        // Regras de acesso para o ADMIN
-//                        .requestMatchers("/v1/home/admin", "/admin/**").hasRole("ADMIN")
-//
-//                        // Regras de acesso para o CLIENT
-//                        .requestMatchers("/v1/home/client", "/v1/clients/profile").hasRole("CLIENT")
-//
-//                        // Regras de acesso para funcionários
-//                        .requestMatchers("/v1/home/employee", "/employee/**").hasAnyRole("LIBRARIAN", "LIBRARY_ASSISTANT", "RECEPTIONIST", "EMPLOYEE")
-//
-//                        // Regra para ADMIN gerenciar livros, clientes e funcionários
-//                        .requestMatchers("/v1/clients/**", "/v1/employees/**").hasAnyRole("ADMIN", "LIBRARIAN", "LIBRARY_ASSISTANT", "RECEPTIONIST", "EMPLOYEE")
-//
-//                        .requestMatchers("/v1/clients/profile", "/v1/loans/**", "/v1/books/reports").hasAnyRole("CLIENT", "ADMIN", "LIBRARIAN", "LIBRARY_ASSISTANT", "RECEPTIONIST", "EMPLOYEE")
-//
-//                        // Permite acesso ao Swagger
-//                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**" ).permitAll()
-//
-//                        // Qualquer outra requisição precisa de autenticação
-//                        .anyRequest().authenticated()
-//                )
-//                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
-//
-//        return http.build();
-//    }
-
-//    Utilizar esse metodo somente para testar Swagger
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.anyRequest()
-                        .permitAll())
-                .csrf(AbstractHttpConfigurer::disable);
-        return http.build();
+        return http
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(authorize -> authorize
+                        // Permite acesso público a estas rotas
+                        .requestMatchers("/", "/v1/login", "/auth/**","/CSS/**", "/JS/**", "/img/**")
+                        .permitAll()
+
+                        // Permite que usuários anônimos e autenticados acessem o registro de clientes
+                        .requestMatchers("/v1/clients/register", "/clients/register").permitAll()
+
+                        // Regras de acesso para o ADMIN
+                        .requestMatchers("/v1/home/admin", "/admin/**").hasRole("ADMIN")
+
+                        // Regras de acesso para o CLIENT
+                        .requestMatchers("/v1/home/client", "/v1/clients/profile", "/v1/loans/register").hasRole("CLIENT")
+
+                        // Regras de acesso para funcionários
+                        .requestMatchers("/v1/home/employee", "/employee/**").hasAnyRole("LIBRARIAN", "LIBRARY_ASSISTANT", "RECEPTIONIST", "EMPLOYEE")
+
+                        // Regra para ADMIN gerenciar livros, clientes e funcionários
+                        .requestMatchers("/v1/clients/**", "/v1/employees/**").hasAnyRole("ADMIN", "LIBRARIAN", "LIBRARY_ASSISTANT", "RECEPTIONIST", "EMPLOYEE")
+
+                        .requestMatchers("/v1/clients/profile", "/v1/loans/**", "/v1/books/reports").hasAnyRole("CLIENT", "ADMIN", "LIBRARIAN", "LIBRARY_ASSISTANT", "RECEPTIONIST", "EMPLOYEE")
+
+                        // Permite acesso ao Swagger
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**" ).permitAll()
+
+                        // Qualquer outra requisição precisa de autenticação
+                        .anyRequest().authenticated()
+                )
+
+                // Configura o formulário de login padrão do Spring Security para as PÁGINAS WEB
+                .formLogin(form -> form
+                        .loginPage("/v1/login") // Aponta para sua página de login customizada
+                        .defaultSuccessUrl("/v1/home", true) // Redireciona para a home após o sucesso
+                        .permitAll() // Permite que todos acessem a URL de processamento de login
+                )
+                // Configura o logout
+                .logout(logout -> logout
+                        .logoutUrl("/v1/logout")
+                        .logoutSuccessUrl("/v1/login?logout") // Volta para a página de login com uma mensagem
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll()
+                )
+                // Adiciona o filtro JWT para proteger a API, sem interferir na navegação web
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
+
+//    Utilizar esse metodo somente para testar Swagger
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.anyRequest()
+//                        .permitAll())
+//                .csrf(AbstractHttpConfigurer::disable);
+//        return http.build();
+//    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {

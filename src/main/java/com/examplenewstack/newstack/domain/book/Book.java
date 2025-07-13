@@ -34,8 +34,8 @@
         @Column(nullable = false,length = 1000)
         private String author;
 
-    @Column(length = 17)
-    private String ISBN;
+        @Column(length = 17)
+        private String ISBN;
 
         @Column(nullable = false, length = 100)
         private String category;
@@ -50,7 +50,7 @@
         private String thumbnailUrl;
 
         @Column(nullable = false)
-        private String year_publication;
+        private Integer year_publication;
 
         // Apenas um campo boolean para indicar se está disponível
         @Column(nullable = false)

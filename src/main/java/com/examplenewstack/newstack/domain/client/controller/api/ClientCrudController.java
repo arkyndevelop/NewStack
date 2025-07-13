@@ -52,29 +52,29 @@ public class ClientCrudController {
         return ResponseEntity.ok().body(clientCrudService.findAllClients());
     }
 
-    @GetMapping("/reportsBy/{id}")
-    public ResponseEntity<?> reportsClientByIdController(@PathVariable int id){
-        return ResponseEntity.ok().body(clientCrudService.showClientById(id));
-    }
+//    @GetMapping("/reportsBy/{id}")
+//    public ResponseEntity<?> reportsClientByIdController(@PathVariable int id){
+//        return ResponseEntity.ok().body(clientCrudService.showClientById(id));
+//    }
+//
+//    @PutMapping("/update/{id}")
+//    public ResponseEntity<?> updateClientController(@RequestBody ClientRequest clientRequest, @PathVariable int id) {
+//
+//        clientCrudService.updateClient(clientRequest, id);
+//        return ResponseEntity.ok().build();
+//    }
+//
+//    @DeleteMapping("/delete/all")
+//    public ResponseEntity<?> deleteAllClientsController(){
+//
+//        clientCrudService.deleteAllClients();
+//        return ResponseEntity.ok().build();
+//
+//
+//    }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateClientController(@RequestBody ClientRequest clientRequest, @PathVariable int id) {
-
-        clientCrudService.updateClient(clientRequest, id);
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/delete/all")
-    public ResponseEntity<?> deleteAllClientsController(){
-
-        clientCrudService.deleteAllClients();
-        return ResponseEntity.ok().build();
-
-
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteByIdController(@PathVariable int id) {
-        return ResponseEntity.ok().body(clientCrudService.deleteByIdService(id));
-    }
+//    @DeleteMapping("/delete/{id}")
+//    public ResponseEntity<?> deleteByIdController(@PathVariable int id) {
+//        return ResponseEntity.ok().body(clientCrudService.deleteByIdService(id));
+//    }
 }

@@ -1,20 +1,25 @@
 package com.examplenewstack.newstack.domain.loan.view;
 
-import com.examplenewstack.newstack.domain.book.Book;
+import com.examplenewstack.newstack.core.entity.User;
+import com.examplenewstack.newstack.domain.book.dto.BookResponse;
 import com.examplenewstack.newstack.domain.book.service.BookCrudService;
 import com.examplenewstack.newstack.domain.client.Client;
+import com.examplenewstack.newstack.domain.client.dto.ClientResponse;
+import com.examplenewstack.newstack.domain.client.dto.ClientResponseProfileDetails;
 import com.examplenewstack.newstack.domain.client.service.ClientCrudService;
 import com.examplenewstack.newstack.domain.loan.dto.LoanRequest;
 import com.examplenewstack.newstack.domain.loan.dto.LoanResponse;
 import com.examplenewstack.newstack.domain.loan.service.LoanCrudService;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping; // Adicionar esta importação
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes; // Adicionar esta importação
+
 
 import java.util.Collections;
 import java.util.List;
@@ -33,12 +38,25 @@ public class LoanCrudView {
         this.bookCrudService = bookCrudService;
     }
 
+    private void addUserRoleToModel(Authentication authentication, Model model) {
+        if (authentication != null && authentication.getPrincipal() instanceof User) {
+            User user = (User) authentication.getPrincipal();
+            model.addAttribute("userRole", user.getRole());
+        }
+    }
+
 
     @GetMapping("/reports")
     public ModelAndView showLoanReports() {
         ModelAndView mav = new ModelAndView("reportLoans");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object principal = authentication.getPrincipal();
+
+        // Adiciona a role para o header saber a cor
+        if (authentication != null && authentication.getPrincipal() instanceof User) {
+            User user = (User) authentication.getPrincipal();
+            mav.addObject("userRole", user.getRole());
+        }
 
         boolean isClient = authentication.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_CLIENT"));
@@ -61,27 +79,50 @@ public class LoanCrudView {
         return mav;
     }
 
-//    @GetMapping("/register")
-//    public String showRegisterLoanForm(Model model, Authentication authentication) {
-//        // Obter todos os livros (com a disponibilidade já calculada no service)
-//        List<Book> books = bookCrudService.reportAllBooks(); // Metodo que retorna Books com availableCopies
-//        model.addAttribute("books", books);
-//        // model.addAttribute("loanRequest", new LoanRequest()); // Se estiver usando um objeto de formulário
-//
-//        // Lógica condicional baseada na role do usuário
-//        if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_CLIENT"))) {
-//            // Se for um CLIENT, pegue o cliente logado
-//            String username = authentication.getName(); // Assumindo que o username é o identificador do cliente
-//            Client loggedInClient = clientCrudService.findByUsername(username); // Ou findByEmail, findById, etc.
-//            if (loggedInClient != null) {
-//                model.addAttribute("loggedInClient", loggedInClient);
-//            } else {
-//                model.addAttribute("error", "Não foi possível encontrar as informações do seu perfil de cliente.");
-//            }
-//        } else {
-//            // Para ADMIN, LIBRARIAN, etc., liste todos os clientes
-//            List<Client> clients = clientCrudService.findAllClients();
-//            model.addAttribute("clients", clients);
-//        }
-//    }
+    @GetMapping("/register")
+    public String showRegisterLoanForm(Model model, Authentication authentication) {
+        // Adiciona a role para o header (mantendo a consistência do design)
+        if (authentication != null && authentication.getPrincipal() instanceof User) {
+            User user = (User) authentication.getPrincipal();
+            model.addAttribute("userRole", user.getRole());
+        }
+
+        // Adiciona a lista de livros disponíveis ao formulário
+        List<BookResponse> availableBooks = bookCrudService.reportAllBooks();
+        model.addAttribute("books", availableBooks);
+
+        // 1. Verifica se a role do usuário logado é "CLIENT"
+        boolean isClient = authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_CLIENT"));
+
+        model.addAttribute("isClient", isClient);
+
+        if (isClient) {
+            // 2. Se for um CLIENTE, busca seu perfil e adiciona ao modelo
+            try {
+                ClientResponseProfileDetails loggedInClient = clientCrudService.getAuthenticatedClientProfile();
+                model.addAttribute("loggedInClient", loggedInClient);
+            } catch (Exception e) {
+                model.addAttribute("error", "Não foi possível carregar as informações do seu perfil.");
+            }
+        } else {
+            // 3. Se for ADMIN/FUNCIONÁRIO, busca a lista de TODOS os clientes para o dropdown
+            List<ClientResponse> allClients = clientCrudService.findAllClients();
+            model.addAttribute("clients", allClients);
+        }
+
+        return "registerLoan";
+    }
+
+    @PostMapping("/register")
+    public String registerLoan(LoanRequest loanRequest, RedirectAttributes redirectAttributes) {
+        try {
+            loanService.register(loanRequest);
+            redirectAttributes.addFlashAttribute("successMessage", "Empréstimo registrado com sucesso!");
+            return "redirect:/v1/loans/reports"; // Redireciona para a tela de relatórios
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao registrar empréstimo: " + e.getMessage());
+            return "redirect:/v1/loans/register"; // Volta para a tela de registro em caso de erro
+        }
+    }
 }

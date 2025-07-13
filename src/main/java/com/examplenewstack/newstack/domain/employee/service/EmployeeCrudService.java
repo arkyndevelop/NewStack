@@ -3,119 +3,79 @@ package com.examplenewstack.newstack.domain.employee.service;
 import com.examplenewstack.newstack.domain.employee.Employee;
 import com.examplenewstack.newstack.domain.employee.dto.EmployeeRequest;
 import com.examplenewstack.newstack.domain.employee.dto.EmployeeResponse;
+import com.examplenewstack.newstack.domain.employee.dto.EmployeeResponseProfileDetails;
 import com.examplenewstack.newstack.domain.employee.exception.EmployeersRegisteredDataException;
-import com.examplenewstack.newstack.domain.employee.exception.EmployeersSamePasswordException;
 import com.examplenewstack.newstack.domain.employee.exception.NoEmployeersFoundByIdException;
-import com.examplenewstack.newstack.domain.employee.exception.NoEmployeersFoundException;
 import com.examplenewstack.newstack.domain.employee.repository.EmployeeRepository;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeCrudService {
 
-    private final EmployeeRepository repository;
+    private final EmployeeRepository employeeRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public EmployeeCrudService(EmployeeRepository repository, PasswordEncoder passwordEncoder) {
-        this.repository = repository;
+    @Autowired
+    public EmployeeCrudService(EmployeeRepository employeeRepository, PasswordEncoder passwordEncoder) {
+        this.employeeRepository = employeeRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Employee registerEmployee(EmployeeRequest employeeDTO) {
-        if(repository.existsByCPF(employeeDTO.CPF())){
-            throw new EmployeersRegisteredDataException("cpf");
+    @Transactional
+    public Employee registerEmployee(EmployeeRequest request) {
+        if (employeeRepository.existsByCPF(request.CPF())) {
+            throw new EmployeersRegisteredDataException("CPF já cadastrado no sistema.");
         }
-        if (repository.existsByEmail(employeeDTO.email())) {
-            throw new EmployeersRegisteredDataException("email");
-        }
-        if(repository.existsByTelephone(employeeDTO.telephone())){
-            throw new EmployeersRegisteredDataException("telephone");
+        if (employeeRepository.existsByEmail(request.email())) {
+            throw new EmployeersRegisteredDataException("Email já cadastrado no sistema.");
         }
 
-        Employee newEmployee = employeeDTO.toEmployee();
+        Employee newEmployee = new Employee();
+        newEmployee.setName(request.name());
+        newEmployee.setCPF(request.CPF());
+        newEmployee.setEmail(request.email());
+        newEmployee.setTelephone(request.telephone());
+        newEmployee.setTypeEmployee(request.typeEmployee());
+        newEmployee.setPassword(passwordEncoder.encode(request.password()));
 
-        String encodedPassword = passwordEncoder.encode(employeeDTO.password());
-        newEmployee.setPassword(encodedPassword);
-        newEmployee.setRole("EMPLOYEE");
-
-        return repository.save(newEmployee);
+        return employeeRepository.save(newEmployee);
     }
 
-    public List<EmployeeResponse> reportsAllEmployee() {
-        List<Employee> employeeList = repository.findAll();
-        if (employeeList.isEmpty()) {
-            throw new NoEmployeersFoundException();
-        }
-
-        return employeeList
-                .stream()
-                .map(employee -> new EmployeeResponse(
-                        employee.getId(),
-                        employee.getName(),
-                        employee.getCPF(),
-                        employee.getEmail(),
-                        employee.getTelephone(),
-                        employee.getTypeEmployee()))
-                .toList();
+    @Transactional(readOnly = true)
+    public List<EmployeeResponse> findAllEmployees() {
+        return employeeRepository.findAll().stream()
+                .map(EmployeeResponse::fromEntity)
+                .collect(Collectors.toList());
     }
 
-    public EmployeeResponse reportsEmployeeById(int id) {
-        Optional<Employee> employee = repository.findById(id);
-        if (employee.isEmpty()) {
-            throw new NoEmployeersFoundByIdException();
-        }
-        return new EmployeeResponse(
-                employee.get().getId(),
-                employee.get().getName(),
-                employee.get().getCPF(),
-                employee.get().getEmail(),
-                employee.get().getTelephone(),
-                employee.get().getTypeEmployee()
-        );
+    @Transactional(readOnly = true)
+    public EmployeeResponseProfileDetails getEmployeeProfileById(int id) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new NoEmployeersFoundByIdException());
+        return EmployeeResponseProfileDetails.fromEntity(employee);
     }
 
-    public ResponseEntity<Employee> updateEmployee(EmployeeRequest request, Integer id){
-        Optional<Employee> employeeExisting = repository.findById(id);
-        if (employeeExisting.isEmpty()) {
-            throw new NoEmployeersFoundByIdException();
-        }
-        Employee employee = repository.getReferenceById(id);
+    @Transactional
+    public void updateEmployeeByAdmin(int id, EmployeeRequest request) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new NoEmployeersFoundByIdException());
 
         employee.setName(request.name());
-        employee.setCPF(request.CPF());
-        employee.setEmail(request.email());
         employee.setTelephone(request.telephone());
+        employee.setEmail(request.email());
+        employee.setTypeEmployee(request.typeEmployee());
 
-        if (!Objects.equals(request.password(), request.confirmPassword())) {
-            throw new EmployeersSamePasswordException();
-        }
-        employee.setPassword(request.password());
-
-        Employee updateEmployee = repository.save(employee);
-        return ResponseEntity.ok(updateEmployee);
-    }
-
-    public void deleteAllEmployee(){
-        List<Employee> employeeList =  this.repository.findAll();
-        if(employeeList.isEmpty()){
-            throw new NoEmployeersFoundException();
-        }
-        repository.deleteAll();
-    }
-
-    public ResponseEntity<Employee> deleteEmployeeById(int id){
-        Optional<Employee> employee = repository.findById(id);
-        if (employee.isEmpty()) {
-            throw new NoEmployeersFoundByIdException();
+        // Opcional: Adicionar lógica para alteração de senha se necessário
+        if (request.password() != null && !request.password().isEmpty()) {
+            employee.setPassword(passwordEncoder.encode(request.password()));
         }
 
-        repository.deleteById(id);
-        return ResponseEntity.ok().build();
+        employeeRepository.save(employee);
     }
 }

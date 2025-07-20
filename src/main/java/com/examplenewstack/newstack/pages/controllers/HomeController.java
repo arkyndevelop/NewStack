@@ -1,6 +1,6 @@
 package com.examplenewstack.newstack.pages.controllers;
 
-import com.examplenewstack.newstack.core.entity.User; // Importe a sua classe User
+import com.examplenewstack.newstack.core.entity.User;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collection;
+
+// Classe responsável por realizar o filtro das roles dos usuários que realizam o acesso,
+// onde dessa forma faz com que seja redirecionado diretamente para endpoints que ele terá permissão!
 
 @Controller
 @RequestMapping("/v1")
@@ -25,13 +28,14 @@ public class HomeController {
             return "redirect:/v1/login";
         }
 
+        // Recebe a identidade do usuário autenticado
         Object principal = authentication.getPrincipal();
 
         // Verificamos se o principal é uma instância da sua classe User
         if (principal instanceof User user) {
             String role = user.getRole();
 
-            System.out.println("Usuário autenticado: " + user.getName());
+            System.out.println("Usuário autenticado: " + user.getName()); // Informa o Username
             System.out.println("Permissão encontrada: " + role);
 
             // Lógica de redirecionamento baseada na string da role
@@ -54,7 +58,6 @@ public class HomeController {
         return "redirect:/v1/login";
     }
 
-    // Os endpoints para cada home page permanecem os mesmos
     @GetMapping("/home/admin")
     public ModelAndView showAdminHome() {
         return new ModelAndView("homeAdm");
@@ -63,10 +66,14 @@ public class HomeController {
     @GetMapping("/home/employee")
     public ModelAndView showEmployeeHome() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // Verificação de autenticação
         if (authentication != null && authentication.isAuthenticated()) {
             Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
             for (GrantedAuthority authority : authorities) {
                 String role = authority.getAuthority();
+
+                // Verificação da Roles do Usuário Employee
                 if (role.equals("ROLE_LIBRARIAN") || role.equals("ROLE_LIBRARY_ASSISTANT") || role.equals("ROLE_RECEPTIONIST") || role.equals("ROLE_EMPLOYEE")) {
                     return new ModelAndView("homeEmployee");
                 }

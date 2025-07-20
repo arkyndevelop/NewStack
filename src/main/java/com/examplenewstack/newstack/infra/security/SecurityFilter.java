@@ -16,7 +16,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Component
+// Classe responsável por realizar o filtro dos usuários e coleta bruta de informações para acesso
+// Com filtro seria algo como: "anônimo" e "autenticado"
+
+@Component // Simplificação de anotações como @Service, @Repository, @Controller
 public class SecurityFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -31,11 +34,14 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         var token = this.recoverToken(request);
 
+        // Com a coleta do token, é necessário a verificação do usuário, se está com login ativo ou não
         if (token != null) {
             var login = tokenService.validadeToken(token);
             if (login != null && !login.isEmpty()) {
+                // Procura pelo token recebido e Username, o usuário e seu tipo
                 UserDetails userDetails = service.loadUserByUsername(login);
 
+                // Autenticação do token
                 var authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
@@ -44,7 +50,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    // CORREÇÃO: Este metodo agora extrai o token do cookie da requisição.
+    // Metodo responsável pela coleta dos cookies do navegador para gerenciamento de sessão
     private String recoverToken(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {

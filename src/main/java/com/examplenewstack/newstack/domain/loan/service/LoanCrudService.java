@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -38,6 +39,9 @@ public class LoanCrudService {
         this.rabbitTemplate = rabbitTemplate;
     }
 
+    private static final int MAX_ACTIVE_LOANS_PER_CLIENT = 3;
+    private static final int MAX_COPIES_OF_SAME_BOOK_PER_CLIENT = 1;
+
     @Transactional
     public Loan register(LoanRequest loanRequest) throws Exception {
         Client clientFound = clientRepository.findById(loanRequest.getClientId())
@@ -47,15 +51,28 @@ public class LoanCrudService {
 
         StatusLoan finalStatus;
 
-        if (bookFound.getDisponibility_quantity() > 0) {
-            finalStatus = StatusLoan.EMPRESTADO;
-            // Decrementa a quantidade disponível e salva a entidade livro
-            bookFound.setDisponibility_quantity(bookFound.getDisponibility_quantity() - 1);
-            bookRepository.save(bookFound);
-        } else {
+        if (bookFound.getDisponibility_quantity() <= 0) {
             // Lança uma exceção clara se não houver livros para emprestar.
             throw new Exception("Não há exemplares deste livro disponíveis para empréstimo.");
         }
+
+        List<Loan> activeLoans = repository.findActiveLoansByClientId(loanRequest.getClientId());
+        if (activeLoans.size() >= MAX_ACTIVE_LOANS_PER_CLIENT) {
+            throw new Exception("Cliente atingiu o limite máximo de " + MAX_ACTIVE_LOANS_PER_CLIENT + " empréstimos ativos!");
+        }
+
+        int countSameBook = Math.toIntExact(activeLoans.stream()
+                .filter(loan -> Objects.equals(loan.getBook().getId(), loanRequest.getBookId()))
+                .count());
+
+        if (countSameBook >= MAX_COPIES_OF_SAME_BOOK_PER_CLIENT) {
+            throw new Exception("Este cliente já possui um empréstimo ativo para este Livro!");
+        }
+
+        finalStatus = StatusLoan.EMPRESTADO;
+        // Decrementa a quantidade disponível e salva a entidade livro
+        bookFound.setDisponibility_quantity(bookFound.getDisponibility_quantity() - 1);
+        bookRepository.save(bookFound);
 
         // --- LÓGICA DA DATA DE DEVOLUÇÃO ---
         LocalDate loanDate = LocalDate.now(); // Data do empréstimo é sempre a data atual
@@ -71,7 +88,7 @@ public class LoanCrudService {
 
         Loan newLoan = repository.save(loanToSave);
 
-        // O restante da lógica de notificação permanece o mesmo
+        // lógica de notificação
         LoanNotificationDTO notificationDTO = new LoanNotificationDTO(
                 clientFound.getName(),
                 clientFound.getEmail(),
@@ -101,7 +118,7 @@ public class LoanCrudService {
             throw new NoLoanFoundException("Nenhum empréstimo encontrado para este cliente.");
         }
         return loans.stream()
-                .map(LoanResponse::fromEntity) // Usa o novo método de fábrica
+                .map(LoanResponse::fromEntity) // Usa o novo metodo de fábrica
                 .collect(Collectors.toList());
     }
 
@@ -122,36 +139,22 @@ public class LoanCrudService {
 //        );
 //    }
 
-    public List<LoanResponse> deleteById(int id) {
+    @Transactional
+    public void delete(int loanId) {
+        // 1. Busca o empréstimo no banco ou lança um erro se não existir.
+        Loan loanToDelete = repository.findById(loanId)
+                .orElseThrow(() -> new EntityNotFoundException("Empréstimo com ID " + loanId + " não encontrado."));
 
-        Optional<Loan> loanList = repository.findById(id);
+        // 2. Pega o livro associado a este empréstimo.
+        Book book = loanToDelete.getBook();
 
-        if (loanList.isEmpty()) {
-            throw new NoLoanFoundByIdException();
-        }
+        // 3. Incrementa a quantidade de exemplares disponíveis do livro.
+        // Esta é a lógica inversa da criação do empréstimo.
+        book.setDisponibility_quantity(book.getDisponibility_quantity() + 1);
+        bookRepository.save(book); // Salva a atualização do livro
 
-        if(loanList.get().getStatus() == StatusLoan.EMPRESTADO){
-
-
-            Book books = loanList.get().getBook();
-
-            books.setDisponibility_quantity(books.getDisponibility_quantity() + 1);
-
-            bookRepository.save(books);
-
-        }
-
-        repository.deleteById(id);
-
-        return loanList.stream()
-                .map(loan -> new LoanResponse(
-                        loan.getId(),
-                        loan.getLoanDate(),
-                        loan.getExpectedReturnDate(),
-                        loan.getActualReturnDate(),
-                        loan.getStatus().name(),
-                        loan.getClient().getName(),
-                        loan.getBook().getTitle()))
-                .toList();
+        // 4. Exclui o registro do empréstimo.
+        // Como o metodo é @Transactional, se esta linha falhar, a alteração no livro será revertida.
+        repository.delete(loanToDelete);
     }
 }

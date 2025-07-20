@@ -26,32 +26,62 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
+                // Futuramente é interessante habilitarmos o CSRF para mantermos um site
+                // mais seguro e protegido para os usuários!
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         // Permite acesso público a estas rotas
-                        .requestMatchers("/", "/v1/login", "/auth/**","/CSS/**", "/JS/**", "/img/**")
-                        .permitAll()
+                        .requestMatchers(
+                                "/",
+                                "/v1/login",
+                                "/auth/**",
+                                "/CSS/**",
+                                "/JS/**",
+                                "/img/**"
+                        ).permitAll()
 
                         // Permite que usuários anônimos e autenticados acessem o registro de clientes
-                        .requestMatchers("/v1/clients/register", "/clients/register").permitAll()
+                        .requestMatchers(
+                                "/v1/clients/register",
+                                "/clients/register"
+                        ).permitAll()
 
-                        // Regras de acesso para o ADMIN
-                        .requestMatchers("/v1/home/admin", "/admin/**").hasRole("ADMIN")
+                        // Regras de acesso para administradores
+                        .requestMatchers(
+                                "/v1/home/admin",
+                                "/admin/**"
+                        ).hasRole("ADMIN")
 
-                        // Regras de acesso para o CLIENT
-                        .requestMatchers("/v1/home/client", "/v1/clients/profile", "/v1/loans/register").hasRole("CLIENT")
+                        // Regras de acesso para clientes
+                        .requestMatchers(
+                                "/v1/home/client",
+                                "/v1/clients/profile"
+                                //"/v1/loans/register"
+                        ).hasRole("CLIENT")
 
                         // Regras de acesso para funcionários
-                        .requestMatchers("/v1/home/employee", "/employee/**").hasAnyRole("LIBRARIAN", "LIBRARY_ASSISTANT", "RECEPTIONIST", "EMPLOYEE")
+                        .requestMatchers(
+                                "/v1/home/employee",
+                                "/employee/**"
+                        ).hasAnyRole("LIBRARIAN", "LIBRARY_ASSISTANT", "RECEPTIONIST", "EMPLOYEE")
 
-                        // Regra para ADMIN gerenciar livros, clientes e funcionários
-                        .requestMatchers("/v1/clients/**", "/v1/employees/**").hasAnyRole("ADMIN", "LIBRARIAN", "LIBRARY_ASSISTANT", "RECEPTIONIST", "EMPLOYEE")
+                        // Regra para Admin gerenciar livros, clientes e funcionários
+                        .requestMatchers(
+                                "/v1/clients/**",
+                                "/v1/employees/**"
+                        ).hasAnyRole("ADMIN", "LIBRARIAN", "LIBRARY_ASSISTANT", "RECEPTIONIST", "EMPLOYEE")
 
-                        .requestMatchers("/v1/clients/profile", "/v1/loans/**", "/v1/books/reports").hasAnyRole("CLIENT", "ADMIN", "LIBRARIAN", "LIBRARY_ASSISTANT", "RECEPTIONIST", "EMPLOYEE")
+                        // Regra de acesso para que todos possam acessar essas páginas, porém é feito,
+                        // na regra de negócio, a filtragem para acessar funcionalidades dependendo da ROLE!
+                        .requestMatchers(
+                                "/v1/clients/profile",
+                                "/v1/loans/**",
+                                "/v1/books/reports"
+                        ).hasAnyRole("CLIENT", "ADMIN", "LIBRARIAN", "LIBRARY_ASSISTANT", "RECEPTIONIST", "EMPLOYEE")
 
-                        // Permite acesso ao Swagger
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**" ).permitAll()
+                        // Permite acesso ao Swagger, somente em ambientes de teste!
+                        // .requestMatchers("/swagger-ui/**", "/v3/api-docs/**" ).permitAll()
 
                         // Qualquer outra requisição precisa de autenticação
                         .anyRequest().authenticated()

@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const today = new Date();
             today.setDate(today.getDate() + days);
 
-            // Formata para YYYY-MM-DDTHH:mm para compatibilidade com datetime-local (embora hidden)
+            // Formata para YYYY-MM-DDT HH:mm para compatibilidade com datetime-local (embora hidden)
             // Definimos um horário padrão para que seja uma string datetime válida
             const year = today.getFullYear();
             const month = String(today.getMonth() + 1).padStart(2, '0'); // Mês é 0-indexado
@@ -53,19 +53,5 @@ document.addEventListener('DOMContentLoaded', function() {
             event.preventDefault();
             return;
         }
-
-        // Se você estiver enviando o formulário via AJAX, a lógica de AJAX viria aqui.
-        // Se for um submit tradicional, ele continuará normalmente após as validações.
-
-        // Exemplo de como você obteria os dados para um AJAX:
-        // const loanData = {
-        //     clientId: clientId,
-        //     bookId: bookId,
-        //     expectedReturnDate: expectedReturnDateInput.value
-        // };
-        // console.log("Dados a serem enviados:", loanData);
-
-        // Se for AJAX, você faria event.preventDefault() aqui e faria a chamada fetch/axios.
-        // fetch('/api/loans', { /* ... */ });
     });
 });

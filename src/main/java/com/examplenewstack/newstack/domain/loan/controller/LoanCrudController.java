@@ -50,6 +50,7 @@ public class LoanCrudController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteByIdController(@PathVariable int id){
-        return  ResponseEntity.ok().body(service.deleteById(id));
+        service.delete(id);
+        return  ResponseEntity.ok().build();
     }
 }

@@ -13,6 +13,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+// Classe responsável por realizar o início de uma sessão junto do JWT, onde realizar a coleta de cookies, por exemplo.
+// Além disso, definindo tempo de sessão. Mas claro, realizando sempre o metodo de verificação e autenticação dos
+// usuários!
+
 @RestController
 @RequestMapping("/auth")
 public class LoginAuthenticationController {
@@ -30,14 +34,16 @@ public class LoginAuthenticationController {
         var usernamePassword = new UsernamePasswordAuthenticationToken(request.username(), request.password());
         var auth = this.manager.authenticate(usernamePassword);
 
+        // Coletamos o token, fazendo o Casting da entidade que está acessando,
+        // levando em conta que o sistema possui 3 tipos de usuários (Admin, Employee e Client)
         var token = service.generatedToken((User) auth.getPrincipal());
 
-        // CORREÇÃO: Cria um cookie HTTP-Only para armazenar o token
         Cookie cookie = new Cookie("jwt_token", token);
         cookie.setPath("/"); // Disponível para toda a aplicação
         cookie.setHttpOnly(true); // Protege contra ataques XSS (o cookie não pode ser lido por JavaScript)
         cookie.setMaxAge(2 * 60 * 60); // Expira em 2 horas (mesmo tempo do token)
-        // Em produção, adicione: cookie.setSecure(true); para exigir HTTPS
+
+        // Observação: Futuramente adicionar: cookie.setSecure(true); para exigir HTTPS
 
         // Adiciona o cookie na resposta que vai para o navegador
         response.addCookie(cookie);
@@ -46,6 +52,9 @@ public class LoginAuthenticationController {
         return ResponseEntity.ok().build();
     }
 
+
+    // Metodo responsável por finalizar a sessão, limpando as informações obtidas para filtragem e retornando para a
+    // página de login!
     @GetMapping("/logout")
     public ModelAndView logout(HttpServletResponse response) {
         // Cria um cookie com o mesmo nome, mas com valor nulo e tempo de vida 0 para removê-lo

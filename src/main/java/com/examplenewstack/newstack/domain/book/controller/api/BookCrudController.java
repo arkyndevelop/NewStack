@@ -7,6 +7,7 @@ import com.examplenewstack.newstack.domain.book.service.BookCrudService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @RequestMapping("/books")
@@ -74,6 +75,5 @@ public class BookCrudController {
     ) {
         return ResponseEntity.ok().body(service.deleteByID(id));
     }
-
 
 }

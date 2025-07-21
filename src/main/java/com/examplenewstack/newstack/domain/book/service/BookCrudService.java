@@ -3,6 +3,7 @@ package com.examplenewstack.newstack.domain.book.service;
 import com.examplenewstack.newstack.domain.book.Book;
 import com.examplenewstack.newstack.domain.book.dto.BookRequest;
 import com.examplenewstack.newstack.domain.book.dto.BookResponse;
+import com.examplenewstack.newstack.domain.book.dto.BookResponseViewDetails;
 import com.examplenewstack.newstack.domain.book.exception.NoBooksFoundByISBNException;
 import com.examplenewstack.newstack.domain.book.exception.NoBooksFoundByIdException;
 import com.examplenewstack.newstack.domain.book.exception.NoBooksFoundException;
@@ -74,6 +75,12 @@ public class BookCrudService {
         return BookResponse.fromEntity(book);
     }
 
+    public BookResponseViewDetails findViewDetailsById(int id) {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new NoBooksFoundException("Livro não encontrado"));
+        return BookResponseViewDetails.fromEntity(book);
+    }
+
     //Função responsavel por atualizar um livro pelo ID
     public ResponseEntity<BookResponse> updateBook(BookRequest request, String bookISBN) {
         Book bookExists = bookRepository.findByISBN(bookISBN)
@@ -113,6 +120,9 @@ public class BookCrudService {
                 .ok()
                 .build();
     }
+
+
+
 
     //Função responsável por fazer o empréstimo do livro
     public Boolean borrowBook(int id, int quant) {

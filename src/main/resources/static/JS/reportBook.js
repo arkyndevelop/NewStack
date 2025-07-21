@@ -2,9 +2,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const editBookModal = new bootstrap.Modal(document.getElementById('editBookModal'));
     const editBookForm = document.getElementById('editBookForm');
 
-    // Lógica para os botões de DELETAR
+    // Botões de DELETAR
     document.querySelectorAll('.btn-delete').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function(event) {
+            event.stopPropagation(); // evita que clique no card abra a página
             const bookId = this.getAttribute('data-book-id');
             if (confirm(`Tem certeza que deseja excluir o livro com ID ${bookId}?`)) {
                 fetch(`/books/delete/${bookId}`, {
@@ -13,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     .then(response => {
                         if (response.ok) {
                             alert('Livro excluído com sucesso!');
-                            window.location.reload(); // Recarrega a página
+                            window.location.reload();
                         } else {
                             alert('Falha ao excluir o livro.');
                         }
@@ -23,51 +24,44 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Lógica para os botões de EDITAR
+    // Botões de EDITAR
     document.querySelectorAll('.btn-edit').forEach(button => {
-        button.addEventListener('click', function() {
-            // Pega os dados do livro da linha da tabela ou de atributos data-*
+        button.addEventListener('click', function(event) {
+            event.stopPropagation(); // evita abrir detalhes do livro ao clicar no botão
             const bookId = this.getAttribute('data-book-id');
-            const bookISBN = this.getAttribute('data-book-isbn');
-            const row = this.closest('tr');
-            const title = row.cells[1].innerText;
-            const totalQuantity = row.cells[5].innerText;
 
-
-            // Preenche o formulário do modal
-            editBookForm.querySelector('#editBookId').value = bookId;
-            editBookForm.querySelector('#editTitle').value = title;
-            editBookForm.querySelector('#editISBN').value = bookISBN;
-            editBookForm.querySelector('#editTotalQuantity').value = totalQuantity;
-
-            // Define a ação do formulário dinamicamente
-            editBookForm.action = `/books/update/${bookISBN}`;
+            // Exemplo: preenche o formulário do modal (ajuste conforme seu formulário)
+            if (editBookForm) {
+                editBookForm.querySelector('#editBookId').value = bookId;
+                // Preencha outros campos conforme necessário
+            }
+            editBookModal.show();
         });
     });
 
-    // Lógica para o SUBMIT do formulário de edição
-    editBookForm.addEventListener('submit', function(event) {
-        event.preventDefault();
+    // Submit do formulário de edição
+    if(editBookForm) {
+        editBookForm.addEventListener('submit', function(event) {
+            event.preventDefault();
 
-        const formData = new FormData(this);
-        const bookData = Object.fromEntries(formData.entries());
+            const formData = new FormData(this);
+            const bookData = Object.fromEntries(formData.entries());
 
-        fetch(this.action, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(bookData)
-        })
-            .then(response => {
-                if (response.ok) {
-                    alert('Livro atualizado com sucesso!');
-                    editBookModal.hide();
-                    window.location.reload();
-                } else {
-                    alert('Falha ao atualizar o livro.');
-                }
+            fetch(this.action, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(bookData)
             })
-            .catch(error => console.error('Erro:', error));
-    });
+                .then(response => {
+                    if (response.ok) {
+                        alert('Livro atualizado com sucesso!');
+                        editBookModal.hide();
+                        window.location.reload();
+                    } else {
+                        alert('Falha ao atualizar o livro.');
+                    }
+                })
+                .catch(error => console.error('Erro:', error));
+        });
+    }
 });

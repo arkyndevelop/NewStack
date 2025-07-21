@@ -12,6 +12,7 @@ import com.examplenewstack.newstack.domain.collection.Collection;
 import com.examplenewstack.newstack.domain.collection.repository.CollectionRepository;
 import com.examplenewstack.newstack.domain.employee.Employee;
 import com.examplenewstack.newstack.domain.employee.repository.EmployeeRepository;
+import com.examplenewstack.newstack.domain.loan.Loan;
 import com.examplenewstack.newstack.domain.loan.repository.LoanRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -109,17 +110,28 @@ public class BookCrudService {
     }
 
     //Função responsavel por deletar livro pelo ID
-    public ResponseEntity<?> deleteByID(
-            Integer bookID
-    ) {
+    public ResponseEntity<?> deleteByID(Integer bookID) {
+        // Busca o livro ou lança exceção se não existir
         Book findBook = bookRepository.findById(bookID)
                 .orElseThrow(NoBooksFoundByIdException::new);
 
+        // Busca todos os empréstimos vinculados a esse livro
+        List<Loan> loanList = loanRepository.findByBookId(bookID);
+
+        // Se existirem empréstimos vinculados, desvincula o livro deles
+        if (!loanList.isEmpty()) {
+            for (Loan loan : loanList) {
+                loan.setBook(null); // Remove a referência ao livro
+            }
+            loanRepository.saveAll(loanList); // Salva as mudanças nos empréstimos
+        }
+
+        // Agora exclui o livro
         bookRepository.delete(findBook);
-        return ResponseEntity
-                .ok()
-                .build();
+
+        return ResponseEntity.ok().build();
     }
+
 
 
 

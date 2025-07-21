@@ -45,7 +45,7 @@ public class Loan {
     private Client client;
 
     //Relacionamento com a tabela book 1:n
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,optional = true)
     @JoinColumn(name = "book_id", nullable = false)
     @JsonBackReference("book-loan")
 

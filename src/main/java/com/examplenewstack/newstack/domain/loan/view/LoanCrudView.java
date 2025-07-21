@@ -15,11 +15,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping; // Adicionar esta importação
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes; // Adicionar esta importação
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Collections;
 import java.util.List;
@@ -45,14 +44,12 @@ public class LoanCrudView {
         }
     }
 
-
     @GetMapping("/reports")
     public ModelAndView showLoanReports() {
         ModelAndView mav = new ModelAndView("reportLoans");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object principal = authentication.getPrincipal();
 
-        // Adiciona a role para o header saber a cor
         if (authentication != null && authentication.getPrincipal() instanceof User) {
             User user = (User) authentication.getPrincipal();
             mav.addObject("userRole", user.getRole());
@@ -81,24 +78,19 @@ public class LoanCrudView {
 
     @GetMapping("/register")
     public String showRegisterLoanForm(Model model, Authentication authentication) {
-        // Adiciona a role para o header (mantendo a consistência do design)
         if (authentication != null && authentication.getPrincipal() instanceof User) {
             User user = (User) authentication.getPrincipal();
             model.addAttribute("userRole", user.getRole());
         }
 
-        // Adiciona a lista de livros disponíveis ao formulário
         List<BookResponse> availableBooks = bookCrudService.reportAllBooks();
         model.addAttribute("books", availableBooks);
 
-        // 1. Verifica se a role do usuário logado é "CLIENT"
         boolean isClient = authentication.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_CLIENT"));
-
         model.addAttribute("isClient", isClient);
 
         if (isClient) {
-            // 2. Se for um CLIENTE, busca seu perfil e adiciona ao modelo
             try {
                 ClientResponseProfileDetails loggedInClient = clientCrudService.getAuthenticatedClientProfile();
                 model.addAttribute("loggedInClient", loggedInClient);
@@ -106,7 +98,6 @@ public class LoanCrudView {
                 model.addAttribute("error", "Não foi possível carregar as informações do seu perfil.");
             }
         } else {
-            // 3. Se for ADMIN/FUNCIONÁRIO, busca a lista de TODOS os clientes para o dropdown
             List<ClientResponse> allClients = clientCrudService.findAllClients();
             model.addAttribute("clients", allClients);
         }
@@ -119,10 +110,10 @@ public class LoanCrudView {
         try {
             loanService.register(loanRequest);
             redirectAttributes.addFlashAttribute("successMessage", "Empréstimo registrado com sucesso!");
-            return "redirect:/v1/loans/reports"; // Redireciona para a tela de relatórios
+            return "redirect:/v1/loans/reports";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Erro ao registrar empréstimo: " + e.getMessage());
-            return "redirect:/v1/loans/register"; // Volta para a tela de registro em caso de erro
+            return "redirect:/v1/loans/register";
         }
     }
 }

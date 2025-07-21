@@ -8,7 +8,6 @@
   <link th:href="@{/CSS/navBar.css}" rel="stylesheet">
   <style>
     body {
-      /* Adiciona o padding para não esconder o conteúdo atrás da navbar */
       padding-top: 80px;
       background-color: #f4f7f6;
     }
@@ -48,17 +47,19 @@
           </thead>
           <tbody>
           <tr th:each="loan : ${loanList}">
+            <!-- Agora usamos diretamente loan.bookTitle que vem do DTO -->
             <td class="ps-3 fw-semibold" th:text="${loan.bookTitle}"></td>
             <td th:if="${viewType != 'client'}" th:text="${loan.clientName}"></td>
             <td th:text="${#temporals.format(loan.loanDate, 'dd/MM/yyyy')}"></td>
             <td th:text="${#temporals.format(loan.expectedReturnDate, 'dd/MM/yyyy')}"></td>
             <td class="text-center">
-                                <span class="badge rounded-pill"
-                                      th:classappend="${loan.status == 'DEVOLVIDO' ? 'bg-success' : (loan.status == 'ATRASADO' ? 'bg-danger' : 'bg-warning text-dark')}"
-                                      th:text="${loan.status}">
-                                </span>
+              <span class="badge rounded-pill"
+                    th:classappend="${loan.status == 'DEVOLVIDO' ? 'bg-success'
+                                     : (loan.status == 'ATRASADO' ? 'bg-danger' : 'bg-warning text-dark')}"
+                    th:text="${loan.status}">
+              </span>
             </td>
-            <td>
+            <td class="text-center">
               <button class="btn btn-danger btn-sm delete-loan-btn"
                       th:data-loan-id="${loan.id}">
                 Excluir
@@ -97,21 +98,15 @@
   });
 
   function deleteLoan(loanId, buttonElement) {
-    // ⚠️ Verifique se a URL bate exatamente com o seu Controller do Spring!
     const url = `/loans/delete/${loanId}`;
 
     fetch(url, {
-      method: 'DELETE',
-      headers: {
-        // Se você usa Spring Security com proteção CSRF, descomente e ajuste a linha abaixo
-        // 'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').getAttribute('content')
-      }
+      method: 'DELETE'
     })
             .then(response => {
               if (response.ok) {
                 const row = buttonElement.closest('tr');
                 row.remove();
-                // Opcional: mostrar um alerta de sucesso mais elegante
                 alert('Empréstimo excluído com sucesso!');
               } else {
                 alert('Falha ao excluir o empréstimo. Tente novamente.');

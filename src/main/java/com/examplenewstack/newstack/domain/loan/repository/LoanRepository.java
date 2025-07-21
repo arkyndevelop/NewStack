@@ -19,4 +19,8 @@ public interface  LoanRepository extends JpaRepository<Loan, Integer> {
 
     @Query("SELECT l FROM Loan l WHERE l.client.id = :clientId AND l.actualReturnDate IS NULL")
     List<Loan> findActiveLoansByClientId(@Param("clientId") Integer clientId);
+
+    @Query("SELECT l FROM Loan l LEFT JOIN FETCH l.book WHERE l.client.id = :clientId")
+    List<Loan> findByClientIdWithBook(@Param("clientId") Integer clientId);
+
 }

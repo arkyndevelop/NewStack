@@ -57,13 +57,20 @@ public class LoanCrudService {
         }
 
         List<Loan> activeLoans = repository.findActiveLoansByClientId(loanRequest.getClientId());
+        // LOG DE DIAGNÓSTICO 1: O que a consulta ao banco realmente retornou?
+        System.out.println(">>> Empréstimos ativos encontrados para o cliente: " + activeLoans.size());
+        activeLoans.forEach(loan ->
+                System.out.println("  - Loan ID: " + loan.getId() + ", Book ID: " + loan.getBook().getId() + ", Return Date: " + loan.getExpectedReturnDate())
+        );
+
         if (activeLoans.size() >= MAX_ACTIVE_LOANS_PER_CLIENT) {
+            System.out.println("!!! BLOQUEIO: Cliente atingiu o limite de " + MAX_ACTIVE_LOANS_PER_CLIENT + " empréstimos.");
             throw new Exception("Cliente atingiu o limite máximo de " + MAX_ACTIVE_LOANS_PER_CLIENT + " empréstimos ativos!");
         }
 
-        int countSameBook = Math.toIntExact(activeLoans.stream()
+        long countSameBook = activeLoans.stream()
                 .filter(loan -> Objects.equals(loan.getBook().getId(), loanRequest.getBookId()))
-                .count());
+                .count();
 
         if (countSameBook >= MAX_COPIES_OF_SAME_BOOK_PER_CLIENT) {
             throw new Exception("Este cliente já possui um empréstimo ativo para este Livro!");

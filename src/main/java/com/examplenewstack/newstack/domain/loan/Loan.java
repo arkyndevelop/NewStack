@@ -50,4 +50,8 @@ public class Loan {
     @JsonBackReference("book-loan")
 
     private Book book;
+
+    //Variavel utilizada para salvar o nome do livro que foi excluido no emprestimo
+    @Column(nullable = false)
+    public String bookTitle;
 }

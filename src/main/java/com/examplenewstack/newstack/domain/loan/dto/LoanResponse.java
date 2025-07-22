@@ -17,8 +17,7 @@ public record LoanResponse(
         String bookTitle
 ) {
     public static LoanResponse fromEntity(Loan loan) {
-        // Verifica se o livro existe antes de pegar o título
-        String title = (loan.getBook() != null) ? loan.getBook().getTitle() : "Livro excluído";
+        String title = loan.getBookTitle();
 
         return new LoanResponse(
                 loan.getId(),
@@ -30,4 +29,5 @@ public record LoanResponse(
                 title
         );
     }
+
 }

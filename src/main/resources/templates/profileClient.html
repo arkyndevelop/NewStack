@@ -129,7 +129,7 @@
 <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form th:action="@{/v1/clients/profile}" method="post">
+            <form th:action="@{/v1/clients/profile/update}" method="post">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editProfileModalLabel">Editar Informações do Perfil</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -141,7 +141,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="cpf" class="form-label">CPF</label>
-                        <input type="text" class="form-control" id="cpf" name="CPF" th:value="${client.CPF}" disabled="">
+                        <input type="text" class="form-control" id="cpf" name="CPF" th:value="${client.CPF}" disabled>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
@@ -164,24 +164,30 @@
                         </div>
                     </div>
                     <div class="row">
+                        <!-- campo neighborhood obrigatório adicionado -->
                         <div class="col-md-6 mb-3">
                             <label for="neighborhood" class="form-label">Bairro</label>
                             <input type="text" class="form-control" id="neighborhood" name="address.neighborhood" th:value="${client.address?.neighborhood}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="city" class="form-label">Cidade</label>
+                            <input type="text" class="form-control" id="city" name="address.city" th:value="${client.address?.city}" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="state" class="form-label">Estado</label>
+                            <input type="text" class="form-control" id="state" name="address.state" th:value="${client.address?.state}" required>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="cep" class="form-label">CEP</label>
                             <input type="text" class="form-control" id="cep" name="address.cep" th:value="${client.address?.cep}" required>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="city" class="form-label">Cidade</label>
-                            <input type="text" class="form-control" id="city" name="address.city" th:value="${client.address?.city}" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="state" class="form-label">Estado</label>
-                            <input type="text" class="form-control" id="state" name="address.state" th:value="${client.address?.state}" required>
-                        </div>
+                    <div class="mb-3">
+                        <label for="country" class="form-label">País</label>
+                        <!-- Removido valor padrão Ethiopia -->
+                        <input type="text" class="form-control" id="country" name="address.country" th:value="${client.address?.country}" required>
                     </div>
                     <div class="mb-3">
                         <label for="complement" class="form-label">Complemento (opcional)</label>
@@ -196,5 +202,6 @@
         </div>
     </div>
 </div>
+
 </body>
 </html>

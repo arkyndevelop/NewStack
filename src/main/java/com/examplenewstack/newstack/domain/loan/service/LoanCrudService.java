@@ -10,7 +10,6 @@ import com.examplenewstack.newstack.domain.loan.dto.LoanNotificationDTO;
 import com.examplenewstack.newstack.domain.loan.dto.LoanRequest;
 import com.examplenewstack.newstack.domain.loan.dto.LoanResponse;
 import com.examplenewstack.newstack.domain.loan.enums.StatusLoan;
-import com.examplenewstack.newstack.domain.loan.exception.NoLoanFoundByIdException;
 import com.examplenewstack.newstack.domain.loan.exception.NoLoanFoundException;
 import com.examplenewstack.newstack.domain.loan.repository.LoanRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,7 +30,8 @@ public class LoanCrudService {
     private final BookRepository bookRepository;
     private final RabbitTemplate rabbitTemplate;
 
-    public LoanCrudService(LoanRepository repository, ClientRepository clientRepository, BookRepository bookRepository, RabbitTemplate rabbitTemplate) {
+    public LoanCrudService(LoanRepository repository, ClientRepository clientRepository,
+                           BookRepository bookRepository, RabbitTemplate rabbitTemplate) {
         this.repository = repository;
         this.clientRepository = clientRepository;
         this.bookRepository = bookRepository;
@@ -54,12 +53,6 @@ public class LoanCrudService {
         }
 
         List<Loan> activeLoans = repository.findActiveLoansByClientId(loanRequest.getClientId());
-        System.out.println(">>> Empréstimos ativos encontrados para o cliente: " + activeLoans.size());
-        activeLoans.forEach(loan -> {
-            Book book = loan.getBook();
-            System.out.println("  - Loan ID: " + loan.getId() + ", Book ID: " + (book != null ? book.getId() : "Livro excluído") + ", Return Date: " + loan.getExpectedReturnDate());
-        });
-
         if (activeLoans.size() >= MAX_ACTIVE_LOANS_PER_CLIENT) {
             throw new Exception("Cliente atingiu o limite máximo de " + MAX_ACTIVE_LOANS_PER_CLIENT + " empréstimos ativos!");
         }
@@ -72,8 +65,6 @@ public class LoanCrudService {
             throw new Exception("Este cliente já possui um empréstimo ativo para este Livro!");
         }
 
-        StatusLoan finalStatus = StatusLoan.EMPRESTADO;
-
         // Decrementa a quantidade disponível
         bookFound.setDisponibility_quantity(bookFound.getDisponibility_quantity() - 1);
         bookRepository.save(bookFound);
@@ -84,9 +75,12 @@ public class LoanCrudService {
         Loan loanToSave = new Loan();
         loanToSave.setClient(clientFound);
         loanToSave.setBook(bookFound);
-        loanToSave.setStatus(finalStatus);
+        loanToSave.setStatus(StatusLoan.EMPRESTADO);
         loanToSave.setLoanDate(loanDate.atStartOfDay());
         loanToSave.setExpectedReturnDate(expectedReturnDate.atStartOfDay());
+
+        //ao registrar, salvamos também o título fixo na entidade
+        loanToSave.setBookTitle(bookFound.getTitle());
 
         Loan newLoan = repository.save(loanToSave);
 
@@ -118,6 +112,7 @@ public class LoanCrudService {
         if (loans.isEmpty()) {
             throw new NoLoanFoundException("Nenhum empréstimo encontrado para este cliente.");
         }
+
         return loans.stream()
                 .map(LoanResponse::fromEntity)
                 .collect(Collectors.toList());

@@ -1,6 +1,7 @@
 package com.examplenewstack.newstack.domain.client.service;
 
 import com.examplenewstack.newstack.domain.address.Address;
+import com.examplenewstack.newstack.domain.address.repository.AddressRepository;
 import com.examplenewstack.newstack.domain.client.Client;
 import com.examplenewstack.newstack.domain.client.dto.ClientProfileUpdateRequest;
 import com.examplenewstack.newstack.domain.client.dto.ClientRequest;
@@ -26,10 +27,12 @@ public class ClientCrudService {
 
     private final ClientRepository clientRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AddressRepository addressRepository;
 
-    public ClientCrudService(ClientRepository clientRepository, PasswordEncoder passwordEncoder) {
+    public ClientCrudService(ClientRepository clientRepository, PasswordEncoder passwordEncoder, AddressRepository addressRepository) {
         this.clientRepository = clientRepository;
         this.passwordEncoder = passwordEncoder;
+        this.addressRepository = addressRepository;
     }
 
     public Client registerClient(ClientRequest request){
@@ -107,9 +110,45 @@ public class ClientCrudService {
     @Transactional
     public void updateAuthenticatedClientProfile(ClientProfileUpdateRequest profileRequest) {
         Client client = getAuthenticatedClient();
-        updateClientDataFromProfile(client, profileRequest);
+
+        client.setName(profileRequest.name());
+        client.setTelephone(profileRequest.telephone());
+
+        if (profileRequest.address() != null) {
+            var addressRequest = profileRequest.address();
+
+            Address address = client.getAddress();
+
+            if (address == null) {
+                // ✅ Novo endereço: criar e salvar antes de associar ao cliente
+                address = new Address();
+                address.setStreet(addressRequest.street());
+                address.setNumber_house(addressRequest.number_house());
+                address.setNeighborhood(addressRequest.neighborhood());
+                address.setCep(addressRequest.cep());
+                address.setCity(addressRequest.city());
+                address.setState(addressRequest.state());
+                address.setComplement(addressRequest.complement());
+                address.setCountry(addressRequest.country());
+
+                address = addressRepository.save(address); // salvar para gerar ID
+                client.setAddress(address); // associar ao cliente
+            } else {
+                // Endereço já existe → atualizar
+                address.setStreet(addressRequest.street());
+                address.setNumber_house(addressRequest.number_house());
+                address.setNeighborhood(addressRequest.neighborhood());
+                address.setCep(addressRequest.cep());
+                address.setCity(addressRequest.city());
+                address.setState(addressRequest.state());
+                address.setComplement(addressRequest.complement());
+                address.setCountry(addressRequest.country());
+            }
+        }
+
         clientRepository.save(client);
     }
+
 
     // --- MÉTODOS PRIVADOS AUXILIARES ---
 

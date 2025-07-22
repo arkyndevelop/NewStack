@@ -57,7 +57,8 @@ public class SecurityConfig {
                         // Regras de acesso para clientes
                         .requestMatchers(
                                 "/v1/home/client",
-                                "/v1/clients/profile"
+                                "/v1/clients/profile",
+                                "/v1/clients/profile/update"
                                 //"/v1/loans/register"
                         ).hasRole("CLIENT")
 

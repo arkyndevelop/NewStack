@@ -50,7 +50,8 @@ public class SecurityConfig {
                         // Regras de acesso para administradores
                         .requestMatchers(
                                 "/v1/home/admin",
-                                "/admin/**"
+                                "/admin/**",
+                                "/v1/admins/register"
                         ).hasRole("ADMIN")
 
                         // Regras de acesso para clientes

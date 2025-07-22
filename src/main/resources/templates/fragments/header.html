@@ -1,7 +1,7 @@
 <header th:fragment="header" xmlns:sec="http://www.w3.org/1999/xhtml">
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm"
          th:classappend="${#authorization.expression('hasRole(''ADMIN'')') ? 'navbar-admin' :
-                          (#authorization.expression('hasAnyRole(''LIBRARIAN'', ''LIBRARY_ASSISTANT'', ''RECEPTIONIST'')') ? 'navbar-employee' : 'navbar-default')}">
+                          (#authorization.expression('hasAnyRole(''LIBRARIAN'', ''LIBRARY_ASSISTANT'', ''RECEPTIONIST'', ''EMPLOYEE'')') ? 'navbar-employee' : 'navbar-default')}">
 
         <div class="container-fluid">
             <a class="navbar-brand" th:href="@{/v1/home}">
@@ -16,13 +16,13 @@
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/v1/home}">Painel Principal</a>
                     </li>
-                    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN', 'LIBRARY_ASSISTANT', 'RECEPTIONIST')">
+                    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN', 'LIBRARY_ASSISTANT', 'RECEPTIONIST', 'EMPLOYEE')">
                         <a class="nav-link" th:href="@{/v1/clients/report}">Clientes</a>
                     </li>
-                    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN', 'LIBRARY_ASSISTANT', 'RECEPTIONIST')">
+                    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN', 'LIBRARY_ASSISTANT', 'RECEPTIONIST', 'EMPLOYEE')">
                         <a class="nav-link" th:href="@{/v1/employees/report}">Funcionários</a>
                     </li>
-                    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN', 'LIBRARY_ASSISTANT', 'RECEPTIONIST')">
+                    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN', 'LIBRARY_ASSISTANT', 'RECEPTIONIST', 'EMPLOYEE', 'CLIENT')">
                         <a class="nav-link" th:href="@{/v1/books/reports}">Livros</a>
                     </li>
 

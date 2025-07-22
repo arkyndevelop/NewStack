@@ -77,6 +77,21 @@ public class ClientCrudView {
     }
 
     /**
+     * Processa a atualização do próprio perfil pelo cliente logado.
+     * Utiliza o DTO seguro 'ClientProfileUpdateRequest'.
+     */
+    @PostMapping("/profile/update")
+    public String handleProfileUpdate(@ModelAttribute ClientProfileUpdateRequest profileRequest, RedirectAttributes redirectAttributes) {
+        try {
+            clientService.updateAuthenticatedClientProfile(profileRequest);
+            redirectAttributes.addFlashAttribute("message", "Perfil atualizado com sucesso!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Erro ao atualizar perfil: " + e.getMessage());
+        }
+        return "redirect:/v1/clients/profile";
+    }
+
+    /**
      * Exibe a página de perfil de um cliente específico pelo ID (para uso administrativo).
      */
     @GetMapping("/profile/{id}")
@@ -112,20 +127,5 @@ public class ClientCrudView {
             redirectAttributes.addFlashAttribute("error", "Erro ao atualizar cliente: " + e.getMessage());
         }
         return "redirect:/v1/clients/report";
-    }
-
-    /**
-     * Processa a atualização do próprio perfil pelo cliente logado.
-     * Utiliza o DTO seguro 'ClientProfileUpdateRequest'.
-     */
-    @PostMapping("/profile/update")
-    public String handleProfileUpdate(@ModelAttribute ClientProfileUpdateRequest profileRequest, RedirectAttributes redirectAttributes) {
-        try {
-            clientService.updateAuthenticatedClientProfile(profileRequest);
-            redirectAttributes.addFlashAttribute("message", "Perfil atualizado com sucesso!");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Erro ao atualizar perfil: " + e.getMessage());
-        }
-        return "redirect:/v1/clients/profile";
     }
 }

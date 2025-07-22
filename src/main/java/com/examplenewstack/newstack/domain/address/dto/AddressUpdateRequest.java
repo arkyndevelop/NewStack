@@ -5,10 +5,10 @@ public record AddressUpdateRequest(
         String street,
         String number_house,
         String neighborhood,
-        String complement,
-        String cep,
         String city,
         String state,
-        String country
+        String country,
+        String complement,
+        String cep
 ) {
 }

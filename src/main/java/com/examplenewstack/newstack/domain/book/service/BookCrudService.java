@@ -4,6 +4,7 @@ import com.examplenewstack.newstack.domain.book.Book;
 import com.examplenewstack.newstack.domain.book.dto.BookRequest;
 import com.examplenewstack.newstack.domain.book.dto.BookResponse;
 import com.examplenewstack.newstack.domain.book.dto.BookResponseViewDetails;
+import com.examplenewstack.newstack.domain.book.dto.BookUpdateRequest;
 import com.examplenewstack.newstack.domain.book.exception.NoBooksFoundByISBNException;
 import com.examplenewstack.newstack.domain.book.exception.NoBooksFoundByIdException;
 import com.examplenewstack.newstack.domain.book.exception.NoBooksFoundException;
@@ -98,6 +99,23 @@ public class BookCrudService {
         return ResponseEntity
                 .ok(BookResponse.fromEntity(updateBook));
     }
+
+    public void updateBookByIdView(Integer id, BookUpdateRequest dto) {
+        Book existingBook = bookRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Livro não encontrado com o ID: " + id));
+
+        existingBook.setTitle(dto.title());
+        existingBook.setISBN(dto.ISBN());
+        existingBook.setCategory(dto.category());
+        existingBook.setYear_publication(dto.year_publication());
+        existingBook.setTotal_quantity(dto.total_quantity());
+        existingBook.setAuthor(dto.author());
+        existingBook.setDescription(dto.description());
+        existingBook.setPublisher(dto.publisher());
+
+        bookRepository.save(existingBook);
+    }
+
 
 
     //Função responsavel por deletar todos os livros

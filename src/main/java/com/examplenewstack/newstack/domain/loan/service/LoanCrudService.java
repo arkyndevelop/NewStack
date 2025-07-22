@@ -101,7 +101,6 @@ public class LoanCrudService {
 
     @Transactional(readOnly = true)
     public List<LoanResponse> reportAll() {
-        //Continua usando o método fromEntity, que já usa loan.getBookTitle()
         return repository.findAll().stream()
                 .map(LoanResponse::fromEntity)
                 .collect(Collectors.toList());
@@ -113,7 +112,7 @@ public class LoanCrudService {
         if (loans.isEmpty()) {
             throw new NoLoanFoundException("Nenhum empréstimo encontrado para este cliente.");
         }
-        //Continua usando fromEntity
+
         return loans.stream()
                 .map(LoanResponse::fromEntity)
                 .collect(Collectors.toList());

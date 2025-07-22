@@ -39,10 +39,16 @@
             background-color: #212529;
             border-radius: 0.5rem;
         }
-        /* Adicionado: Solução para o problema do dropdown */
+        /* Solução para o problema do dropdown */
         .btn-group {
             position: relative;
             z-index: 2; /* Garante que o dropdown fique acima do link */
+        }
+        /* Correção para o dropdown abrir para cima */
+        .dropup .dropdown-menu {
+            bottom: 100%;
+            top: auto;
+            margin-bottom: 0.125rem;
         }
     </style>
 </head>
@@ -71,7 +77,8 @@
                         <p class="card-text small" th:text="${book.author}">Autor</p>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mt-3">
-                        <div class="btn-group" sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN')">
+                        <!-- Alterado: Adicionada classe dropup -->
+                        <div class="btn-group dropup" sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN')">
                             <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
                                     th:id="'dropdownMenuButton' + ${book.id}" data-bs-toggle="dropdown"
                                     aria-expanded="false">

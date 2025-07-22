@@ -61,7 +61,7 @@
         <h1>Nosso Acervo</h1>
         <a href="/v1/books/register" class="btn btn-primary"
            th:if="${not #lists.isEmpty(bookList)}"
-           sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN', 'LIBRARY_ASSISTANT', 'RECEPTIONIST')">
+           sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN', 'LIBRARY_ASSISTANT', 'RECEPTIONIST', 'EMPLOYEE')">
             Adicionar Novo Livro
         </a>
     </div>
@@ -78,14 +78,14 @@
                     </div>
                     <div class="d-flex justify-content-between align-items-center mt-3">
                         <!-- Alterado: Adicionada classe dropup -->
-                        <div class="btn-group dropup" sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN')">
+                        <div class="btn-group dropup" sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN', 'EMPLOYEE')">
                             <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
                                     th:id="'dropdownMenuButton' + ${book.id}" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                 <i class="fas fa-ellipsis-v"></i>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-dark" th:aria-labelledby="'dropdownMenuButton' + ${book.id}">
-                                <li><a class="dropdown-item btn-edit" href="#" th:attr="data-book-id=${book.id}">Editar</a></li>
+                                <li><a class="dropdown-item btn-edit" th:href="@{/books/edit/{id}(id=${book.id})}">Editar</a></li>
                                 <li><a class="dropdown-item btn-delete" href="#" th:attr="data-book-id=${book.id}">Excluir</a></li>
                             </ul>
                         </div>
@@ -100,7 +100,7 @@
         <h2 class="display-5">O acervo está vazio!</h2>
         <p class="lead text-muted">Que tal adicionar o primeiro livro à nossa coleção?</p>
         <a href="/v1/books/register" class="btn btn-primary btn-lg mt-3"
-           sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN', 'LIBRARY_ASSISTANT', 'RECEPTIONIST')">
+           sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN', 'LIBRARY_ASSISTANT', 'RECEPTIONIST', 'EMPLOYEE')">
             <i class="fas fa-plus-circle me-2"></i>Cadastrar Novo Livro
         </a>
     </div>

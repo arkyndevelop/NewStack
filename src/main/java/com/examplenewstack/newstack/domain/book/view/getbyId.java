@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.domain.book.controller.view;
+package com.examplenewstack.newstack.domain.book.view;
 
 
 

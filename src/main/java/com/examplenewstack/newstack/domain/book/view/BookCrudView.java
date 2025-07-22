@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.domain.book.controller.view;
+package com.examplenewstack.newstack.domain.book.view;
 
 import com.examplenewstack.newstack.domain.book.Book;
 import com.examplenewstack.newstack.domain.book.dto.BookRequest;

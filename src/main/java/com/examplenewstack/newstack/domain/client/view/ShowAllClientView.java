@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.domain.client.controller.view;
+package com.examplenewstack.newstack.domain.client.view;
 
 import com.examplenewstack.newstack.domain.client.dto.ClientResponse;
 import com.examplenewstack.newstack.domain.client.service.ClientCrudService;

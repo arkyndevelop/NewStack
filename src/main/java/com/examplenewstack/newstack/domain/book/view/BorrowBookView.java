@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.domain.book.controller.view;
+package com.examplenewstack.newstack.domain.book.view;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;

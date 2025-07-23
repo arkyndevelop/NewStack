@@ -1,5 +1,6 @@
-package com.examplenewstack.newstack.domain.employee.controller.view;
+package com.examplenewstack.newstack.domain.employee.view;
 
+import com.examplenewstack.newstack.domain.client.exception.NoCustomersFoundByIdException;
 import com.examplenewstack.newstack.domain.employee.dto.EmployeeRequest;
 import com.examplenewstack.newstack.domain.employee.dto.EmployeeResponse;
 import com.examplenewstack.newstack.domain.employee.dto.EmployeeResponseProfileDetails;
@@ -74,6 +75,21 @@ public class EmployeeCrudView {
             redirectAttributes.addFlashAttribute("message", "Funcionário atualizado com sucesso!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Erro ao atualizar funcionário: " + e.getMessage());
+        }
+        return "redirect:/v1/employees/report";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String handleDeleteEmployee (@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+        try {
+            employeeService.deleteEmployeeById(id);
+            redirectAttributes.addFlashAttribute("message", "Colaborador excluído com sucesso!");
+        } catch (NoCustomersFoundByIdException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        } catch (IllegalStateException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Ocorreu um erro inesperado ao tentar excluir o cliente.");
         }
         return "redirect:/v1/employees/report";
     }

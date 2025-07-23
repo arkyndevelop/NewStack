@@ -58,7 +58,14 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" th:aria-labelledby="'dropdownMenuButton' + ${employee.id}">
                         <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{'/v1/employees/profile/' + ${employee.id}}"><i class="fas fa-user-circle me-2"></i>Perfil</a></li>
-                        <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" href="#"><i class="fas fa-trash me-2"></i>Excluir</a></li>
+                        <li sec:authorize="hasRole('ADMIN')">
+                            <form th:action="@{/v1/employees/delete/{id}(id=${employee.id})}" method="post" class="d-inline">
+                                <input type="hidden" name="_method" value="delete" />
+                                <button type="submit" class="dropdown-item" onclick="return confirm('Tem certeza que deseja excluir este colaborador?');">
+                                    <i class="fas fa-trash me-2"></i>Excluir
+                                </button>
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </td>

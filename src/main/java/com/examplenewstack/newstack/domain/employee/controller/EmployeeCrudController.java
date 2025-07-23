@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.domain.employee.controller.api;
+package com.examplenewstack.newstack.domain.employee.controller;
 
 import com.examplenewstack.newstack.domain.employee.dto.EmployeeRequest;
 import com.examplenewstack.newstack.domain.employee.Employee;
@@ -35,24 +35,4 @@ public class EmployeeCrudController {
     public ResponseEntity<?> reportsEmployeeById(@PathVariable int id){
         return ResponseEntity.ok().body(service.getEmployeeProfileById(id));
     }
-//
-//    @DeleteMapping("/update/{id}")
-//    public ResponseEntity<?> updateEmployee(@RequestBody @Valid EmployeeRequest request, @PathVariable int id) {
-//
-//        service.updateEmployee(request, id);
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    @DeleteMapping("/delete/all")
-//    public ResponseEntity<?> deleteAllEmployees() {
-//
-//        service.deleteAllEmployee();
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    @DeleteMapping("/deleteEmployee/{id}")
-//    public ResponseEntity<?> deleteByCPF(@PathVariable int id){
-//        service.deleteEmployeeById(id);
-//        return ResponseEntity.ok().build();
-//    }
 }

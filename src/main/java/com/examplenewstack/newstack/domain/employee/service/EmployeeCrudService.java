@@ -1,5 +1,7 @@
 package com.examplenewstack.newstack.domain.employee.service;
 
+import com.examplenewstack.newstack.domain.client.Client;
+import com.examplenewstack.newstack.domain.client.exception.NoCustomersFoundByIdException;
 import com.examplenewstack.newstack.domain.employee.Employee;
 import com.examplenewstack.newstack.domain.employee.dto.EmployeeRequest;
 import com.examplenewstack.newstack.domain.employee.dto.EmployeeResponse;
@@ -7,6 +9,8 @@ import com.examplenewstack.newstack.domain.employee.dto.EmployeeResponseProfileD
 import com.examplenewstack.newstack.domain.employee.exception.EmployeersRegisteredDataException;
 import com.examplenewstack.newstack.domain.employee.exception.NoEmployeersFoundByIdException;
 import com.examplenewstack.newstack.domain.employee.repository.EmployeeRepository;
+import com.examplenewstack.newstack.domain.loan.Loan;
+import com.examplenewstack.newstack.domain.loan.repository.LoanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,11 +24,13 @@ public class EmployeeCrudService {
 
     private final EmployeeRepository employeeRepository;
     private final PasswordEncoder passwordEncoder;
+    private final LoanRepository loanRepository;
 
     @Autowired
-    public EmployeeCrudService(EmployeeRepository employeeRepository, PasswordEncoder passwordEncoder) {
+    public EmployeeCrudService(EmployeeRepository employeeRepository, PasswordEncoder passwordEncoder, LoanRepository loanRepository) {
         this.employeeRepository = employeeRepository;
         this.passwordEncoder = passwordEncoder;
+        this.loanRepository = loanRepository;
     }
 
     @Transactional
@@ -77,5 +83,18 @@ public class EmployeeCrudService {
         }
 
         employeeRepository.save(employee);
+    }
+
+    @Transactional
+    public void deleteEmployeeById(int id) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new NoCustomersFoundByIdException("Colaborador com ID " + id + " não encontrado."));
+
+        List<Loan> activeLoans = loanRepository.findActiveLoansByClientId(id);
+        if (!activeLoans.isEmpty()) {
+            throw new IllegalStateException("Não é possível excluir um cliente com empréstimos ativos. Por favor, verifique as devoluções.");
+        }
+
+        employeeRepository.delete(employee);
     }
 }

@@ -29,7 +29,7 @@
 <main class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Relatório de Clientes</h1>
-        <a th:href="@{/v1/clients/register}" class="btn btn-primary" sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN', 'LIBRARY_ASSISTANT', 'RECEPTIONIST')">
+        <a th:href="@{/v1/clients/register}" class="btn btn-primary" sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN', 'LIBRARY_ASSISTANT', 'RECEPTIONIST', 'EMPLOYEE')">
             <i class="fas fa-plus"></i> Registrar Novo Cliente
         </a>
     </div>
@@ -61,7 +61,14 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" th:aria-labelledby="'dropdownMenuButton' + ${client.id}">
                         <li><a class="dropdown-item" th:href="@{'/v1/clients/profile/' + ${client.id}}"><i class="fas fa-user-circle me-2"></i>Perfil</a></li>
-                        <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{'/v1/clients/delete/' + ${client.id}}"><i class="fas fa-trash me-2"></i>Excluir</a></li>
+                        <li sec:authorize="hasRole('ADMIN')">
+                            <form th:action="@{/v1/clients/delete/{id}(id=${client.id})}" method="post" class="d-inline">
+                                <input type="hidden" name="_method" value="delete" />
+                                <button type="submit" class="dropdown-item" onclick="return confirm('Tem certeza que deseja excluir este cliente?');">
+                                    <i class="fas fa-trash me-2"></i>Excluir
+                                </button>
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </td>

@@ -11,6 +11,8 @@ import com.examplenewstack.newstack.domain.client.exception.ClientsRegisteredDat
 import com.examplenewstack.newstack.domain.client.exception.CustomersRegisteredDataException;
 import com.examplenewstack.newstack.domain.client.exception.NoCustomersFoundByIdException;
 import com.examplenewstack.newstack.domain.client.repository.ClientRepository;
+import com.examplenewstack.newstack.domain.loan.Loan;
+import com.examplenewstack.newstack.domain.loan.repository.LoanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,11 +30,13 @@ public class ClientCrudService {
     private final ClientRepository clientRepository;
     private final PasswordEncoder passwordEncoder;
     private final AddressRepository addressRepository;
+    private final LoanRepository loanRepository;
 
-    public ClientCrudService(ClientRepository clientRepository, PasswordEncoder passwordEncoder, AddressRepository addressRepository) {
+    public ClientCrudService(ClientRepository clientRepository, PasswordEncoder passwordEncoder, AddressRepository addressRepository, LoanRepository loanRepository) {
         this.clientRepository = clientRepository;
         this.passwordEncoder = passwordEncoder;
         this.addressRepository = addressRepository;
+        this.loanRepository = loanRepository;
     }
 
     public Client registerClient(ClientRequest request){
@@ -54,9 +58,6 @@ public class ClientCrudService {
         return clientRepository.save(newClient);
     }
 
-    /**
-     * Retorna uma lista simplificada de todos os clientes para uso administrativo.
-     */
     @Transactional(readOnly = true)
     public List<ClientResponse> findAllClients() {
         return clientRepository.findAll().stream()
@@ -64,19 +65,12 @@ public class ClientCrudService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Busca os detalhes completos do perfil de um cliente pelo ID. (Uso administrativo)
-     */
     @Transactional(readOnly = true)
     public ClientResponseProfileDetails getClientProfileById(int id) {
         Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new NoCustomersFoundByIdException());
         return ClientResponseProfileDetails.fromEntity(client);
     }
-
-    /**
-     * Busca os detalhes completos do perfil do cliente autenticado.
-     */
 
     public ClientResponseProfileDetails getAuthenticatedClientProfile() {
         // Pega o objeto do usuário logado no contexto de segurança.
@@ -85,13 +79,10 @@ public class ClientCrudService {
             throw new IllegalStateException("O usuário autenticado não é um cliente válido.");
         }
 
-        // Usa o método de fábrica corrigido para criar o DTO com o ID.
+        // Usa o metodo de fábrica corrigido para criar o DTO com o ID.
         return ClientResponseProfileDetails.fromEntity(client);
     }
 
-    /**
-     * Atualiza os dados de um cliente com base em um ID, usando um DTO completo. (Uso administrativo)
-     */
     @Transactional
     public void updateClientByAdmin(int id, ClientRequest clientRequest) {
         Client client = clientRepository.findById(id)
@@ -103,10 +94,6 @@ public class ClientCrudService {
         clientRepository.save(client);
     }
 
-    /**
-     * Atualiza os dados do perfil do cliente autenticado.
-     * Utiliza o ClientProfileUpdateRequest, que contém dados de endereço.
-     */
     @Transactional
     public void updateAuthenticatedClientProfile(ClientProfileUpdateRequest profileRequest) {
         Client client = getAuthenticatedClient();
@@ -120,7 +107,7 @@ public class ClientCrudService {
             Address address = client.getAddress();
 
             if (address == null) {
-                // ✅ Novo endereço: criar e salvar antes de associar ao cliente
+                // Novo endereço: criar e salvar antes de associar ao cliente
                 address = new Address();
                 address.setStreet(addressRequest.street());
                 address.setNumber_house(addressRequest.number_house());
@@ -149,9 +136,7 @@ public class ClientCrudService {
         clientRepository.save(client);
     }
 
-
     // --- MÉTODOS PRIVADOS AUXILIARES ---
-
     private Client getAuthenticatedClient() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated() || !(authentication.getPrincipal() instanceof Client)) {
@@ -160,10 +145,6 @@ public class ClientCrudService {
         return (Client) authentication.getPrincipal();
     }
 
-    /**
-     * CORRIGIDO: Metodo auxiliar para atualizar a entidade Client a partir do DTO de admin (ClientRequest).
-     * Este DTO não contém informações de endereço.
-     */
     private void updateClientDataFromAdmin(Client client, ClientRequest request) {
         client.setName(request.name());
         client.setTelephone(request.telephone());
@@ -171,14 +152,10 @@ public class ClientCrudService {
         // A lógica de atualização de endereço foi REMOVIDA daqui, pois o DTO não a suporta.
     }
 
-    /**
-     * Metodo auxiliar para atualizar a entidade Client a partir do DTO de perfil do usuário (ClientProfileUpdateRequest).
-     */
     private void updateClientDataFromProfile(Client client, ClientProfileUpdateRequest request) {
         client.setName(request.name());
         client.setTelephone(request.telephone());
 
-        // A lógica de endereço permanece aqui, pois este DTO contém os dados necessários.
         if (request.address() != null) {
             Address address = client.getAddress();
             if (address == null) {
@@ -195,5 +172,22 @@ public class ClientCrudService {
             address.setComplement(addressRequest.complement());
             address.setCountry(addressRequest.country());
         }
+    }
+
+    @Transactional
+    public void deleteClientById(int id) {
+        // 1. Busca o cliente ou lança uma exceção se não for encontrado.
+        Client client = clientRepository.findById(id)
+                .orElseThrow(() -> new NoCustomersFoundByIdException("Cliente com ID " + id + " não encontrado."));
+
+        // 2. Regra de Negócio: Verifica se o cliente possui empréstimos ativos.
+        List<Loan> activeLoans = loanRepository.findActiveLoansByClientId(id);
+        if (!activeLoans.isEmpty()) {
+            throw new IllegalStateException("Não é possível excluir um cliente com empréstimos ativos. Por favor, verifique as devoluções.");
+        }
+
+        // 3. Se todas as verificações passarem, o cliente é excluído.
+        // Graças ao CascadeType.ALL nas entidades, o endereço e os empréstimos (se houver) serão removidos junto.
+        clientRepository.delete(client);
     }
 }

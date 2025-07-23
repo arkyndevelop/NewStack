@@ -1,6 +1,7 @@
-package com.examplenewstack.newstack.domain.client.controller.api;
+package com.examplenewstack.newstack.domain.client.controller;
 
 import com.examplenewstack.newstack.domain.client.dto.ClientRequest;
+import com.examplenewstack.newstack.domain.client.exception.NoCustomersFoundByIdException;
 import com.examplenewstack.newstack.domain.client.service.ClientCrudService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -9,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Collection;
 import java.util.Map;
@@ -49,32 +51,7 @@ public class ClientCrudController {
 
     @GetMapping("/reports/all")
     public ResponseEntity<?> reportsAllClientsController(){
-        return ResponseEntity.ok().body(clientCrudService.findAllClients());
+        clientCrudService.findAllClients();
+        return ResponseEntity.ok().build();
     }
-
-//    @GetMapping("/reportsBy/{id}")
-//    public ResponseEntity<?> reportsClientByIdController(@PathVariable int id){
-//        return ResponseEntity.ok().body(clientCrudService.showClientById(id));
-//    }
-//
-//    @PutMapping("/update/{id}")
-//    public ResponseEntity<?> updateClientController(@RequestBody ClientRequest clientRequest, @PathVariable int id) {
-//
-//        clientCrudService.updateClient(clientRequest, id);
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    @DeleteMapping("/delete/all")
-//    public ResponseEntity<?> deleteAllClientsController(){
-//
-//        clientCrudService.deleteAllClients();
-//        return ResponseEntity.ok().build();
-//
-//
-//    }
-
-//    @DeleteMapping("/delete/{id}")
-//    public ResponseEntity<?> deleteByIdController(@PathVariable int id) {
-//        return ResponseEntity.ok().body(clientCrudService.deleteByIdService(id));
-//    }
 }

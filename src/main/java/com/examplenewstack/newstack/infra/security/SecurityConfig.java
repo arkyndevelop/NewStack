@@ -50,15 +50,12 @@ public class SecurityConfig {
                         // Regras de acesso para administradores
                         .requestMatchers(
                                 "/v1/home/admin",
-                                "/admin/**",
                                 "/v1/admins/register"
                         ).hasRole("ADMIN")
 
                         // Regras de acesso para clientes
                         .requestMatchers(
-                                "/v1/home/client",
-                                "/v1/clients/profile",
-                                "/v1/clients/profile/update"
+                                "/v1/home/client"
                                 //"/v1/loans/register"
                         ).hasRole("CLIENT")
 
@@ -70,7 +67,6 @@ public class SecurityConfig {
 
                         // Regra para Admin gerenciar livros, clientes e funcionários
                         .requestMatchers(
-                                "/v1/clients/**",
                                 "/v1/employees/**",
                                 "/books/edit/**"
                         ).hasAnyRole("ADMIN", "LIBRARIAN", "LIBRARY_ASSISTANT", "RECEPTIONIST", "EMPLOYEE")
@@ -79,6 +75,7 @@ public class SecurityConfig {
                         // na regra de negócio, a filtragem para acessar funcionalidades dependendo da ROLE!
                         .requestMatchers(
                                 "/v1/clients/profile",
+                                "/v1/clients/profile/update",
                                 "/v1/loans/**",
                                 "/v1/books/reports"
                         ).hasAnyRole("CLIENT", "ADMIN", "LIBRARIAN", "LIBRARY_ASSISTANT", "RECEPTIONIST", "EMPLOYEE")

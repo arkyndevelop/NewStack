@@ -84,12 +84,31 @@ public class ClientCrudService {
     }
 
     @Transactional
-    public void updateClientByAdmin(int id, ClientRequest clientRequest) {
+    public void updateClientByAdmin(int id, ClientProfileUpdateRequest profileRequest) {
         Client client = clientRepository.findById(id)
-                .orElseThrow(() -> new NoCustomersFoundByIdException());
+                .orElseThrow(() -> new NoCustomersFoundByIdException("Cliente com ID " + id + " não encontrado."));
 
-        // CORREÇÃO: Chama o metodo auxiliar correto para o DTO de admin
-        updateClientDataFromAdmin(client, clientRequest);
+        // Atualiza os dados do cliente com as informações do formulário
+        client.setName(profileRequest.name());
+        client.setTelephone(profileRequest.telephone());
+
+        // Lógica para atualizar o endereço
+        if (profileRequest.address() != null) {
+            var addressRequest = profileRequest.address();
+            Address address = client.getAddress();
+            if (address == null) {
+                address = new Address();
+                client.setAddress(address);
+            }
+            address.setStreet(addressRequest.street());
+            address.setNumber_house(addressRequest.number_house());
+            address.setNeighborhood(addressRequest.neighborhood());
+            address.setCep(addressRequest.cep());
+            address.setCity(addressRequest.city());
+            address.setState(addressRequest.state());
+            address.setComplement(addressRequest.complement());
+            address.setCountry(addressRequest.country());
+        }
 
         clientRepository.save(client);
     }

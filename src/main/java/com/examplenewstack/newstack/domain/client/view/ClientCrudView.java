@@ -104,18 +104,19 @@ public class ClientCrudView {
 
 
      // Processa a atualização de um cliente feita por um administrador.
-    @PostMapping("/edit/{id}")
-    public String handleAdminUpdate(@PathVariable("id") int id,
-                                    @ModelAttribute ClientRequest clientRequest,
-                                    RedirectAttributes redirectAttributes) {
-        try {
-            clientService.updateClientByAdmin(id, clientRequest);
-            redirectAttributes.addFlashAttribute("message", "Cliente atualizado com sucesso!");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Erro ao atualizar cliente: " + e.getMessage());
-        }
-        return "redirect:/v1/clients/report";
-    }
+     @PostMapping("/edit/{id}")
+     public String handleAdminUpdate(@PathVariable("id") int id,
+                                     @ModelAttribute ClientProfileUpdateRequest profileRequest,
+                                     RedirectAttributes redirectAttributes) {
+         try {
+             // Agora chamamos o novo metodo de serviço
+             clientService.updateClientByAdmin(id, profileRequest);
+             redirectAttributes.addFlashAttribute("message", "Cliente atualizado com sucesso!");
+         } catch (Exception e) {
+             redirectAttributes.addFlashAttribute("error", "Erro ao atualizar cliente: " + e.getMessage());
+         }
+         return "redirect:/v1/clients/report";
+     }
 
     @PostMapping("/delete/{id}") // Ou @DeleteMapping, ambos funcionam com o filtro
     public String handleDeleteClient(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {

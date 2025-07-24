@@ -50,6 +50,8 @@ public class EmployeeCrudService {
         newEmployee.setTypeEmployee(request.typeEmployee());
         newEmployee.setPassword(passwordEncoder.encode(request.password()));
 
+        newEmployee.setRole(request.typeEmployee().name());
+
         return employeeRepository.save(newEmployee);
     }
 

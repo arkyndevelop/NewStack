@@ -60,24 +60,6 @@
     <div class="row align-items-md-stretch">
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="feature-card">
-                <div class="icon-container icon-books"><i class="fas fa-book-bookmark"></i></div>
-                <h2>Gerenciar Acervo</h2>
-                <p>Consulte, edite e organize o catálogo de livros.</p>
-                <a class="btn btn-success mt-auto" th:href="@{/v1/books/reports}">Ver Livros</a>
-            </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="feature-card">
-                <div class="icon-container icon-add-book"><i class="fas fa-plus-circle"></i></div>
-                <h2>Adicionar Novo Livro</h2>
-                <p>Cadastre novos títulos no acervo da biblioteca.</p>
-                <a class="btn btn-primary mt-auto" th:href="@{/v1/books/register}">Cadastrar Livro</a>
-            </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="feature-card">
                 <div class="icon-container icon-users"><i class="fas fa-users"></i></div>
                 <h2>Consultar Clientes</h2>
                 <p>Visualize as informações dos clientes cadastrados.</p>
@@ -87,10 +69,28 @@
 
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="feature-card">
+                <div class="icon-container icon-employees"><i class="fas fa-user-tie"></i></div>
+                <h2>Gerenciar Funcionários</h2>
+                <p>Controle os perfis e permissões da sua equipe.</p>
+                <a class="btn btn-success mt-auto" th:href="@{/v1/employees/report}">Ver Funcionários</a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="feature-card">
+                <div class="icon-container icon-books"><i class="fas fa-book-bookmark"></i></div>
+                <h2>Gerenciar Acervo</h2>
+                <p>Consulte, edite e organize o catálogo de livros.</p>
+                <a class="btn btn-success mt-auto" th:href="@{/v1/books/reports}">Ver Livros</a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="feature-card">
                 <div class="icon-container icon-loans"><i class="fas fa-handshake"></i></div>
                 <h2>Gerenciar Empréstimos</h2>
-                <p>Controle as reservas e devoluções de livros (Em breve).</p>
-                <a class="btn btn-warning mt-auto" href="#" disabled>Ver Empréstimos</a>
+                <p>Controle as reservas e devoluções de livros.</p>
+                <a class="btn btn-warning mt-auto" th:href="@{/v1/loans/reports}">Ver Empréstimos</a>
             </div>
         </div>
     </div>

@@ -44,7 +44,6 @@ public class NotificationConsumer {
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <style>
-                /* Estilos para clientes de email que suportam <style> */
                 body { margin: 0; padding: 0; font-family: Arial, sans-serif; }
                 .container { width: 100%%; max-width: 600px; }
                 @media screen and (max-width: 600px) {
@@ -174,6 +173,59 @@ public class NotificationConsumer {
                     notification.statusLoan().name(),
                     java.time.Year.now().getValue());
 
+        } else if (notification.statusLoan() == StatusLoan.DEVOLVIDO) {
+            subject = "Devolução Confirmada! | Biblioteca NewStack";
+            htmlContent = String.format("""
+        <!DOCTYPE html>
+        <html lang="pt-BR">
+        <head>
+            <meta charset="UTF-8">
+        </head>
+        <body style="margin: 0; padding: 0; background-color: #f4f7f6; font-family: Arial, sans-serif;">
+            <table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 100%%; max-width: 600px; border-collapse: collapse;">
+                <tr>
+                    <td align="center" style="background-color: #2c3e50; padding: 20px 0;">
+                        <h1 style="color: #ffffff; margin: 0;">Biblioteca NewStack</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td bgcolor="#ffffff" style="padding: 40px 30px;">
+                        <h2 style="color: #27ae60;">Devolução Confirmada!</h2>
+                        <p style="color: #555555; font-size: 16px; line-height: 1.5;">
+                            Olá, %s!
+                        </p>
+                        <p style="color: #555555; font-size: 16px; line-height: 1.5;">
+                            Confirmamos o recebimento do livro e a finalização do seu empréstimo. Obrigado!
+                        </p>
+                        <table border="0" cellpadding="10" cellspacing="0" style="width: 100%%; background-color: #ecf0f1; border-left: 4px solid #27ae60; margin-top: 20px; margin-bottom: 20px;">
+                            <tr>
+                                <td style="color: #333;">
+                                    <strong>Livro:</strong><br>
+                                    <span style="font-size: 18px;">%s</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="color: #333;">
+                                    <strong>Status:</strong><br>
+                                    <span style="font-size: 18px; color: #27ae60; font-weight: bold;">%s</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" style="background-color: #34495e; padding: 20px; color: #bdc3c7; font-size: 12px;">
+                        © %d Biblioteca NewStack. Todos os direitos reservados.
+                    </td>
+                </tr>
+            </table>
+        </body>
+        </html>
+        """,
+                    notification.clientName(),
+                    notification.bookTitle(),
+                    notification.statusLoan().name(),
+                    java.time.Year.now().getValue());
         }
 
         if (htmlContent != null) {

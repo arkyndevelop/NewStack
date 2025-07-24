@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -115,5 +116,16 @@ public class LoanCrudView {
             redirectAttributes.addFlashAttribute("errorMessage", "Erro ao registrar empréstimo: " + e.getMessage());
             return "redirect:/v1/loans/register";
         }
+    }
+
+    @PostMapping("/return/{id}")
+    public String returnLoan(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+        try {
+            loanService.confirmReturn(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Devolução do livro confirmada com sucesso!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao confirmar a devolução: " + e.getMessage());
+        }
+        return "redirect:/v1/loans/reports";
     }
 }

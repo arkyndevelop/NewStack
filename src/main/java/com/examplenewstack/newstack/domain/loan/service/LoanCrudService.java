@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -130,5 +131,37 @@ public class LoanCrudService {
         }
 
         repository.delete(loanToDelete);
+    }
+
+    @Transactional
+    public void confirmReturn(int loanId) {
+        Loan loan = repository.findById(loanId)
+                .orElseThrow(() -> new EntityNotFoundException("Empréstimo com ID " + loanId + " não encontrado."));
+
+        // Altera o status e data de devolução
+        loan.setStatus(StatusLoan.DEVOLVIDO);
+        loan.setActualReturnDate(LocalDateTime.now());
+
+        // Devolve o livro ao estoque
+        Book book = loan.getBook();
+        if (book != null) {
+            book.setDisponibility_quantity(book.getDisponibility_quantity() + 1);
+            bookRepository.save(book);
+        }
+
+        repository.save(loan);
+
+        // Prepara e envia a notificação para a fila
+        LoanNotificationDTO notificationDTO = new LoanNotificationDTO(
+                loan.getClient().getName(),
+                loan.getClient().getEmail(),
+                loan.getBookTitle(),
+                loan.getStatus(),
+                loan.getLoanDate(),
+                loan.getExpectedReturnDate()
+        );
+
+        String routingKey = "loan.status." + loan.getStatus().name().toLowerCase();
+        rabbitTemplate.convertAndSend(RabbitMQConfig.LOAN_EXCHANGE_NAME, routingKey, notificationDTO);
     }
 }

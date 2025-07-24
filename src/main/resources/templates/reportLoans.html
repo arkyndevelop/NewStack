@@ -47,7 +47,6 @@
           </thead>
           <tbody>
           <tr th:each="loan : ${loanList}">
-            <!-- Agora usamos diretamente loan.bookTitle que vem do DTO -->
             <td class="ps-3 fw-semibold" th:text="${loan.bookTitle}"></td>
             <td th:if="${viewType != 'client'}" th:text="${loan.clientName}"></td>
             <td th:text="${#temporals.format(loan.loanDate, 'dd/MM/yyyy')}"></td>
@@ -60,6 +59,14 @@
               </span>
             </td>
             <td class="text-center">
+              <form th:if="${viewType != 'client' and loan.status != 'DEVOLVIDO'}"
+                    th:action="@{/v1/loans/return/{id}(id=${loan.id})}"
+                    method="post" class="d-inline">
+                <button type="submit" class="btn btn-success btn-sm">
+                  Confirmar Devolução
+                </button>
+              </form>
+
               <button class="btn btn-danger btn-sm delete-loan-btn"
                       th:data-loan-id="${loan.id}">
                 Excluir

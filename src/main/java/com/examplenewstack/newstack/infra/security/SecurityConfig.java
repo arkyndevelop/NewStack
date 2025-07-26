@@ -56,7 +56,6 @@ public class SecurityConfig {
                         // Regras de acesso para clientes
                         .requestMatchers(
                                 "/v1/home/client"
-                                //"/v1/loans/register"
                         ).hasRole("CLIENT")
 
                         // Regras de acesso para funcionários
@@ -68,7 +67,7 @@ public class SecurityConfig {
                         // Regra para Admin gerenciar livros, clientes e funcionários
                         .requestMatchers(
                                 "/v1/employees/**",
-                                "/books/edit/**"
+                                "/books/**"
                         ).hasAnyRole("ADMIN", "LIBRARIAN", "LIBRARY_ASSISTANT", "RECEPTIONIST", "EMPLOYEE")
 
                         // Regra de acesso para que todos possam acessar essas páginas, porém é feito,

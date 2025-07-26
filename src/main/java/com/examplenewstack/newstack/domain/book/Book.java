@@ -40,7 +40,7 @@
         @Column(nullable = false, length = 100)
         private String category;
 
-        @Column(nullable = false,length = 1000)
+        @Lob @Column(columnDefinition = "LONGTEXT",nullable = false,length = 1000)
         private String description;
 
         @Column(nullable = false,length = 255)

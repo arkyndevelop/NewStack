@@ -34,11 +34,28 @@
         </a>
     </div>
 
+    <!-- Campo de pesquisa -->
+    <div class="mb-3">
+        <input id="searchInput" type="text" class="form-control" placeholder="Pesquisar cliente por nome">
+    </div>
+
     <table class="table table-striped table-dark" th:if="${not #lists.isEmpty(clientList)}">
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Nome</th>
+            <th scope="col">
+                Nome
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Ordenar
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                        <li><a class="dropdown-item sort-option" href="#" data-sort="title-asc">A-Z</a></li>
+                        <li><a class="dropdown-item sort-option" href="#" data-sort="title-desc">Z-A</a></li>
+                        <li><a class="dropdown-item sort-option" href="#" data-sort="default">Padrão</a></li>
+                    </ul>
+                </div>
+            </th>
             <th scope="col">CPF</th>
             <th scope="col">Email</th>
             <th scope="col">Telefone</th>
@@ -89,34 +106,65 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script th:inline="javascript">
-    document.addEventListener("DOMContentLoaded", function() {
-        // Seleciona todos os links dentro dos menus dropdown de ações
-        const actionLinks = document.querySelectorAll('.dropdown-menu a.dropdown-item');
+    document.addEventListener('DOMContentLoaded', () => {
+        const container = document.querySelector('tbody');
+        const sortOptions = document.querySelectorAll('.sort-option');
+        const searchInput = document.getElementById('searchInput');
+        let currentSort = 'default';
 
-        actionLinks.forEach(link => {
-            link.addEventListener('click', function(event) {
-                // Previne a navegação imediata
-                event.preventDefault();
+        let originalOrder = [];
+        if (container) {
+            originalOrder = Array.from(container.children);
+        }
 
-                // Pega o token do localStorage
-                const token = localStorage.getItem('jwt_token');
+        function sortRows(sortType) {
+            if (!container) return;
 
-                // Pega a URL original do link
-                const originalUrl = this.href;
+            const rows = Array.from(container.children);
 
-                if (token) {
-                    // Adiciona o token como um parâmetro de busca na URL
-                    const urlWithToken = new URL(originalUrl);
-                    urlWithToken.searchParams.append('token', token);
+            switch(sortType) {
+                case 'title-asc':
+                    rows.sort((a, b) => {
+                        const nameA = a.children[1].textContent.trim().toLowerCase();
+                        const nameB = b.children[1].textContent.trim().toLowerCase();
+                        return nameA.localeCompare(nameB);
+                    });
+                    break;
 
-                    // Redireciona o navegador para a nova URL com o token
-                    window.location.href = urlWithToken.toString();
-                } else {
-                    // Se não houver token, redireciona para a página de login
-                    window.location.href = /*[[@{/v1/login}]]*/ '/v1/login';
-                }
+                case 'title-desc':
+                    rows.sort((a, b) => {
+                        const nameA = a.children[1].textContent.trim().toLowerCase();
+                        const nameB = b.children[1].textContent.trim().toLowerCase();
+                        return nameB.localeCompare(nameA);
+                    });
+                    break;
+
+                default:
+                    rows.sort((a, b) => originalOrder.indexOf(a) - originalOrder.indexOf(b));
+            }
+
+            container.innerHTML = '';
+            rows.forEach(row => container.appendChild(row));
+        }
+
+        sortOptions.forEach(option => {
+            option.addEventListener('click', function(e) {
+                e.preventDefault();
+                currentSort = this.getAttribute('data-sort');
+                sortRows(currentSort);
             });
         });
+
+        if (searchInput) {
+            searchInput.addEventListener('keyup', function() {
+                const filter = searchInput.value.toLowerCase();
+                const rows = container.querySelectorAll('tr');
+                rows.forEach(row => {
+                    const name = row.children[1].textContent.toLowerCase();
+                    row.style.display = name.includes(filter) ? '' : 'none';
+                });
+            });
+        }
     });
 </script>
 

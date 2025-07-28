@@ -12,8 +12,6 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-
-
 //Getters and Setters, Constructor and NoArgsConstructor
 @Getter
 @Setter

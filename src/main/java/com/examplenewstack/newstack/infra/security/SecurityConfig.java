@@ -67,7 +67,8 @@ public class SecurityConfig {
                         // Regra para Admin gerenciar livros, clientes e funcionários
                         .requestMatchers(
                                 "/v1/employees/**",
-                                "/books/**"
+                                "/v1/books/register",
+                                "/books/edit-book/**"
                         ).hasAnyRole("ADMIN", "LIBRARIAN", "LIBRARY_ASSISTANT", "RECEPTIONIST", "EMPLOYEE")
 
                         // Regra de acesso para que todos possam acessar essas páginas, porém é feito,
@@ -76,7 +77,9 @@ public class SecurityConfig {
                                 "/v1/clients/profile",
                                 "/v1/clients/profile/update",
                                 "/v1/loans/**",
-                                "/v1/books/reports"
+                                "/v1/books/reports",
+                                "/books/details/**"
+
                         ).hasAnyRole("CLIENT", "ADMIN", "LIBRARIAN", "LIBRARY_ASSISTANT", "RECEPTIONIST", "EMPLOYEE")
 
                         // Permite acesso ao Swagger, somente em ambientes de teste!

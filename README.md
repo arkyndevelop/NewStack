@@ -58,7 +58,7 @@ Para executar o projeto em seu ambiente local, siga os passos abaixo.
 
 1.  **Clone o repositório:**
     ```bash
-    git clone [https://github.com/SEU-USUARIO/newstack.git](https://github.com/arkyndevelop/newstack.git)
+    git clone [https://github.com/arkyndevelop/newstack.git](https://github.com/arkyndevelop/newstack.git)
     cd newstack
     ```
 

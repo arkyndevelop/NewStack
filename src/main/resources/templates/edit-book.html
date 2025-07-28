@@ -65,7 +65,7 @@
 <header th:insert="~{fragments/header :: header}"></header>
 
 <div class="container-fluid main-container my-5">
-  <form id="editLivroForm" th:action="@{'/books/' + '/edit'  + ${book.id}}" th:object="${book}" method="post">
+  <form id="editLivroForm" th:action="@{/books/edit-book/{id}(id=${book.id})}" th:object="${book}" method="post">
     <div class="row g-4">
       <div class="col-12">
         <div class="card">

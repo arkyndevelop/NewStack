@@ -1,4 +1,4 @@
-package com.examplenewstack.newstack.domain.book.controller.api;
+package com.examplenewstack.newstack.domain.book.controller;
 
 import com.examplenewstack.newstack.domain.book.Book;
 import com.examplenewstack.newstack.domain.book.dto.BookRequest;

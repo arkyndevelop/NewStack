@@ -31,7 +31,7 @@ public class UpdateBookByID {
 
 
     // POST: Atualiza o livro e redireciona para a listagem (/v1/books/reports)
-    @PostMapping("/edit/{id}")
+    @PostMapping("/edit-book/{id}")
     public String updateBook(
             @PathVariable Integer id,
             @Valid BookUpdateRequest request

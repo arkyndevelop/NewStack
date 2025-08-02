@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre o Portal - NewStack</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link th:href="@{/CSS/navBar.css}" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            padding-top: 70px;
+        }
+        .about-header {
+            background-color: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            padding: 3rem 2rem 2rem 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .about-header h1 {
+            color: #0d6efd;
+            font-weight: 700;
+        }
+        .about-section {
+            background: #fff;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .about-section h2 {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .about-section ul {
+            padding-left: 1.2rem;
+        }
+        .team-list {
+            list-style: none;
+            padding: 0;
+        }
+        .team-list li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+<header th:insert="~{fragments/header :: header}"></header>
+<main class="container my-5">
+    <div class="about-header">
+        <h1><i class="fas fa-info-circle"></i> Sobre o Portal NewStack</h1>
+        <p class="lead mt-3">Conheça mais sobre o projeto, sua missão e quem está por trás desta iniciativa.</p>
+    </div>
+    <div class="about-section">
+        <h2>O que é o NewStack?</h2>
+        <p>O NewStack é um portal inovador para gestão de bibliotecas, desenvolvido para facilitar o acesso, empréstimo e administração de acervos literários. Nosso objetivo é proporcionar uma experiência moderna, intuitiva e eficiente para clientes, funcionários e administradores.</p>
+    </div>
+    <div class="about-section">
+        <h2>Missão</h2>
+        <p>Democratizar o acesso à leitura e à informação, promovendo a organização e a modernização das bibliotecas por meio da tecnologia.</p>
+    </div>
+    <div class="about-section">
+        <h2>Visão</h2>
+        <p>Ser referência nacional em soluções digitais para bibliotecas, incentivando a cultura e o conhecimento.</p>
+    </div>
+    <div class="about-section">
+        <h2>Valores</h2>
+        <ul>
+            <li>Inovação</li>
+            <li>Compromisso com o usuário</li>
+            <li>Transparência</li>
+            <li>Inclusão</li>
+            <li>Paixão por livros e conhecimento</li>
+        </ul>
+    </div>
+    <div class="about-section">
+        <h2>Equipe</h2>
+        <p><strong>Instrutor Responsável:</strong> Djalma Junior</p>
+        <ul class="team-list">
+            <li><strong>Anderson</strong> – Desenvolvedor Front-End</li>
+            <li><strong>Bernado Sales</strong> – Banco de Dados</li>
+            <li><strong>Gabriel Quintela</strong> – Desenvolvedor Back-End</li>
+            <li><strong>Othon Braga</strong> – Banco de Dados</li>
+            <li><strong>Victor Maximiano</strong> – Desenvolvedor Back-End / Scrum Master</li>
+        </ul>
+    </div>
+    <div class="about-section">
+      <h2>Ferramentas e Tecnologias Utilizadas</h2>
+      <ul>
+        <li><strong>Java</strong>: Linguagem principal utilizada no desenvolvimento do back-end.</li>
+        <li><strong>Spring Boot</strong>: Framework que facilita a criação de APIs REST, configuração e integração de componentes.</li>
+        <li><strong>Spring Security</strong>: Responsável pela autenticação, autorização e segurança das rotas, incluindo uso de JWT.</li>
+        <li><strong>Spring Data JPA & Hibernate</strong>: Para persistência e gerenciamento de dados em bancos relacionais.</li>
+        <li><strong>Jakarta Persistence & Validation</strong>: Anotações para entidades e validação de dados.</li>
+        <li><strong>RabbitMQ & Spring AMQP</strong>: Mensageria assíncrona para notificações e eventos do sistema.</li>
+        <li><strong>JavaMail (Spring Mail)</strong>: Envio de e-mails automáticos para notificações.</li>
+        <li><strong>Swagger/OpenAPI</strong>: Documentação automática e interativa da API.</li>
+        <li><strong>Lombok</strong>: Redução de código repetitivo em entidades e DTOs.</li>
+        <li><strong>Google Books API</strong>: Integração para busca de livros externos.</li>
+        <li><strong>Thymeleaf</strong>: Motor de templates para renderização dinâmica das páginas HTML.</li>
+        <li><strong>Bootstrap</strong>: Framework CSS para design responsivo e moderno.</li>
+        <li><strong>Font Awesome</strong>: Biblioteca de ícones para enriquecer a interface.</li>
+        <li><strong>Maven</strong>: Gerenciador de dependências e build do projeto.</li>
+      </ul>
+    </div>
+    <div class="text-center mt-4">
+        <button class="btn btn-primary" onclick="window.history.back()"><i class="fas fa-arrow-left"></i> Voltar</button>
+    </div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

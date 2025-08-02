@@ -89,7 +89,7 @@ public class EmployeeCrudView {
         } catch (IllegalStateException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Ocorreu um erro inesperado ao tentar excluir o cliente.");
+            redirectAttributes.addFlashAttribute("error", "Ocorreu um erro inesperado ao tentar excluir o colaborador.");
         }
         return "redirect:/v1/employees/report";
     }

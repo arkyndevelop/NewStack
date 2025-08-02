@@ -96,4 +96,9 @@ public class HomeController {
         }
         return mav;
     }
+
+    @GetMapping("/sobre")
+    public ModelAndView sobrePortal() {
+        return new ModelAndView("sobrePortal");
+    }
 }

@@ -67,7 +67,7 @@
                 </button>
               </form>
 
-              <button class="btn btn-danger btn-sm delete-loan-btn"
+              <button th:if="${viewType != 'client'}" class="btn btn-danger btn-sm delete-loan-btn"
                       th:data-loan-id="${loan.id}">
                 Excluir
               </button>

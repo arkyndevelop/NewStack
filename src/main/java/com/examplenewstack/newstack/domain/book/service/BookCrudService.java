@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -150,10 +151,6 @@ public class BookCrudService {
         return ResponseEntity.ok().build();
     }
 
-
-
-
-
     //Função responsável por fazer o empréstimo do livro
     public Boolean borrowBook(int id, int quant) {
         Optional<Book> bookID = this.bookRepository.findById(id);
@@ -172,4 +169,7 @@ public class BookCrudService {
         }
         throw new NoBooksFoundException();
     }
+
+
+
 }

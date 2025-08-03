@@ -23,4 +23,6 @@ public interface  LoanRepository extends JpaRepository<Loan, Integer> {
     @Query("SELECT l FROM Loan l LEFT JOIN FETCH l.book WHERE l.client.id = :clientId")
     List<Loan> findByClientIdWithBook(@Param("clientId") Integer clientId);
 
+    @Query("SELECT COUNT(l) FROM Loan l WHERE EXTRACT(MONTH FROM l.loanDate) = :month AND EXTRACT(YEAR FROM l.loanDate) = :year")
+    int findAllByMonth(@Param("month") Integer month, @Param("year") Integer year);
 }

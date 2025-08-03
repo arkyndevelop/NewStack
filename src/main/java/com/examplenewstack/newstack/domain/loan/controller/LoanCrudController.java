@@ -6,7 +6,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/loans")
@@ -52,5 +55,15 @@ public class LoanCrudController {
     public ResponseEntity<?> deleteByIdController(@PathVariable int id){
         service.delete(id);
         return  ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/report-quantidade")
+    public Map<String, Double> reportBook() {
+        return service.reportByLoanAmount();
+    }
+
+    @GetMapping("/report-by-month")
+    public Map<String, Integer> reportQuantityLoansByMonth() {
+        return service.reportByLoanMonth();
     }
 }

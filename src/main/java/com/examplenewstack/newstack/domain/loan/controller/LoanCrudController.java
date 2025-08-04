@@ -57,13 +57,5 @@ public class LoanCrudController {
         return  ResponseEntity.ok().build();
     }
 
-    @GetMapping("/report-quantidade")
-    public Map<String, Double> reportBook() {
-        return service.reportByLoanAmount();
-    }
 
-    @GetMapping("/report-by-month")
-    public Map<String, Integer> reportQuantityLoansByMonth() {
-        return service.reportByLoanMonth();
-    }
 }

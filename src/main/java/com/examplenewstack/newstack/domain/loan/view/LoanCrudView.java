@@ -128,14 +128,4 @@ public class LoanCrudView {
         }
         return "redirect:/v1/loans/reports";
     }
-
-    @GetMapping("/report-quantidade")
-    public ModelAndView reportBooks() {
-        return new ModelAndView("reports");
-    }
-
-    @GetMapping("/report-by-month")
-    public ModelAndView reportQuantityLoansByMonth() {
-        return new ModelAndView("reports");
-    }
 }

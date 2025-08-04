@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Chart.js for graphs -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Custom Navbar CSS from your project -->
     <link th:href="@{/CSS/navBar.css}" rel="stylesheet">
 
     <style>
@@ -126,7 +125,7 @@
                     <h5>Novos Clientes por Período</h5>
                 </div>
                 <div class="report-card-body">
-                    <p class="placeholder-text">Dados de novos clientes aqui...</p>
+                    <canvas id="graficoClientesMes"></canvas>
                 </div>
             </div>
         </div>
@@ -155,121 +154,7 @@
     </div>
 </main>
 
-<script>
-    fetch("/loans/report-quantidade")
-        .then(res => res.json())
-        .then(data => {
-            const labels = Object.keys(data);
-            const valores = Object.values(data);
-            // Generating a color palette that fits the dark theme
-            const cores = labels.map((_, i) => `hsl(${(i * 45) % 360}, 65%, 55%)`);
-
-            new Chart(document.getElementById("graficoLivros"), {
-                type: "pie", // Changed to pie as per your original code
-                data: {
-                    labels: labels, // Legend will be handled by chart options
-                    datasets: [{
-                        label: 'Empréstimos',
-                        data: valores,
-                        backgroundColor: cores,
-                        borderColor: '#343a40',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'right',
-                            labels: {
-                                color: '#f8f9fa', // Light text for legend
-                                boxWidth: 20,
-                                padding: 20
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed !== null) {
-                                        label += context.parsed.toFixed(2) + '%';
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        })
-        .catch(error => {
-            console.error("Erro ao carregar gráfico:", error);
-            const canvas = document.getElementById("graficoLivros");
-            const ctx = canvas.getContext('2d');
-            ctx.textAlign = 'center';
-            ctx.fillStyle = '#6c757d';
-            ctx.fillText('Não foi possível carregar os dados do gráfico.', canvas.width / 2, canvas.height / 2);
-        });
-
-    fetch("/loans/report-by-month")
-        .then(res => res.json())
-        .then(data => {
-            const labels = Object.keys(data); // Ex: ["JAN", "FEB", "MAR", ...]
-            const valores = Object.values(data); // Ex: [12, 20, 5, ...]
-
-            const ctx = document.getElementById("graficoEmprestimosMes").getContext("2d");
-
-            new Chart(ctx, {
-                type: "line",
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: "Empréstimos Mensais",
-                        data: valores,
-                        fill: false,
-                        borderColor: "#0d6efd",
-                        tension: 0.3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            labels: {
-                                color: '#f8f9fa'
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            ticks: {
-                                color: '#f8f9fa'
-                            }
-                        },
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                color: '#f8f9fa'
-                            }
-                        }
-                    }
-                }
-            });
-        })
-        .catch(error => {
-            console.error("Erro ao carregar gráfico de empréstimos mensais:", error);
-            const canvas = document.getElementById("graficoEmprestimosMes");
-            const ctx = canvas.getContext('2d');
-            ctx.textAlign = 'center';
-            ctx.fillStyle = '#6c757d';
-            ctx.fillText('Não foi possível carregar os dados do gráfico.', canvas.width / 2, canvas.height / 2);
-        });
-</script>
+<script th:src="@{/JS/reports.js}"></script>
 
 <!-- Bootstrap JS Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

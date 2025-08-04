@@ -128,4 +128,15 @@ public class LoanCrudView {
         }
         return "redirect:/v1/loans/reports";
     }
+
+    @PostMapping("/pickup/{id}")
+    public String pickupLoan(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+        try {
+            loanService.confirmPickup(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Retirada do livro confirmada com sucesso!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao confirmar a retirada: " + e.getMessage());
+        }
+        return "redirect:/v1/loans/reports";
+    }
 }

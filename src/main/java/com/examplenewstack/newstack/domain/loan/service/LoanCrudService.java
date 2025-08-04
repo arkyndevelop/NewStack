@@ -14,25 +14,27 @@ import com.examplenewstack.newstack.domain.loan.exception.NoLoanFoundException;
 import com.examplenewstack.newstack.domain.loan.repository.LoanRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class LoanCrudService {
 
+    private final ApplicationContext applicationContext;
     private final LoanRepository repository;
     private final ClientRepository clientRepository;
     private final BookRepository bookRepository;
     private final RabbitTemplate rabbitTemplate;
 
-    public LoanCrudService(LoanRepository repository, ClientRepository clientRepository,
+    public LoanCrudService(ApplicationContext applicationContext, LoanRepository repository, ClientRepository clientRepository,
                            BookRepository bookRepository, RabbitTemplate rabbitTemplate) {
+        this.applicationContext = applicationContext;
         this.repository = repository;
         this.clientRepository = clientRepository;
         this.bookRepository = bookRepository;
@@ -49,9 +51,9 @@ public class LoanCrudService {
         Book bookFound = bookRepository.findById(loanRequest.getBookId())
                 .orElseThrow(() -> new EntityNotFoundException("Livro não encontrado."));
 
-        if (bookFound.getDisponibility_quantity() <= 0) {
-            throw new Exception("Não há exemplares deste livro disponíveis para empréstimo.");
-        }
+//        if (bookFound.getDisponibility_quantity() <= 0) {
+//            throw new Exception("Não há exemplares deste livro disponíveis para empréstimo.");
+//        }
 
         List<Loan> activeLoans = repository.findActiveLoansByClientId(loanRequest.getClientId());
         if (activeLoans.size() >= MAX_ACTIVE_LOANS_PER_CLIENT) {
@@ -66,21 +68,25 @@ public class LoanCrudService {
             throw new Exception("Este cliente já possui um empréstimo ativo para este Livro!");
         }
 
-        // Decrementa a quantidade disponível
-        bookFound.setDisponibility_quantity(bookFound.getDisponibility_quantity() - 1);
+        Loan loanToSave = new Loan();
+        loanToSave.setClient(clientFound);
+        loanToSave.setBook(bookFound);
+
+        if (bookFound.getDisponibility_quantity() <= 0) {
+            loanToSave.setStatus(StatusLoan.RESERVADO);
+        } else {
+            loanToSave.setStatus(StatusLoan.EMPRESTADO);
+            bookFound.setDisponibility_quantity(bookFound.getDisponibility_quantity() - 1);
+        }
+
         bookRepository.save(bookFound);
 
         LocalDate loanDate = LocalDate.now();
         LocalDate expectedReturnDate = loanDate.plusDays(loanRequest.getLoanTermDays());
 
-        Loan loanToSave = new Loan();
-        loanToSave.setClient(clientFound);
-        loanToSave.setBook(bookFound);
-        loanToSave.setStatus(StatusLoan.EMPRESTADO);
         loanToSave.setLoanDate(loanDate.atStartOfDay());
         loanToSave.setExpectedReturnDate(expectedReturnDate.atStartOfDay());
 
-        //ao registrar, salvamos também o título fixo na entidade
         loanToSave.setBookTitle(bookFound.getTitle());
 
         Loan newLoan = repository.save(loanToSave);
@@ -152,6 +158,81 @@ public class LoanCrudService {
         repository.save(loan);
 
         // Prepara e envia a notificação para a fila
+        LoanNotificationDTO notificationDTO = new LoanNotificationDTO(
+                loan.getClient().getName(),
+                loan.getClient().getEmail(),
+                loan.getBookTitle(),
+                loan.getStatus(),
+                loan.getLoanDate(),
+                loan.getExpectedReturnDate()
+        );
+
+        String routingKey = "loan.status." + loan.getStatus().name().toLowerCase();
+
+        rabbitTemplate.convertAndSend(RabbitMQConfig.LOAN_EXCHANGE_NAME, routingKey, notificationDTO);
+
+        // Dispara a verificação da fila de reserva
+        applicationContext.getBean(LoanCrudService.class).processarFilaDeReserva(book);
+    }
+
+    @Transactional
+    public void processarFilaDeReserva(Book book) {
+        if (book == null) {
+            return;
+        }
+        // Busca a reserva mais antiga para este livro
+        List<Loan> reservas = repository.findByBookAndStatusOrderByLoanDateAsc(book, StatusLoan.RESERVADO);
+
+        if (!reservas.isEmpty()) {
+            Loan proximaReserva = reservas.get(0); // Pega o primeiro da fila
+            proximaReserva.setStatus(StatusLoan.DISPONIVEL_PARA_RETIRADA);
+            repository.save(proximaReserva);
+
+            // Envia a notificação para o cliente da reserva
+            LoanNotificationDTO notificationDTO = new LoanNotificationDTO(
+                    proximaReserva.getClient().getName(),
+                    proximaReserva.getClient().getEmail(),
+                    proximaReserva.getBookTitle(),
+                    proximaReserva.getStatus(),
+                    proximaReserva.getLoanDate(),
+                    proximaReserva.getExpectedReturnDate()
+            );
+            String routingKey = "loan.status." + proximaReserva.getStatus().name().toLowerCase();
+            rabbitTemplate.convertAndSend(RabbitMQConfig.LOAN_EXCHANGE_NAME, routingKey, notificationDTO);
+        }
+    }
+
+    @Transactional
+    public void confirmPickup(int loanId) {
+        Loan loan = repository.findById(loanId)
+                .orElseThrow(() -> new EntityNotFoundException("Empréstimo com ID " + loanId + " não encontrado."));
+
+        if (loan.getStatus() != StatusLoan.DISPONIVEL_PARA_RETIRADA) {
+            throw new IllegalStateException("Este empréstimo não está disponível para retirada.");
+        }
+
+        Book book = loan.getBook();
+        if (book == null) {
+            throw new EntityNotFoundException("Livro associado ao empréstimo não encontrado.");
+        }
+
+        if (book.getDisponibility_quantity() <= 0) {
+            throw new IllegalStateException("Não há exemplares disponíveis deste livro para retirada.");
+        }
+
+        // Atualiza o status do empréstimo e as datas
+        loan.setStatus(StatusLoan.EMPRESTADO);
+        loan.setLoanDate(LocalDateTime.now()); // A data do empréstimo começa no dia da retirada
+        // Opcional: Recalcular a data de devolução se necessário
+        // loan.setExpectedReturnDate(LocalDateTime.now().plusDays(30)); // Exemplo para 30 dias
+
+        // Decrementa a quantidade disponível do livro
+        book.setDisponibility_quantity(book.getDisponibility_quantity() - 1);
+
+        bookRepository.save(book);
+        repository.save(loan);
+
+        // Envia a notificação de empréstimo confirmado
         LoanNotificationDTO notificationDTO = new LoanNotificationDTO(
                 loan.getClient().getName(),
                 loan.getClient().getEmail(),

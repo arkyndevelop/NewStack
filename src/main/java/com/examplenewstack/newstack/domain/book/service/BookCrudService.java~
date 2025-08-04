@@ -75,6 +75,7 @@ public class BookCrudService {
 
     //Função responsavel por mostrar os livros com paginação
 
+
     public Page<BookResponse> getFilteredBooks(Integer page, Integer size, String orderBy, String direction) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.valueOf(direction), orderBy);
         Page<Book> foundBooks = bookRepository.findAll(pageRequest);
@@ -116,7 +117,7 @@ public class BookCrudService {
                 .orElseThrow(NoBooksFoundByISBNException::new);
 
         // Atualização dos campos existentes com dados do request
-
+        
         bookExists.setTitle(request.title());
         bookExists.setISBN(request.ISBN());
         bookExists.setCategory(request.category());

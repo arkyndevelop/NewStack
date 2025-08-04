@@ -1,9 +1,4 @@
-/**
- * Função reutilizável para buscar dados de um endpoint protegido da API.
- * Ela automaticamente adiciona o token de autenticação no cabeçalho.
- * @param {string} url - O endpoint da API a ser chamado.
- * @returns {Promise<any>} - Uma promessa que resolve com os dados da resposta em JSON.
- */
+
 async function fetchData(url) {
     const token = localStorage.getItem('jwt_token');
 
@@ -48,12 +43,7 @@ function logout() {
     localStorage.removeItem('jwt_token');
     window.location.href = '/login'; // Ajuste para a sua página de login
 }
-
-/**
- * Cria o card HTML para um único livro.
- * @param {object} livro - O objeto do livro com dados como title, ISBN, category, etc.
- * @returns {HTMLDivElement} - O elemento div do card do livro.
- */
+// Função para criar o card de livro
 function criarCardLivro(livro) {
     const card = document.createElement('div');
     card.className = 'col-md-4 mb-4'; // Usa classes do Bootstrap para layout

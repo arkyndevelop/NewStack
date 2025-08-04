@@ -57,6 +57,36 @@
         .btn-outline-secondary:hover {
             background-color: #495057;
         }
+        
+        .pagination-info {
+            background-color: #343a40;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .pagination .page-link {
+            background-color: #495057;
+            border-color: #6c757d;
+            color: #f8f9fa;
+        }
+        
+        .pagination .page-link:hover {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            color: #f8f9fa;
+        }
+        
+        .pagination .page-item.active .page-link {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+        
+        .pagination .page-item.disabled .page-link {
+            background-color: #343a40;
+            border-color: #6c757d;
+            color: #6c757d;
+        }
     </style>
 </head>
 <body class="bg-dark text-light">
@@ -84,6 +114,24 @@
                sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN', 'LIBRARY_ASSISTANT', 'RECEPTIONIST', 'EMPLOYEE')">
                 Adicionar Novo Livro
             </a>
+        </div>
+    </div>
+
+    <!-- Informações de paginação -->
+    <div class="pagination-info" th:if="${bookPage != null}">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <p class="mb-0">
+                    Mostrando <span th:text="${bookPage.numberOfElements}">0</span> de 
+                    <span th:text="${bookPage.totalElements}">0</span> livros
+                </p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <p class="mb-0">
+                    Página <span th:text="${bookPage.number + 1}">1</span> de 
+                    <span th:text="${bookPage.totalPages}">1</span>
+                </p>
+            </div>
         </div>
     </div>
 
@@ -120,6 +168,40 @@
             </div>
         </div>
     </div>
+
+    <!-- Controles de paginação -->
+    <nav th:if="${bookPage != null}" aria-label="Navegação de páginas">
+        <ul class="pagination justify-content-center">
+            <!-- Botão Anterior -->
+            <li class="page-item" th:classappend="${bookPage.first ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{/v1/books/reports(page=${bookPage.number - 1}, size=${bookPage.size}, orderBy=${orderBy}, direction=${direction})}" 
+                   th:unless="${bookPage.first}">
+                    <i class="fas fa-chevron-left"></i> Anterior
+                </a>
+                <span class="page-link" th:if="${bookPage.first}">
+                    <i class="fas fa-chevron-left"></i> Anterior
+                </span>
+            </li>
+            
+            <!-- Números das páginas -->
+            <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, bookPage.totalPages - 1)}"
+                th:classappend="${pageNum == bookPage.number ? 'active' : ''}">
+                <a class="page-link" th:href="@{/v1/books/reports(page=${pageNum}, size=${bookPage.size}, orderBy=${orderBy}, direction=${direction})}"
+                   th:text="${pageNum + 1}">1</a>
+            </li>
+            
+            <!-- Botão Próximo -->
+            <li class="page-item" th:classappend="${bookPage.last ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{/v1/books/reports(page=${bookPage.number + 1}, size=${bookPage.size}, orderBy=${orderBy}, direction=${direction})}"
+                   th:unless="${bookPage.last}">
+                    Próximo <i class="fas fa-chevron-right"></i>
+                </a>
+                <span class="page-link" th:if="${bookPage.last}">
+                    Próximo <i class="fas fa-chevron-right"></i>
+                </span>
+            </li>
+        </ul>
+    </nav>
 
     <div class="empty-acervo" th:if="${#lists.isEmpty(bookList)}">
         <h2 class="display-5">O acervo está vazio!</h2>

@@ -7,6 +7,7 @@ import com.examplenewstack.newstack.domain.employee.dto.EmployeeResponseProfileD
 import com.examplenewstack.newstack.domain.employee.exception.EmployeersRegisteredDataException;
 import com.examplenewstack.newstack.domain.employee.service.EmployeeCrudService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -43,11 +44,33 @@ public class EmployeeCrudView {
     }
 
     @GetMapping("/report")
-    public ModelAndView showEmployeesReport() {
-        List<EmployeeResponse> employeeList = employeeService.findAllEmployees();
-        ModelAndView mav = new ModelAndView("reportEmployee");
-        mav.addObject("employeeList", employeeList);
-        return mav;
+    public ModelAndView showEmployeesReport(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "5") Integer size,
+            @RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
+            @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+        
+        try {
+            Page<EmployeeResponse> employeePage = employeeService.getFilteredEmployees(page, size, orderBy, direction);
+            ModelAndView mav = new ModelAndView("reportEmployee");
+            mav.addObject("employeePage", employeePage);
+            mav.addObject("employeeList", employeePage.getContent());
+            
+            // Adicionar informações de paginação para o template
+            mav.addObject("currentPage", page);
+            mav.addObject("totalPages", employeePage.getTotalPages());
+            mav.addObject("totalElements", employeePage.getTotalElements());
+            mav.addObject("size", size);
+            mav.addObject("orderBy", orderBy);
+            mav.addObject("direction", direction);
+            
+            return mav;
+        } catch (Exception e) {
+            ModelAndView mav = new ModelAndView("reportEmployee");
+            mav.addObject("employeeList", List.of());
+            mav.addObject("employeePage", null);
+            return mav;
+        }
     }
 
     @GetMapping("/profile/{id}")

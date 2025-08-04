@@ -1,9 +1,12 @@
 package com.examplenewstack.newstack.domain.loan.controller;
 
 import com.examplenewstack.newstack.domain.loan.dto.LoanRequest;
+import com.examplenewstack.newstack.domain.loan.dto.LoanResponse;
 import com.examplenewstack.newstack.domain.loan.service.LoanCrudService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -34,6 +37,17 @@ public class LoanCrudController {
     @GetMapping("/report/all")
     public ResponseEntity<?> reportAllController(){
         return ResponseEntity.ok().body(service.reportAll());
+    }
+
+    //Função responsável pelo endpoint de mostrar empréstimos com paginação
+    @GetMapping
+    @Operation(summary = "Listar empréstimos usando filtros com paginação")
+    public ResponseEntity<Page<LoanResponse>> getFilteredLoans(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "5") Integer size,
+            @RequestParam(value = "orderBy", defaultValue = "loanDate") String orderBy,
+            @RequestParam(value = "direction", defaultValue = "DESC") String direction) {
+        return ResponseEntity.ok().body(service.getFilteredLoans(page, size, orderBy, direction));
     }
 
 //    @PutMapping("/update/{id}")

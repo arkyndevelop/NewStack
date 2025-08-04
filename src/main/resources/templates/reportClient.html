@@ -20,6 +20,31 @@
             border: none;
             color: white;
         }
+        .pagination-info {
+            background-color: #343a40;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .pagination .page-link {
+            background-color: #495057;
+            border-color: #6c757d;
+            color: #f8f9fa;
+        }
+        .pagination .page-link:hover {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            color: #f8f9fa;
+        }
+        .pagination .page-item.active .page-link {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+        .pagination .page-item.disabled .page-link {
+            background-color: #343a40;
+            border-color: #6c757d;
+            color: #6c757d;
+        }
     </style>
 </head>
 <body class="bg-body-tertiary">
@@ -32,6 +57,24 @@
         <a th:href="@{/v1/clients/register}" class="btn btn-primary" sec:authorize="hasAnyRole('ADMIN', 'LIBRARIAN', 'LIBRARY_ASSISTANT', 'RECEPTIONIST', 'EMPLOYEE')">
             <i class="fas fa-plus"></i> Registrar Novo Cliente
         </a>
+    </div>
+
+    <!-- Informações de paginação -->
+    <div class="pagination-info" th:if="${clientPage != null}">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <p class="mb-0">
+                    Mostrando <span th:text="${clientPage.numberOfElements}">0</span> de 
+                    <span th:text="${clientPage.totalElements}">0</span> clientes
+                </p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <p class="mb-0">
+                    Página <span th:text="${clientPage.number + 1}">1</span> de 
+                    <span th:text="${clientPage.totalPages}">1</span>
+                </p>
+            </div>
+        </div>
     </div>
 
     <!-- Campo de pesquisa -->
@@ -92,6 +135,40 @@
         </tr>
         </tbody>
     </table>
+
+    <!-- Controles de paginação -->
+    <nav th:if="${clientPage != null and clientPage.totalPages > 1}" aria-label="Navegação de páginas">
+        <ul class="pagination justify-content-center">
+            <!-- Botão Anterior -->
+            <li class="page-item" th:classappend="${clientPage.first ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{/clients/report/all(page=${clientPage.number - 1}, size=${clientPage.size}, orderBy=${orderBy}, direction=${direction})}" 
+                   th:unless="${clientPage.first}">
+                    <i class="fas fa-chevron-left"></i> Anterior
+                </a>
+                <span class="page-link" th:if="${clientPage.first}">
+                    <i class="fas fa-chevron-left"></i> Anterior
+                </span>
+            </li>
+            
+            <!-- Números das páginas -->
+            <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, clientPage.totalPages - 1)}"
+                th:classappend="${pageNum == clientPage.number ? 'active' : ''}">
+                <a class="page-link" th:href="@{/clients/report/all(page=${pageNum}, size=${clientPage.size}, orderBy=${orderBy}, direction=${direction})}"
+                   th:text="${pageNum + 1}">1</a>
+            </li>
+            
+            <!-- Botão Próximo -->
+            <li class="page-item" th:classappend="${clientPage.last ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{/clients/report/all(page=${clientPage.number + 1}, size=${clientPage.size}, orderBy=${orderBy}, direction=${direction})}"
+                   th:unless="${clientPage.last}">
+                    Próximo <i class="fas fa-chevron-right"></i>
+                </a>
+                <span class="page-link" th:if="${clientPage.last}">
+                    Próximo <i class="fas fa-chevron-right"></i>
+                </span>
+            </li>
+        </ul>
+    </nav>
 
     <div class="empty-state" th:if="${#lists.isEmpty(clientList)}">
         <h2 class="display-5">Nenhum cliente por aqui!</h2>

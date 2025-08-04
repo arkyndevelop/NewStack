@@ -14,6 +14,9 @@ import com.examplenewstack.newstack.domain.loan.exception.NoLoanFoundException;
 import com.examplenewstack.newstack.domain.loan.repository.LoanRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -105,6 +108,14 @@ public class LoanCrudService {
         return repository.findAll().stream()
                 .map(LoanResponse::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    //Função responsavel por mostrar os empréstimos com paginação
+    
+    public Page<LoanResponse> getFilteredLoans(Integer page, Integer size, String orderBy, String direction) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.valueOf(direction), orderBy);
+        Page<Loan> foundLoans = repository.findAll(pageRequest);
+        return foundLoans.map(LoanResponse::fromEntity);
     }
 
     @Transactional(readOnly = true)

@@ -12,6 +12,9 @@ import com.examplenewstack.newstack.domain.employee.repository.EmployeeRepositor
 import com.examplenewstack.newstack.domain.loan.Loan;
 import com.examplenewstack.newstack.domain.loan.repository.LoanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,6 +63,14 @@ public class EmployeeCrudService {
         return employeeRepository.findAll().stream()
                 .map(EmployeeResponse::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    //Função responsavel por mostrar os funcionarios com paginação
+    
+    public Page<EmployeeResponse> getFilteredEmployees(Integer page, Integer size, String orderBy, String direction) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.valueOf(direction), orderBy);
+        Page<Employee> foundEmployees = employeeRepository.findAll(pageRequest);
+        return foundEmployees.map(EmployeeResponse::fromEntity);
     }
 
     @Transactional(readOnly = true)

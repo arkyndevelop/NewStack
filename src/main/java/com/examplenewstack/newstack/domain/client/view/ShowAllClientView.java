@@ -2,9 +2,11 @@ package com.examplenewstack.newstack.domain.client.view;
 
 import com.examplenewstack.newstack.domain.client.dto.ClientResponse;
 import com.examplenewstack.newstack.domain.client.service.ClientCrudService;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -21,17 +23,32 @@ public class ShowAllClientView {
 
 
     @GetMapping("/report/all")
-    public ModelAndView showAllClients(){
-        // 1. Busca a lista de clientes do serviço
-        List<ClientResponse> clientList = clientCrudService.findAllClients();
-
-        // 2. Cria o objeto ModelAndView, apontando para o arquivo HTML
-        ModelAndView modelAndView = new ModelAndView("reportClient");
-
-        // 3. Adiciona a lista de clientes ao modelo com o nome "clientList"
-        modelAndView.addObject("clientList", clientList);
-
-        // 4. Retorna o modelo com os dados para a view
-        return modelAndView;
+    public ModelAndView showAllClients(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "5") Integer size,
+            @RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
+            @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+        
+        try {
+            Page<ClientResponse> clientPage = clientCrudService.getFilteredClients(page, size, orderBy, direction);
+            ModelAndView modelAndView = new ModelAndView("reportClient");
+            modelAndView.addObject("clientPage", clientPage);
+            modelAndView.addObject("clientList", clientPage.getContent());
+            
+            // Adicionar informações de paginação para o template
+            modelAndView.addObject("currentPage", page);
+            modelAndView.addObject("totalPages", clientPage.getTotalPages());
+            modelAndView.addObject("totalElements", clientPage.getTotalElements());
+            modelAndView.addObject("size", size);
+            modelAndView.addObject("orderBy", orderBy);
+            modelAndView.addObject("direction", direction);
+            
+            return modelAndView;
+        } catch (Exception e) {
+            ModelAndView modelAndView = new ModelAndView("reportClient");
+            modelAndView.addObject("clientList", List.of());
+            modelAndView.addObject("clientPage", null);
+            return modelAndView;
+        }
     }
 }

@@ -14,6 +14,9 @@ import com.examplenewstack.newstack.domain.client.repository.ClientRepository;
 import com.examplenewstack.newstack.domain.loan.Loan;
 import com.examplenewstack.newstack.domain.loan.repository.LoanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -63,6 +66,14 @@ public class ClientCrudService {
         return clientRepository.findAll().stream()
                 .map(ClientResponse::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    //Função responsavel por mostrar os clientes com paginação
+    
+    public Page<ClientResponse> getFilteredClients(Integer page, Integer size, String orderBy, String direction) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.valueOf(direction), orderBy);
+        Page<Client> foundClients = clientRepository.findAll(pageRequest);
+        return foundClients.map(ClientResponse::fromEntity);
     }
 
     @Transactional(readOnly = true)

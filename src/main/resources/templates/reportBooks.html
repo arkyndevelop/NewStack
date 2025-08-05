@@ -98,16 +98,17 @@
         <h1>Nosso Acervo</h1>
         <div>
             <!-- Botão de ordenação -->
-            <div class="btn-group me-2">
-                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    Ordenar por
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item sort-option" href="#" data-sort="default">Padrão</a></li>
-                    <li><a class="dropdown-item sort-option" href="#" data-sort="title-asc">Título (A-Z)</a></li>
-                    <li><a class="dropdown-item sort-option" href="#" data-sort="title-desc">Título (Z-A)</a></li>
-                </ul>
-            </div>
+<!--            <div class="btn-group me-2">-->
+<!--                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--                    Ordenar por-->
+<!--                </button>-->
+<!--                <ul class="dropdown-menu dropdown-menu-end">-->
+<!--                    <li><a class="dropdown-item sort-option" href="#" data-sort="default">Padrão</a></li>-->
+<!--                    <li><a class="dropdown-item sort-option" href="#" data-sort="title-asc">Título (A-Z)</a></li>-->
+<!--                    <li><a class="dropdown-item sort-option" href="#" data-sort="title-desc">Título (Z-A)</a></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+
             <!-- Botão de adicionar livro -->
             <a href="/v1/books/register" class="btn btn-primary"
                th:if="${not #lists.isEmpty(bookList)}"

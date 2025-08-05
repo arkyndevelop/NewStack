@@ -140,7 +140,7 @@
   });
 
   function deleteLoan(loanId, rowElement) {
-    const url = `/v1/loans/delete/${loanId}`;
+    const url = `/loans/delete/${loanId}`;
 
     fetch(url, {
       method: 'DELETE'

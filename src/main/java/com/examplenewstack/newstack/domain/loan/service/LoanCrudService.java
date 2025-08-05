@@ -227,18 +227,10 @@ public class LoanCrudService {
             throw new EntityNotFoundException("Livro associado ao empréstimo não encontrado.");
         }
 
-        if (book.getDisponibility_quantity() <= 0) {
-            throw new IllegalStateException("Não há exemplares disponíveis deste livro para retirada.");
-        }
 
         // Atualiza o status do empréstimo e as datas
         loan.setStatus(StatusLoan.EMPRESTADO);
         loan.setLoanDate(LocalDateTime.now()); // A data do empréstimo começa no dia da retirada
-        // Opcional: Recalcular a data de devolução se necessário
-        // loan.setExpectedReturnDate(LocalDateTime.now().plusDays(30)); // Exemplo para 30 dias
-
-        // Decrementa a quantidade disponível do livro
-        book.setDisponibility_quantity(book.getDisponibility_quantity() - 1);
 
         bookRepository.save(book);
         repository.save(loan);

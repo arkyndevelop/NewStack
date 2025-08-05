@@ -9,7 +9,10 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/loans")
@@ -67,4 +70,6 @@ public class LoanCrudController {
         service.delete(id);
         return  ResponseEntity.ok().build();
     }
+
+
 }

@@ -34,7 +34,7 @@ public class Loan {
     private LocalDateTime actualReturnDate;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private StatusLoan status;
 
     @ManyToOne(fetch = FetchType.LAZY)

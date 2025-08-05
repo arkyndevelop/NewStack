@@ -67,8 +67,8 @@
                 <option value="" disabled selected>-- Selecione um livro --</option>
                 <option th:each="book : ${books}"
                         th:value="${book.id}"
-                        th:text="${book.title + ' (Disponível: ' + book.disponibilityQuantity + ')'}"
-                        th:disabled="${book.disponibilityQuantity == 0}">
+                        th:text="${book.title + ' (Disponível: ' + book.disponibilityQuantity + ')'}">
+<!--                  th:disabled="${book.disponibilityQuantity == 0}">-->
                 </option>
               </select>
             </div>

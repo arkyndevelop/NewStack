@@ -34,4 +34,7 @@ public interface ClientRepository extends JpaRepository<Client, Integer>, Paging
     boolean existsByTelephone(String telephone);
 
     Optional<Client> findByEmailOrCPF(String email, String cpf);
+
+    @Query("SELECT COUNT(c) FROM Client c WHERE EXTRACT(MONTH FROM c.dateRegister) = :month AND EXTRACT(YEAR FROM c.dateRegister) = :actualYear")
+    int findAllByMonth(int month, int actualYear);
 }

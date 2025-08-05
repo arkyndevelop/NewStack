@@ -83,7 +83,7 @@
                     </form>
                   </li>
                   <li th:if="${loan.status == 'DISPONIVEL_PARA_RETIRADA'}">
-                    <form th:action="@{/loans/pickup/{id}(id=${loan.id})}" method="post" class="d-inline">
+                    <form th:action="@{/v1/loans/pickup/{id}(id=${loan.id})}" method="post" class="d-inline">
                       <button type="submit" class="dropdown-item">
                         <i class="fas fa-hand-holding me-2"></i>Confirmar Retirada
                       </button>

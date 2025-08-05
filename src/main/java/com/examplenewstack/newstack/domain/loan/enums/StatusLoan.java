@@ -9,7 +9,8 @@ public enum StatusLoan {
     DEVOLVIDO("DEVOLVIDO"),
     ATRASADO("ATRASADO"),
     PERDIDO("PERDIDO"),
-    CANCELADO("CANCELADO");
+    CANCELADO("CANCELADO"),
+    DISPONIVEL_PARA_RETIRADA("DISPONIVEL_PARA_RETIRADA");
 
     private final String status;
 

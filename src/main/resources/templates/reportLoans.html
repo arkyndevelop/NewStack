@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <title>Relatório de Empréstimos</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link th:href="@{/CSS/navBar.css}" rel="stylesheet">
   <style>
     body {
@@ -13,6 +14,14 @@
     }
     .table-hover tbody tr:hover {
       background-color: rgba(0, 0, 0, 0.04);
+    }
+    .actions-btn {
+      background: none;
+      border: none;
+    }
+    /* Para garantir que o dropdown não seja cortado pela tabela responsiva */
+    .table-responsive {
+      overflow: visible;
     }
   </style>
 </head>
@@ -53,24 +62,40 @@
             <td th:text="${#temporals.format(loan.expectedReturnDate, 'dd/MM/yyyy')}"></td>
             <td class="text-center">
               <span class="badge rounded-pill"
-                    th:classappend="${loan.status == 'DEVOLVIDO' ? 'bg-success'
-                                     : (loan.status == 'ATRASADO' ? 'bg-danger' : 'bg-warning text-dark')}"
-                    th:text="${loan.status}">
+                    th:classappend="${loan.status == 'DEVOLVIDO' ? 'bg-success' :
+                                     loan.status == 'ATRASADO' ? 'bg-danger' :
+                                     loan.status == 'DISPONIVEL_PARA_RETIRADA' ? 'bg-info' :
+                                     'bg-warning text-dark'}"
+                    th:text="${loan.status.replace('_', ' ')}">
               </span>
             </td>
             <td class="text-center">
-              <form th:if="${viewType != 'client' and loan.status != 'DEVOLVIDO'}"
-                    th:action="@{/v1/loans/return/{id}(id=${loan.id})}"
-                    method="post" class="d-inline">
-                <button type="submit" class="btn btn-success btn-sm">
-                  Confirmar Devolução
+              <div class="dropdown" th:if="${viewType != 'client'}">
+                <button class="btn btn-sm btn-secondary actions-btn dropdown-toggle" type="button" th:id="'dropdownMenuButton' + ${loan.id}" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fas fa-ellipsis-v"></i>
                 </button>
-              </form>
-
-              <button th:if="${viewType != 'client'}" class="btn btn-danger btn-sm delete-loan-btn"
-                      th:data-loan-id="${loan.id}">
-                Excluir
-              </button>
+                <ul class="dropdown-menu dropdown-menu-dark" th:aria-labelledby="'dropdownMenuButton' + ${loan.id}">
+                  <li th:if="${loan.status == 'EMPRESTADO' or loan.status == 'ATRASADO'}">
+                    <form th:id="'return-form-' + ${loan.id}" th:action="@{/v1/loans/return/{id}(id=${loan.id})}" method="post" class="d-inline">
+                      <button type="button" class="dropdown-item return-loan-btn" th:attr="data-loan-id=${loan.id}">
+                        <i class="fas fa-check-circle me-2"></i>Confirmar Devolução
+                      </button>
+                    </form>
+                  </li>
+                  <li th:if="${loan.status == 'DISPONIVEL_PARA_RETIRADA'}">
+                    <form th:action="@{/loans/pickup/{id}(id=${loan.id})}" method="post" class="d-inline">
+                      <button type="submit" class="dropdown-item">
+                        <i class="fas fa-hand-holding me-2"></i>Confirmar Retirada
+                      </button>
+                    </form>
+                  </li>
+                  <li>
+                    <button class="dropdown-item delete-loan-btn" th:data-loan-id="${loan.id}">
+                      <i class="fas fa-trash me-2"></i>Excluir
+                    </button>
+                  </li>
+                </ul>
+              </div>
             </td>
           </tr>
           <tr th:if="${#lists.isEmpty(loanList)}">
@@ -89,31 +114,40 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    console.log("Página de relatório de empréstimos carregada.");
-
-    const deleteButtons = document.querySelectorAll('.delete-loan-btn');
-
-    deleteButtons.forEach(button => {
-      button.addEventListener('click', function() {
+    // Botões de DEVOLUÇÃO
+    document.querySelectorAll('.return-loan-btn').forEach(button => {
+      button.addEventListener('click', function(event) {
+        event.preventDefault();
+        event.stopPropagation(); // Impede o fechamento do dropdown
         const loanId = this.dataset.loanId;
+        if (confirm('Tem certeza que deseja confirmar a devolução deste livro?')) {
+          document.getElementById('return-form-' + loanId).submit();
+        }
+      });
+    });
 
+    // Botões de EXCLUSÃO
+    document.querySelectorAll('.delete-loan-btn').forEach(button => {
+      button.addEventListener('click', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        const loanId = this.dataset.loanId;
         if (confirm('Tem certeza que deseja excluir este empréstimo? Esta ação não pode ser desfeita.')) {
-          deleteLoan(loanId, this);
+          deleteLoan(loanId, this.closest('tr'));
         }
       });
     });
   });
 
-  function deleteLoan(loanId, buttonElement) {
-    const url = `/loans/delete/${loanId}`;
+  function deleteLoan(loanId, rowElement) {
+    const url = `/v1/loans/delete/${loanId}`;
 
     fetch(url, {
       method: 'DELETE'
     })
             .then(response => {
               if (response.ok) {
-                const row = buttonElement.closest('tr');
-                row.remove();
+                rowElement.remove();
                 alert('Empréstimo excluído com sucesso!');
               } else {
                 alert('Falha ao excluir o empréstimo. Tente novamente.');

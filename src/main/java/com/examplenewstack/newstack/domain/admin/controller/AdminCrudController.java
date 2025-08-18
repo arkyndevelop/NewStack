@@ -1,8 +1,10 @@
 package com.examplenewstack.newstack.domain.admin.controller;
 
+import com.examplenewstack.newstack.domain.admin.AdminMaster;
 import com.examplenewstack.newstack.domain.admin.dto.AdminRequest;
 import com.examplenewstack.newstack.domain.admin.service.AdmCrudService;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,5 +41,11 @@ public class AdminCrudController {
             redirectAttributes.addFlashAttribute("errorMessage", "Erro ao cadastrar administrador: " + e.getMessage());
             return new ModelAndView("redirect:/v1/admins/register"); // Volta para o formulário em caso de erro
         }
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@Valid AdminRequest request){
+        service.registerAdm(request);
+        return ResponseEntity.ok().build();
     }
 }

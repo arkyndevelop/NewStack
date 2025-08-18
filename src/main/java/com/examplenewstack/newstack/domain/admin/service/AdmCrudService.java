@@ -2,8 +2,12 @@ package com.examplenewstack.newstack.domain.admin.service;
 
 import com.examplenewstack.newstack.domain.admin.AdminMaster;
 import com.examplenewstack.newstack.domain.admin.dto.AdminRequest;
+import com.examplenewstack.newstack.domain.admin.dto.AdminResponse;
 import com.examplenewstack.newstack.domain.admin.repository.AdminRepository;
 import com.examplenewstack.newstack.domain.client.exception.CustomersRegisteredDataException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -35,5 +39,12 @@ public class AdmCrudService {
         newAdmin.setRole("ADMIN");
 
         return repository.save(newAdmin);
+    }
+
+    public Page<AdminResponse> getFilteredAdmins(Integer page, Integer size, String orderBy, String direction) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.valueOf(direction), orderBy);
+        Page<AdminMaster> foundAdmins = repository.findAll(pageRequest);
+
+        return foundAdmins.map(AdminResponse::fromEntity);
     }
 }
